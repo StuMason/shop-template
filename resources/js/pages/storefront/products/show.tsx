@@ -240,7 +240,12 @@ export default function ProductShow({
                 <div className="grid gap-10 lg:grid-cols-2">
                     {/* Gallery */}
                     <div className="flex flex-col gap-3">
-                        <div className="aspect-square overflow-hidden rounded-xl border bg-muted">
+                        <div
+                            className="aspect-square overflow-hidden rounded-xl border bg-muted"
+                            style={{
+                                viewTransitionName: `product-image-${product.id}`,
+                            }}
+                        >
                             <ProductImage
                                 image={product.images[activeImage] ?? null}
                                 priority

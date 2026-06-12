@@ -107,24 +107,55 @@ class Product extends Model implements HasMedia
 
     public function registerMediaConversions(?Media $media = null): void
     {
+        // AVIF first (~30% smaller, ~95% browser support in 2026), WebP as
+        // the <picture> fallback. Only generated when the image driver can
+        // encode it — hosts without AVIF support just serve WebP.
         $this->addMediaConversion('thumb')
             ->withResponsiveImages()
             ->nonQueued()
             ->fit(Fit::Crop, 640, 640)
             ->format('webp');
 
+        if (static::supportsAvif()) {
+            $this->addMediaConversion('thumb_avif')
+                ->withResponsiveImages()
+                ->nonQueued()
+                ->fit(Fit::Crop, 640, 640)
+                ->format('avif');
+        }
+
         $this->addMediaConversion('large')
             ->withResponsiveImages()
             ->nonQueued()
             ->fit(Fit::Max, 1280, 1280)
             ->format('webp');
+
+        if (static::supportsAvif()) {
+            $this->addMediaConversion('large_avif')
+                ->withResponsiveImages()
+                ->nonQueued()
+                ->fit(Fit::Max, 1280, 1280)
+                ->format('avif');
+        }
+    }
+
+    /**
+     * Whether the current image driver can encode AVIF.
+     */
+    protected static function supportsAvif(): bool
+    {
+        if (config('image.driver', 'gd') === 'imagick' && extension_loaded('imagick')) {
+            return \Imagick::queryFormats('AVIF') !== [];
+        }
+
+        return function_exists('imageavif');
     }
 
     /**
      * Image payload for the frontend <ProductImage> component. Conversion
      * URLs and srcsets are resolved server-side so SSR and hydration agree.
      *
-     * @return array{src: string, srcset: string, alt: string}|null
+     * @return array{src: string, srcset: string, avif_srcset: string, alt: string}|null
      */
     public function imagePayload(string $conversion = 'thumb'): ?array
     {
@@ -137,6 +168,9 @@ class Product extends Model implements HasMedia
         return [
             'src' => $media->getUrl($conversion),
             'srcset' => $media->getSrcset($conversion),
+            'avif_srcset' => $media->hasGeneratedConversion("{$conversion}_avif")
+                ? $media->getSrcset("{$conversion}_avif")
+                : '',
             'alt' => $this->name,
         ];
     }
@@ -144,7 +178,7 @@ class Product extends Model implements HasMedia
     /**
      * All product images for the detail page gallery.
      *
-     * @return array<int, array{id: int, src: string, srcset: string, alt: string}>
+     * @return array<int, array{id: int, src: string, srcset: string, avif_srcset: string, alt: string}>
      */
     public function galleryPayload(string $conversion = 'large'): array
     {
@@ -153,6 +187,9 @@ class Product extends Model implements HasMedia
                 'id' => $media->id,
                 'src' => $media->getUrl($conversion),
                 'srcset' => $media->getSrcset($conversion),
+                'avif_srcset' => $media->hasGeneratedConversion("{$conversion}_avif")
+                    ? $media->getSrcset("{$conversion}_avif")
+                    : '',
                 'alt' => $this->name,
             ])
             ->values()

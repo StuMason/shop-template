@@ -9,6 +9,7 @@ export type ShopInfo = {
 export type ImagePayload = {
     src: string;
     srcset: string;
+    avif_srcset: string;
     alt: string;
 };
 

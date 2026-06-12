@@ -163,3 +163,19 @@
         @apply bg-background text-foreground;
     }
 }
+
+/* View transitions: product card -> PDP image morph. The root cross-fade is
+   shortened so navigation still feels instant; unsupported browsers simply
+   navigate as before. */
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation-duration: 120ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+        animation: none !important;
+    }
+}

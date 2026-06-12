@@ -15,7 +15,10 @@ type ProductCardProps = {
 export function ProductCard({ product, priority = false }: ProductCardProps) {
     return (
         <article className="group relative flex flex-col gap-2">
-            <div className="aspect-square overflow-hidden rounded-xl border bg-muted">
+            <div
+                className="aspect-square overflow-hidden rounded-xl border bg-muted"
+                style={{ viewTransitionName: `product-image-${product.id}` }}
+            >
                 <ProductImage
                     image={product.image}
                     priority={priority}
@@ -28,6 +31,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
                         href={show(product.slug)}
                         prefetch
                         cacheFor="30s"
+                        viewTransition
                         className="after:absolute after:inset-0 after:rounded-xl"
                     >
                         {product.name}

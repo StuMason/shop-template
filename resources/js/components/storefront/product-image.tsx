@@ -36,15 +36,24 @@ export function ProductImage({
     }
 
     return (
-        <img
-            src={image.src}
-            srcSet={image.srcset || undefined}
-            sizes={sizes}
-            alt={image.alt}
-            loading={priority ? 'eager' : 'lazy'}
-            fetchPriority={priority ? 'high' : 'auto'}
-            decoding="async"
-            className={cn('size-full object-cover', className)}
-        />
+        <picture className="contents">
+            {image.avif_srcset && (
+                <source
+                    type="image/avif"
+                    srcSet={image.avif_srcset}
+                    sizes={sizes}
+                />
+            )}
+            <img
+                src={image.src}
+                srcSet={image.srcset || undefined}
+                sizes={sizes}
+                alt={image.alt}
+                loading={priority ? 'eager' : 'lazy'}
+                fetchPriority={priority ? 'high' : 'auto'}
+                decoding="async"
+                className={cn('size-full object-cover', className)}
+            />
+        </picture>
     );
 }

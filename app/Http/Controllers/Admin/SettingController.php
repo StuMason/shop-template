@@ -24,6 +24,9 @@ class SettingController extends Controller
                 'contact_email' => $settings->contactEmail(),
                 'order_prefix' => $settings->orderPrefix(),
                 'trading_details' => $settings->tradingDetails() ?? '',
+                'vat_registered' => $settings->vatRegistered(),
+                'vat_number' => $settings->vatNumber() ?? '',
+                'vat_rate' => $settings->vatRate(),
             ],
             'currency' => $settings->currency(),
         ]);
@@ -41,6 +44,9 @@ class SettingController extends Controller
             'contact_email' => ['required', 'email', 'max:255'],
             'order_prefix' => ['required', 'string', 'alpha_num:ascii', 'max:8'],
             'trading_details' => ['nullable', 'string', 'max:500'],
+            'vat_registered' => ['boolean'],
+            'vat_number' => ['nullable', 'string', 'max:32', 'required_if:vat_registered,true'],
+            'vat_rate' => ['numeric', 'min:0', 'max:100'],
         ]);
 
         $settings->setMany($validated);

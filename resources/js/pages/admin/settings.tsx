@@ -1,6 +1,7 @@
 import { Head, useForm } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { update } from '@/routes/admin/settings';
@@ -12,6 +13,9 @@ type ShopSettingsForm = {
     contact_email: string;
     order_prefix: string;
     trading_details: string;
+    vat_registered: boolean;
+    vat_number: string;
+    vat_rate: number;
 };
 
 export default function AdminSettings({
@@ -138,6 +142,70 @@ export default function AdminSettings({
                             who they're buying from.
                         </p>
                     </div>
+
+                    <fieldset className="grid gap-4 rounded-xl border p-4">
+                        <legend className="px-1 text-sm font-medium">
+                            VAT
+                        </legend>
+                        <label className="flex items-center gap-2 text-sm">
+                            <Checkbox
+                                checked={data.vat_registered}
+                                onCheckedChange={(checked) =>
+                                    setData('vat_registered', checked === true)
+                                }
+                            />
+                            This shop is VAT registered
+                        </label>
+                        {data.vat_registered && (
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="grid gap-2">
+                                    <Label htmlFor="shop-vat-number">
+                                        VAT number
+                                    </Label>
+                                    <Input
+                                        id="shop-vat-number"
+                                        value={data.vat_number}
+                                        placeholder="GB123456789"
+                                        onChange={(event) =>
+                                            setData(
+                                                'vat_number',
+                                                event.target.value,
+                                            )
+                                        }
+                                    />
+                                    <InputError message={errors.vat_number} />
+                                </div>
+                                <div className="grid gap-2">
+                                    <Label htmlFor="shop-vat-rate">
+                                        Standard rate (%)
+                                    </Label>
+                                    <Input
+                                        id="shop-vat-rate"
+                                        type="number"
+                                        min="0"
+                                        max="100"
+                                        step="0.1"
+                                        value={data.vat_rate}
+                                        onChange={(event) =>
+                                            setData(
+                                                'vat_rate',
+                                                Number.parseFloat(
+                                                    event.target.value || '0',
+                                                ),
+                                            )
+                                        }
+                                    />
+                                    <InputError message={errors.vat_rate} />
+                                </div>
+                            </div>
+                        )}
+                        <p className="text-sm text-muted-foreground">
+                            Prices stay VAT-inclusive. When registered, the VAT
+                            contained in each order is recorded and shown on
+                            confirmations. Mark zero-rated products on the
+                            product edit screen.
+                        </p>
+                    </fieldset>
 
                     <p className="text-sm text-muted-foreground">
                         Currency is {currency}, set via the{' '}

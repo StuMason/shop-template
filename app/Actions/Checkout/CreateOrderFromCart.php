@@ -13,6 +13,7 @@ use App\Models\ProductVariant;
 use App\Models\ShippingMethod;
 use App\Support\OrderNumber;
 use App\Support\ShopSettings;
+use App\Support\Vat;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
@@ -79,6 +80,18 @@ class CreateOrderFromCart
                 $subtotal = $cart->items->sum(fn ($item): int => $item->lineTotal());
                 $shippingTotal = $shippingMethod->priceFor($subtotal);
 
+                // VAT contained in the inclusive prices (zero-rated products
+                // excluded; delivery follows the standard rate).
+                $vatTotal = 0;
+
+                if ($this->settings->vatRegistered()) {
+                    $standardRated = $cart->items
+                        ->reject(fn ($item): bool => $item->variant->product->vat_zero_rated)
+                        ->sum(fn ($item): int => $item->lineTotal());
+
+                    $vatTotal = Vat::contained($standardRated + $shippingTotal, $this->settings->vatRate());
+                }
+
                 $order = Order::create([
                     'number' => OrderNumber::generate(),
                     'user_id' => $cart->user_id,
@@ -88,6 +101,7 @@ class CreateOrderFromCart
                     'currency' => $this->settings->currency(),
                     'subtotal' => $subtotal,
                     'shipping_total' => $shippingTotal,
+                    'vat_total' => $vatTotal,
                     'total' => $subtotal + $shippingTotal,
                     'shipping_method_name' => $shippingMethod->name,
                     'shipping_address' => $data->shippingAddress,

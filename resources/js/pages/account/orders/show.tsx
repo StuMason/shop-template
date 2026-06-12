@@ -12,6 +12,7 @@ type OrderDetail = {
     shipping_method: string;
     carrier: string | null;
     tracking_number: string | null;
+    vat_total: string | null;
     total: string;
     shipping_address: Record<string, string | null>;
     billing_address: Record<string, string | null>;
@@ -152,6 +153,16 @@ export default function AccountOrderShow({ order }: { order: OrderDetail }) {
                                     {order.total}
                                 </td>
                             </tr>
+                            {order.vat_total && (
+                                <tr className="text-xs text-muted-foreground">
+                                    <td colSpan={4} className="px-4 py-2">
+                                        Includes VAT
+                                    </td>
+                                    <td className="px-4 py-2 text-right">
+                                        {order.vat_total}
+                                    </td>
+                                </tr>
+                            )}
                         </tfoot>
                     </table>
                 </div>

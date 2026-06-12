@@ -24,13 +24,14 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property string $slug
  * @property string|null $description
  * @property ProductStatus $status
+ * @property bool $vat_zero_rated
  * @property string|null $meta_title
  * @property string|null $meta_description
  * @property Carbon|null $published_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['name', 'slug', 'description', 'status', 'meta_title', 'meta_description', 'published_at'])]
+#[Fillable(['name', 'slug', 'description', 'status', 'vat_zero_rated', 'meta_title', 'meta_description', 'published_at'])]
 class Product extends Model implements HasMedia
 {
     /** @use HasFactory<ProductFactory> */
@@ -170,6 +171,7 @@ class Product extends Model implements HasMedia
     {
         return [
             'status' => ProductStatus::class,
+            'vat_zero_rated' => 'boolean',
             'published_at' => 'datetime',
         ];
     }

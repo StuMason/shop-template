@@ -11,6 +11,7 @@ type OrderSummary = {
     subtotal: string;
     shipping_total: string;
     shipping_method: string;
+    vat_total: string | null;
     total: string;
     shipping_address: Record<string, string | null>;
     items: {
@@ -85,6 +86,12 @@ export default function CheckoutPay({
                             <span>Total</span>
                             <span>{order.total}</span>
                         </div>
+                        {order.vat_total && (
+                            <div className="flex justify-between text-xs text-muted-foreground">
+                                <span>Includes VAT</span>
+                                <span>{order.vat_total}</span>
+                            </div>
+                        )}
                     </div>
                 </div>
 

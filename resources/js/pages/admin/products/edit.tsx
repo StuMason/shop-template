@@ -27,6 +27,7 @@ type AdminProductDetail = {
     slug: string;
     description: string | null;
     status: string;
+    vat_zero_rated: boolean;
     meta_title: string | null;
     meta_description: string | null;
     category_ids: number[];
@@ -140,6 +141,7 @@ export default function AdminProductsEdit({
         slug: string;
         description: string;
         status: string;
+        vat_zero_rated: boolean;
         meta_title: string;
         meta_description: string;
         category_ids: number[];
@@ -148,6 +150,7 @@ export default function AdminProductsEdit({
         slug: product.slug,
         description: product.description ?? '',
         status: product.status,
+        vat_zero_rated: product.vat_zero_rated,
         meta_title: product.meta_title ?? '',
         meta_description: product.meta_description ?? '',
         category_ids: product.category_ids,
@@ -242,6 +245,16 @@ export default function AdminProductsEdit({
                         </select>
                         <InputError message={errors.status} />
                     </div>
+
+                    <label className="flex items-center gap-2 text-sm">
+                        <Checkbox
+                            checked={data.vat_zero_rated}
+                            onCheckedChange={(checked) =>
+                                setData('vat_zero_rated', checked === true)
+                            }
+                        />
+                        VAT zero-rated (books, children's clothing, …)
+                    </label>
 
                     <fieldset className="grid gap-2">
                         <legend className="text-sm font-medium">

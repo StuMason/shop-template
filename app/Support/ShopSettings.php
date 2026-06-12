@@ -85,6 +85,26 @@ class ShopSettings
         return is_string($value) && $value !== '' ? $value : null;
     }
 
+    public function vatRegistered(): bool
+    {
+        return (bool) $this->get('vat_registered');
+    }
+
+    public function vatNumber(): ?string
+    {
+        $value = $this->get('vat_number');
+
+        return is_string($value) && $value !== '' ? $value : null;
+    }
+
+    /**
+     * The standard VAT rate as a percentage, e.g. 20.0.
+     */
+    public function vatRate(): float
+    {
+        return (float) $this->get('vat_rate');
+    }
+
     /**
      * @return array<string, mixed>
      */

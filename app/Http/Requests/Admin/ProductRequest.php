@@ -36,6 +36,7 @@ class ProductRequest extends FormRequest
             ],
             'description' => ['nullable', 'string'],
             'status' => ['required', Rule::enum(ProductStatus::class)],
+            'vat_zero_rated' => ['boolean'],
             'meta_title' => ['nullable', 'string', 'max:255'],
             'meta_description' => ['nullable', 'string', 'max:255'],
             'category_ids' => ['array'],

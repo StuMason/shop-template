@@ -51,6 +51,7 @@ class OrderController extends Controller
                 'shipping_method' => $order->shipping_method_name,
                 'carrier' => $order->carrier,
                 'tracking_number' => $order->tracking_number,
+                'vat_total' => $order->vat_total > 0 ? $order->formattedVatTotal() : null,
                 'total' => $order->formattedTotal(),
                 'shipping_address' => $order->shipping_address,
                 'billing_address' => $order->billing_address,

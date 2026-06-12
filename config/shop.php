@@ -35,6 +35,24 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | VAT
+    |--------------------------------------------------------------------------
+    |
+    | Prices are always entered and displayed VAT-inclusive (UK consumer
+    | pricing). When the shop is VAT registered, orders snapshot the VAT
+    | contained in the total and it is shown on confirmations. Products can
+    | be flagged zero-rated individually (books, children's clothing, ...).
+    |
+    */
+
+    'vat_registered' => env('SHOP_VAT_REGISTERED', false),
+
+    'vat_number' => env('SHOP_VAT_NUMBER'),
+
+    'vat_rate' => env('SHOP_VAT_RATE', 20.0),
+
+    /*
+    |--------------------------------------------------------------------------
     | SEO / Social
     |--------------------------------------------------------------------------
     |

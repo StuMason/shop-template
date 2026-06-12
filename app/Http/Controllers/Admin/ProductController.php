@@ -94,6 +94,7 @@ class ProductController extends Controller
                 'slug' => $product->slug,
                 'description' => $product->description,
                 'status' => $product->status->value,
+                'vat_zero_rated' => $product->vat_zero_rated,
                 'meta_title' => $product->meta_title,
                 'meta_description' => $product->meta_description,
                 'category_ids' => $product->categories->pluck('id')->all(),

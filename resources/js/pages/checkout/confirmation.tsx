@@ -12,6 +12,8 @@ type OrderSummary = {
     subtotal: string;
     shipping_total: string;
     shipping_method: string;
+    vat_total: string | null;
+    vat_number: string | null;
     total: string;
     items: {
         id: number;
@@ -102,6 +104,17 @@ export default function CheckoutConfirmation({
                             <span>Total</span>
                             <span>{order.total}</span>
                         </div>
+                        {order.vat_total && (
+                            <div className="flex justify-between text-xs text-muted-foreground">
+                                <span>
+                                    Includes VAT
+                                    {order.vat_number
+                                        ? ` (VAT No. ${order.vat_number})`
+                                        : ''}
+                                </span>
+                                <span>{order.vat_total}</span>
+                            </div>
+                        )}
                     </div>
                 </div>
 

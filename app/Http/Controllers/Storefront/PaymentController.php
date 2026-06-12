@@ -11,6 +11,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Payment;
 use App\Payments\PaymentManager;
+use App\Support\ShopSettings;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\URL;
 use Inertia\Inertia;
@@ -94,6 +95,8 @@ class PaymentController extends Controller
             'subtotal' => $order->formattedSubtotal(),
             'shipping_total' => $order->formattedShippingTotal(),
             'shipping_method' => $order->shipping_method_name,
+            'vat_total' => $order->vat_total > 0 ? $order->formattedVatTotal() : null,
+            'vat_number' => $order->vat_total > 0 ? app(ShopSettings::class)->vatNumber() : null,
             'total' => $order->formattedTotal(),
             'shipping_address' => $order->shipping_address,
             'items' => $order->items->map(fn (OrderItem $item): array => [

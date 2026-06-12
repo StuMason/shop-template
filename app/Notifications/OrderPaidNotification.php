@@ -50,9 +50,20 @@ class OrderPaidNotification extends Notification implements ShouldQueue
             $message->line("- {$item->quantity} × {$item->product_name} ({$item->variant_name}) — {$item->formattedLineTotal()}");
         }
 
-        return $message
+        $message
             ->line("Shipping: {$this->order->formattedShippingTotal()}")
-            ->line("Total: {$this->order->formattedTotal()}")
+            ->line("Total: {$this->order->formattedTotal()}");
+
+        if ($this->order->vat_total > 0) {
+            $vatNumber = app(ShopSettings::class)->vatNumber();
+
+            $message->line(
+                "Includes VAT: {$this->order->formattedVatTotal()}"
+                .($vatNumber !== null ? " (VAT No. {$vatNumber})" : ''),
+            );
+        }
+
+        return $message
             ->action('View your order', $url)
             ->line("We'll let you know as soon as it ships. — {$shopName}");
     }

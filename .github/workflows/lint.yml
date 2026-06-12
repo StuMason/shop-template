@@ -32,8 +32,16 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+          composer install -q --no-ansi --no-interaction --no-progress --prefer-dist
           npm install
+
+      - name: Generate Wayfinder Routes
+        # eslint-plugin-import needs the generated (gitignored) @/routes and
+        # @/actions modules to resolve import groups the same way as locally.
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          php artisan wayfinder:generate --with-form
 
       - name: Check Pint
         run: composer lint:check

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Jobs\SendBackInStockNotifications;
 use App\Support\Money;
 use Database\Factories\ProductVariantFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -30,6 +31,22 @@ use Illuminate\Support\Carbon;
 #[Fillable(['sku', 'price', 'compare_at_price', 'stock', 'low_stock_threshold', 'is_default', 'position'])]
 class ProductVariant extends Model
 {
+    /**
+     * Restocks fan out the "it's back" emails. Observed here so it works
+     * whether stock changes via admin, an import, or a cancellation restock.
+     */
+    protected static function booted(): void
+    {
+        static::updated(function (ProductVariant $variant): void {
+            if ($variant->wasChanged('stock')
+                && (int) $variant->getOriginal('stock') <= 0
+                && $variant->stock > 0
+            ) {
+                SendBackInStockNotifications::dispatch($variant);
+            }
+        });
+    }
+
     /** @use HasFactory<ProductVariantFactory> */
     use HasFactory;
 

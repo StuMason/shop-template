@@ -1,5 +1,7 @@
-import { Link, usePage, WhenVisible } from '@inertiajs/react';
+import { Link, useForm, usePage, WhenVisible } from '@inertiajs/react';
+import { Star } from 'lucide-react';
 import { useMemo, useState } from 'react';
+import InputError from '@/components/input-error';
 import { Seo } from '@/components/seo';
 import { AddToBasketButton } from '@/components/storefront/add-to-basket-button';
 import {
@@ -7,8 +9,11 @@ import {
     ProductGridSkeleton,
 } from '@/components/storefront/product-grid';
 import { ProductImage } from '@/components/storefront/product-image';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { show as categoryShow } from '@/routes/categories';
+import { store as stockNotificationsStore } from '@/routes/stock-notifications';
 import type {
     ProductCard,
     ProductDetail,
@@ -17,13 +22,93 @@ import type {
 } from '@/types';
 
 type ProductShowProps = {
+    reviews: {
+        count: number;
+        average: number | null;
+        items: {
+            id: number;
+            name: string;
+            rating: number;
+            body: string | null;
+            date: string;
+        }[];
+    };
     product: ProductDetail;
     relatedProducts?: ProductCard[];
 };
 
+function StarRow({ rating }: { rating: number }) {
+    return (
+        <span
+            className="flex items-center gap-0.5"
+            aria-label={`${rating} out of 5 stars`}
+        >
+            {[1, 2, 3, 4, 5].map((value) => (
+                <Star
+                    key={value}
+                    className={
+                        value <= Math.round(rating)
+                            ? 'size-4 fill-amber-400 text-amber-400'
+                            : 'size-4 text-muted-foreground'
+                    }
+                    aria-hidden="true"
+                />
+            ))}
+        </span>
+    );
+}
+
+function NotifyMeForm({ variantId }: { variantId: number }) {
+    const { data, setData, post, processing, errors, recentlySuccessful } =
+        useForm({
+            email: '',
+            variant_id: variantId,
+        });
+
+    if (recentlySuccessful) {
+        return (
+            <p className="text-sm text-muted-foreground" role="status">
+                Done — we'll email you the moment it's back.
+            </p>
+        );
+    }
+
+    return (
+        <form
+            onSubmit={(event) => {
+                event.preventDefault();
+                setData('variant_id', variantId);
+                post(stockNotificationsStore().url, {
+                    preserveScroll: true,
+                });
+            }}
+            className="grid gap-2"
+        >
+            <p className="text-sm font-medium">
+                Out of stock — get an email when it returns
+            </p>
+            <div className="flex gap-2">
+                <Input
+                    type="email"
+                    value={data.email}
+                    onChange={(event) => setData('email', event.target.value)}
+                    placeholder="you@example.com"
+                    aria-label="Email for back-in-stock notification"
+                    required
+                />
+                <Button type="submit" variant="secondary" disabled={processing}>
+                    Notify me
+                </Button>
+            </div>
+            <InputError message={errors.email} />
+        </form>
+    );
+}
+
 export default function ProductShow({
     product,
     relatedProducts,
+    reviews,
 }: ProductShowProps) {
     const { shop } = usePage<{ shop: ShopInfo; [key: string]: unknown }>()
         .props;
@@ -85,7 +170,15 @@ export default function ProductShow({
                 image: product.images.map((image) => image.src),
                 sku: defaultVariant?.sku,
                 offers,
-                /* AggregateRating: only emit once real reviews exist. */
+                ...(reviews.count > 0 && reviews.average !== null
+                    ? {
+                          aggregateRating: {
+                              '@type': 'AggregateRating',
+                              ratingValue: reviews.average,
+                              reviewCount: reviews.count,
+                          },
+                      }
+                    : {}),
             },
             {
                 '@context': 'https://schema.org',
@@ -105,7 +198,7 @@ export default function ProductShow({
                 ],
             },
         ];
-    }, [product, shop, defaultVariant]);
+    }, [product, reviews, shop, defaultVariant]);
 
     return (
         <>
@@ -246,6 +339,13 @@ export default function ProductShow({
                         ))}
 
                         <div className="flex flex-col gap-2">
+                            {selectedVariant &&
+                                !selectedVariant.in_stock &&
+                                !product.is_digital && (
+                                    <NotifyMeForm
+                                        variantId={selectedVariant.id}
+                                    />
+                                )}
                             {product.is_digital && (
                                 <p className="text-sm text-muted-foreground">
                                     Digital download — delivered instantly by
@@ -278,6 +378,48 @@ export default function ProductShow({
                     >
                         You might also like
                     </h2>
+                    {reviews.count > 0 && reviews.average !== null && (
+                        <section
+                            aria-labelledby="reviews-heading"
+                            className="mt-16"
+                        >
+                            <div className="mb-6 flex items-center gap-3">
+                                <h2
+                                    id="reviews-heading"
+                                    className="text-xl font-semibold tracking-tight"
+                                >
+                                    Reviews
+                                </h2>
+                                <StarRow rating={reviews.average} />
+                                <span className="text-sm text-muted-foreground">
+                                    {reviews.average} · {reviews.count} verified{' '}
+                                    {reviews.count === 1
+                                        ? 'purchase'
+                                        : 'purchases'}
+                                </span>
+                            </div>
+                            <div className="grid gap-4 sm:grid-cols-2">
+                                {reviews.items.map((review) => (
+                                    <article
+                                        key={review.id}
+                                        className="rounded-xl border p-4 text-sm"
+                                    >
+                                        <div className="mb-1 flex items-center gap-2">
+                                            <StarRow rating={review.rating} />
+                                            <span className="font-medium">
+                                                {review.name}
+                                            </span>
+                                            <span className="text-muted-foreground">
+                                                {review.date}
+                                            </span>
+                                        </div>
+                                        {review.body && <p>{review.body}</p>}
+                                    </article>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
                     <WhenVisible
                         data="relatedProducts"
                         buffer={300}

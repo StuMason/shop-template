@@ -88,6 +88,14 @@ class Product extends Model implements HasMedia
             ->where('published_at', '<=', now());
     }
 
+    /**
+     * @return HasMany<Review, $this>
+     */
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('images');

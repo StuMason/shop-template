@@ -34,6 +34,9 @@ use InvalidArgumentException;
  * @property array<string, string|null> $shipping_address
  * @property array<string, string|null> $billing_address
  * @property string|null $customer_note
+ * @property int $recovery_stage
+ * @property Carbon|null $recovery_emailed_at
+ * @property Carbon|null $review_requested_at
  * @property Carbon $placed_at
  * @property Carbon|null $paid_at
  * @property Carbon|null $shipped_at
@@ -48,6 +51,7 @@ use InvalidArgumentException;
     'shipping_total', 'vat_total', 'total', 'shipping_method_name', 'carrier',
     'tracking_number', 'shipping_address', 'billing_address', 'customer_note',
     'placed_at', 'paid_at', 'shipped_at', 'delivered_at', 'cancelled_at',
+    'recovery_stage', 'recovery_emailed_at', 'review_requested_at',
 ])]
 class Order extends Model
 {
@@ -160,6 +164,8 @@ class Order extends Model
             'shipped_at' => 'datetime',
             'delivered_at' => 'datetime',
             'cancelled_at' => 'datetime',
+            'recovery_emailed_at' => 'datetime',
+            'review_requested_at' => 'datetime',
         ];
     }
 }

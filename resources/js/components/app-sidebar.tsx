@@ -3,6 +3,7 @@ import {
     LayoutGrid,
     LifeBuoy,
     BadgePercent,
+    Star,
     Package,
     ReceiptText,
     Settings2,
@@ -30,6 +31,7 @@ import { index as adminCategoriesIndex } from '@/routes/admin/categories';
 import { index as adminDiscountsIndex } from '@/routes/admin/discounts';
 import { index as adminOrdersIndex } from '@/routes/admin/orders';
 import { index as adminProductsIndex } from '@/routes/admin/products';
+import { index as adminReviewsIndex } from '@/routes/admin/reviews';
 import { edit as adminSettingsEdit } from '@/routes/admin/settings';
 import { index as adminShippingIndex } from '@/routes/admin/shipping';
 import { index as adminTicketsIndex } from '@/routes/admin/tickets';
@@ -74,6 +76,11 @@ const adminNavItems: NavItem[] = [
         title: 'Discounts',
         href: adminDiscountsIndex(),
         icon: BadgePercent,
+    },
+    {
+        title: 'Reviews',
+        href: adminReviewsIndex(),
+        icon: Star,
     },
     {
         title: 'Support',

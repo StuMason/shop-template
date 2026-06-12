@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductMediaController;
 use App\Http\Controllers\Admin\ProductOptionController;
 use App\Http\Controllers\Admin\ProductVariantController;
+use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\ShippingController;
 use App\Http\Controllers\Admin\TicketController;
@@ -18,7 +20,7 @@ Route::middleware(['auth', 'verified', 'role:admin|staff', DisableInertiaSsr::cl
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
-        Route::inertia('/', 'admin/dashboard')->name('dashboard');
+        Route::get('/', DashboardController::class)->name('dashboard');
 
         Route::resource('products', ProductController::class)->except('show');
         Route::resource('categories', CategoryController::class)->only(['index', 'store', 'update', 'destroy']);
@@ -42,6 +44,7 @@ Route::middleware(['auth', 'verified', 'role:admin|staff', DisableInertiaSsr::cl
         Route::post('payments/{payment}/refunds', [OrderController::class, 'storeRefund'])->name('payments.refunds.store');
 
         Route::resource('discounts', DiscountController::class)->only(['index', 'store', 'update', 'destroy']);
+        Route::resource('reviews', ReviewController::class)->only(['index', 'update', 'destroy']);
 
         Route::get('support', [TicketController::class, 'index'])->name('tickets.index');
         Route::get('support/{ticket}', [TicketController::class, 'show'])->name('tickets.show');

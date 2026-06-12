@@ -13,6 +13,8 @@ use App\Http\Controllers\Storefront\HomeController;
 use App\Http\Controllers\Storefront\PageController;
 use App\Http\Controllers\Storefront\PaymentController;
 use App\Http\Controllers\Storefront\ProductController;
+use App\Http\Controllers\Storefront\ReviewController;
+use App\Http\Controllers\Storefront\StockNotificationController;
 use App\Http\Controllers\Webhooks\GoCardlessWebhookController;
 use App\Http\Controllers\Webhooks\PaymentWebhookController;
 use App\Http\Middleware\AuthenticateAcp;
@@ -33,6 +35,15 @@ Route::get('pages/{page}', [PageController::class, 'show'])->name('pages.show');
 Route::middleware('throttle:30,1')->group(function () {
     Route::get('address-lookup', [AddressLookupController::class, 'suggest'])->name('address-lookup.suggest');
     Route::get('address-lookup/resolve', [AddressLookupController::class, 'resolve'])->name('address-lookup.resolve');
+});
+
+Route::post('stock-notifications', [StockNotificationController::class, 'store'])
+    ->middleware('throttle:10,1')
+    ->name('stock-notifications.store');
+
+Route::middleware('signed')->group(function () {
+    Route::get('reviews/{order}/{product}', [ReviewController::class, 'create'])->name('reviews.create');
+    Route::post('reviews/{order}/{product}', [ReviewController::class, 'store'])->name('reviews.store');
 });
 
 Route::get('orders/{order}/downloads/{item}', DownloadController::class)

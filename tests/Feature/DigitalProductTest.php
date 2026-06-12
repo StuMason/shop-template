@@ -208,3 +208,33 @@ it('restocking a cancelled mixed order skips digital lines', function () {
     expect($physical->variants->first()->fresh()->stock)->toBe(5)
         ->and($digital->variants->first()->fresh()->stock)->toBe(0);
 });
+
+it('checks out digital baskets with just name, email and country', function () {
+    digitalProduct(price: 900);
+    $product = Product::query()->sole();
+    $this->post(route('cart.items.store'), ['variant_id' => $product->variants->first()->id, 'quantity' => 1]);
+
+    $this->post(route('checkout.store'), [
+        'email' => 'minimal@example.com',
+        'shipping_method_id' => null,
+        'billing_same_as_shipping' => true,
+        'shipping_address' => ['name' => 'M Inimal', 'country' => 'GB'],
+    ])->assertSessionDoesntHaveErrors();
+
+    $order = Order::query()->sole();
+    expect($order->total)->toBe(900)
+        ->and($order->shipping_address['country'])->toBe('GB');
+});
+
+it('still demands a full address for physical checkouts', function () {
+    $physical = Product::factory()->published()->withDefaultVariant(stock: 5)->create();
+    ShippingMethod::factory()->create();
+    $this->post(route('cart.items.store'), ['variant_id' => $physical->variants->first()->id, 'quantity' => 1]);
+
+    $this->post(route('checkout.store'), [
+        'email' => 'minimal@example.com',
+        'shipping_method_id' => ShippingMethod::query()->sole()->id,
+        'billing_same_as_shipping' => true,
+        'shipping_address' => ['name' => 'M Inimal', 'country' => 'GB'],
+    ])->assertSessionHasErrors(['shipping_address.line1', 'shipping_address.city', 'shipping_address.postcode']);
+});

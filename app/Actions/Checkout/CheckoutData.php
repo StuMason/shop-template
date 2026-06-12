@@ -30,20 +30,24 @@ readonly class CheckoutData
 
     /**
      * Shared validation rules for an address payload, used by the checkout
-     * FormRequest and the MCP StartCheckout tool.
+     * FormRequest and the MCP StartCheckout tool. Digital-only checkouts
+     * need just a name and a country (VAT place-of-supply evidence) — the
+     * street address is only required when something has to be delivered.
      *
      * @return array<string, list<string>>
      */
-    public static function addressRules(string $prefix): array
+    public static function addressRules(string $prefix, bool $digitalOnly = false): array
     {
+        $street = $digitalOnly ? 'nullable' : 'required';
+
         return [
             $prefix => ['required', 'array'],
             "{$prefix}.name" => ['required', 'string', 'max:255'],
-            "{$prefix}.line1" => ['required', 'string', 'max:255'],
+            "{$prefix}.line1" => [$street, 'string', 'max:255'],
             "{$prefix}.line2" => ['nullable', 'string', 'max:255'],
-            "{$prefix}.city" => ['required', 'string', 'max:255'],
+            "{$prefix}.city" => [$street, 'string', 'max:255'],
             "{$prefix}.county" => ['nullable', 'string', 'max:255'],
-            "{$prefix}.postcode" => ['required', 'string', 'max:32'],
+            "{$prefix}.postcode" => [$street, 'string', 'max:32'],
             "{$prefix}.country" => ['required', 'string', 'size:2'],
             "{$prefix}.phone" => ['nullable', 'string', 'max:32'],
         ];

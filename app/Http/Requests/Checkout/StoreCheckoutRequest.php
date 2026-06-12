@@ -35,10 +35,10 @@ class StoreCheckoutRequest extends FormRequest
             ],
             'customer_note' => ['nullable', 'string', 'max:2000'],
             'billing_same_as_shipping' => ['boolean'],
-            ...CheckoutData::addressRules('shipping_address'),
+            ...CheckoutData::addressRules('shipping_address', digitalOnly: $this->cartIsFullyDigital()),
             ...$this->boolean('billing_same_as_shipping', true)
                 ? []
-                : CheckoutData::addressRules('billing_address'),
+                : CheckoutData::addressRules('billing_address', digitalOnly: $this->cartIsFullyDigital()),
         ];
     }
 

@@ -48,7 +48,7 @@ class StartCheckout extends Tool
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'email'],
             'shipping_method_id' => ['nullable', 'integer', 'exists:shipping_methods,id'],
-            ...CheckoutData::addressRules('shipping_address'),
+            ...CheckoutData::addressRules('shipping_address', digitalOnly: $cart->isFullyDigital()),
         ]);
 
         if ($validator->fails()) {

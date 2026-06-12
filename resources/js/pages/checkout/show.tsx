@@ -50,6 +50,7 @@ function AddressFields({
     value,
     errors,
     countries,
+    digitalOnly = false,
     onChange,
     onFill,
 }: {
@@ -57,6 +58,7 @@ function AddressFields({
     value: AddressForm;
     errors: Record<string, string>;
     countries: string[];
+    digitalOnly?: boolean;
     onChange: (field: keyof AddressForm, fieldValue: string) => void;
     onFill: (address: Partial<AddressForm>) => void;
 }) {
@@ -75,62 +77,74 @@ function AddressFields({
                 />
                 <InputError message={errors[field('name')]} />
             </div>
-            <AddressLookup
-                id={`${prefix}.lookup`}
-                country={value.country}
-                onSelect={onFill}
-            />
-            <div className="grid gap-2">
-                <Label htmlFor={field('line1')}>Address line 1</Label>
-                <Input
-                    id={field('line1')}
-                    autoComplete="address-line1"
-                    value={value.line1}
-                    onChange={(event) => onChange('line1', event.target.value)}
-                    required
+            {!digitalOnly && (
+                <AddressLookup
+                    id={`${prefix}.lookup`}
+                    country={value.country}
+                    onSelect={onFill}
                 />
-                <InputError message={errors[field('line1')]} />
-            </div>
-            <div className="grid gap-2">
-                <Label htmlFor={field('line2')}>
-                    Address line 2{' '}
-                    <span className="text-muted-foreground">(optional)</span>
-                </Label>
-                <Input
-                    id={field('line2')}
-                    autoComplete="address-line2"
-                    value={value.line2}
-                    onChange={(event) => onChange('line2', event.target.value)}
-                />
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2">
-                <div className="grid gap-2">
-                    <Label htmlFor={field('city')}>Town / city</Label>
-                    <Input
-                        id={field('city')}
-                        autoComplete="address-level2"
-                        value={value.city}
-                        onChange={(event) =>
-                            onChange('city', event.target.value)
-                        }
-                        required
-                    />
-                    <InputError message={errors[field('city')]} />
-                </div>
-                <div className="grid gap-2">
-                    <Label htmlFor={field('postcode')}>Postcode</Label>
-                    <Input
-                        id={field('postcode')}
-                        autoComplete="postal-code"
-                        value={value.postcode}
-                        onChange={(event) =>
-                            onChange('postcode', event.target.value)
-                        }
-                        required
-                    />
-                    <InputError message={errors[field('postcode')]} />
-                </div>
-            </div>
+            )}
+            {!digitalOnly && (
+                <>
+                    <div className="grid gap-2">
+                        <Label htmlFor={field('line1')}>Address line 1</Label>
+                        <Input
+                            id={field('line1')}
+                            autoComplete="address-line1"
+                            value={value.line1}
+                            onChange={(event) =>
+                                onChange('line1', event.target.value)
+                            }
+                            required
+                        />
+                        <InputError message={errors[field('line1')]} />
+                    </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor={field('line2')}>
+                            Address line 2{' '}
+                            <span className="text-muted-foreground">
+                                (optional)
+                            </span>
+                        </Label>
+                        <Input
+                            id={field('line2')}
+                            autoComplete="address-line2"
+                            value={value.line2}
+                            onChange={(event) =>
+                                onChange('line2', event.target.value)
+                            }
+                        />
+                    </div>
+                    <div className="grid gap-4 sm:grid-cols-2">
+                        <div className="grid gap-2">
+                            <Label htmlFor={field('city')}>Town / city</Label>
+                            <Input
+                                id={field('city')}
+                                autoComplete="address-level2"
+                                value={value.city}
+                                onChange={(event) =>
+                                    onChange('city', event.target.value)
+                                }
+                                required
+                            />
+                            <InputError message={errors[field('city')]} />
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor={field('postcode')}>Postcode</Label>
+                            <Input
+                                id={field('postcode')}
+                                autoComplete="postal-code"
+                                value={value.postcode}
+                                onChange={(event) =>
+                                    onChange('postcode', event.target.value)
+                                }
+                                required
+                            />
+                            <InputError message={errors[field('postcode')]} />
+                        </div>
+                    </div>
+                </>
+            )}
             <div className="grid gap-4 sm:grid-cols-2">
                 <div className="grid gap-2">
                     <Label htmlFor={field('country')}>Country</Label>
@@ -255,10 +269,13 @@ export default function CheckoutShow({
                             id="shipping-heading"
                             className="text-lg font-semibold"
                         >
-                            Shipping address
+                            {requiresShipping
+                                ? 'Shipping address'
+                                : 'Your details'}
                         </h2>
                         <AddressFields
                             prefix="shipping_address"
+                            digitalOnly={!requiresShipping}
                             value={data.shipping_address}
                             errors={errors as Record<string, string>}
                             countries={countries}

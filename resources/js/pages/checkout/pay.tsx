@@ -105,19 +105,21 @@ export default function CheckoutPay({
                     </div>
                 </div>
 
-                <div className="mb-8 rounded-xl border p-4 text-sm">
-                    <p className="font-medium">Delivering to</p>
-                    <p className="text-muted-foreground">
-                        {[
-                            order.shipping_address.name,
-                            order.shipping_address.line1,
-                            order.shipping_address.city,
-                            order.shipping_address.postcode,
-                        ]
-                            .filter(Boolean)
-                            .join(', ')}
-                    </p>
-                </div>
+                {order.shipping_address.line1 && (
+                    <div className="mb-8 rounded-xl border p-4 text-sm">
+                        <p className="font-medium">Delivering to</p>
+                        <p className="text-muted-foreground">
+                            {[
+                                order.shipping_address.name,
+                                order.shipping_address.line1,
+                                order.shipping_address.city,
+                                order.shipping_address.postcode,
+                            ]
+                                .filter(Boolean)
+                                .join(', ')}
+                        </p>
+                    </div>
+                )}
 
                 <Button
                     size="lg"

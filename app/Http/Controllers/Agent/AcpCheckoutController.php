@@ -110,10 +110,16 @@ class AcpCheckoutController extends Controller
         }
 
         $fullyDigital = $session->cart->isFullyDigital();
+        $address = $session->shipping_address ?? [];
 
         $missing = array_keys(array_filter([
             'buyer email' => $session->email === null,
-            'shipping address' => $session->shipping_address === null,
+            'buyer name and country' => ($address['name'] ?? null) === null || ($address['country'] ?? null) === null,
+            'full shipping address' => ! $fullyDigital && (
+                ($address['line1'] ?? null) === null
+                || ($address['city'] ?? null) === null
+                || ($address['postcode'] ?? null) === null
+            ),
             'fulfillment option' => ! $fullyDigital && $session->shipping_method_id === null,
         ]));
 
@@ -168,8 +174,9 @@ class AcpCheckoutController extends Controller
      */
     protected function validateSessionInput(Request $request, bool $itemsRequired): array
     {
-        // Address is optional until completion; when present, full rules apply.
-        $addressRules = collect(CheckoutData::addressRules('shipping_address'))
+        // Address is optional until completion (complete() reports exactly
+        // what's missing, and digital-only carts need just name + country).
+        $addressRules = collect(CheckoutData::addressRules('shipping_address', digitalOnly: true))
             ->map(fn (array $rules): array => array_map(
                 fn (string $rule): string => $rule === 'required' ? 'required_with:shipping_address' : $rule,
                 $rules,

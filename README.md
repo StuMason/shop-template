@@ -141,6 +141,24 @@ Three surfaces, all optional and all over the same checkout actions:
   agents can settle orders autonomously in USDC on Base, verified through
   the x402 facilitator. Set `X402_FX_RATE` for non-USD shops.
 
+## Getting found by shopping agents
+
+- **Perplexity Merchant Program** — free, open to merchants shipping to the
+  US: submit your catalogue feed (this shop serves one at `/acp/feed`) at
+  perplexity.ai/shopping. No gateway requirement.
+- **x402 Bazaar / Agentic.Market** — automatic: point
+  `X402_FACILITATOR_URL` at Coinbase's CDP facilitator and the index
+  catalogs your endpoint from settled payments (delisted after 30 idle
+  days — activity is the listing fee).
+- **ChatGPT shopping** — application-gated: apply at chatgpt.com/merchants,
+  then serve them your ACP feed.
+- **Copilot / PayPal Agent Ready** — require Stripe or PayPal as the
+  payment gateway; the `PaymentGateway` contract makes adding either a
+  single driver class.
+- Watch **Google's Universal Commerce Protocol (UCP)** — the emerging open
+  standard Shopify has adopted; an adapter here is likely worthwhile once
+  the spec settles.
+
 ## Address type-ahead (optional)
 
 Set `ADDRESS_LOOKUP=google` and a server-side `GOOGLE_PLACES_API_KEY`

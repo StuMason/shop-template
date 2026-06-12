@@ -12,3 +12,4 @@
     at cd (https://shop-template.test/build/assets/jsx-runtime-CXsf06Bc.js:96:123028)
     at MessagePort.ee (https://shop-template.test/build/assets/jsx-runtime-CXsf06Bc.js:89:16553)
 [  123011ms] [LOG] 🔍 Browser logger active (MCP server detected). Posting to: https://shop-template.test/_boost/browser-logs @ https://shop-template.test/checkout:175
+[ 8653989ms] [ERROR] Failed to load resource: the server responded with a status of 409 () @ https://shop-template.stumason.dev/:0

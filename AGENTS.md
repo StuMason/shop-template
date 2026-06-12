@@ -1,0 +1,45 @@
+# AGENTS.md — for AI agents working with this repository
+
+This is a complete, self-contained shop. An agent can install it, run it,
+test it, deploy it, and trade through it without human intervention.
+
+## One-command setup
+
+```bash
+composer setup   # install, .env, key, migrate, seed demo catalogue, npm install + build
+composer dev     # serve (localhost:8000) + queue + logs + vite
+```
+
+Health check: `GET /up` returns 200 when the app is alive.
+Test suite: `composer test` (pint + larastan + pest). Frontend gates:
+`npm run types:check && npm run lint:check && npm run format:check`.
+
+## Environment manifest
+
+Everything works with the defaults in `.env.example` (SQLite, fake payment
+gateway, no external keys). Optional capabilities and the envs that unlock
+them:
+
+| Capability | Envs |
+| --- | --- |
+| Real pay-by-bank | `PAYMENT_GATEWAY=gocardless`, `GOCARDLESS_ACCESS_TOKEN`, `GOCARDLESS_ENVIRONMENT`, `GOCARDLESS_WEBHOOK_SECRET` |
+| Agent USDC payments (x402) | `X402_ENABLED=true`, `X402_PAY_TO`, `X402_NETWORK`, `X402_FACILITATOR_URL`, `X402_FX_RATE` |
+| Agentic Commerce Protocol | `ACP_API_KEY` (+ optional `ACP_SIGNATURE_SECRET`) |
+| Address type-ahead | `ADDRESS_LOOKUP=google`, `GOOGLE_PLACES_API_KEY` |
+| Error monitoring | `SENTRY_LARAVEL_DSN` |
+
+## Surfaces for shopping agents
+
+- `GET /llms.txt` — shop overview; `GET /products/{slug}.md` — per-product markdown
+- `POST /mcp/shop` — MCP server: search, basket, checkout (returns a human pay link)
+- `GET /acp/feed` + `POST /acp/checkout_sessions` — Agentic Commerce Protocol (Bearer key)
+- x402 — `start-checkout` returns an `x402_payment_url` when enabled; HTTP 402 dance, USDC settle
+- `POST /mcp/admin` — staff MCP (OAuth via Passport): reporting, orders, shipping
+
+## Deploying
+
+Dockerfile is multi-stage, serves on :8080, health-checks `/up`. Persist
+three paths: `database/`, `storage/app/public`, `storage/app/private`.
+The entrypoint migrates, seeds (`AUTO_SEED=true`, once), generates Passport
+keys, and optimizes. See `docs/architecture.md` before changing commerce
+code — it lists the invariants.

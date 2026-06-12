@@ -109,6 +109,17 @@ class X402Gateway implements PaymentGateway
             'maxTimeoutSeconds' => 300,
             'asset' => self::ASSETS[$this->network] ?? self::ASSETS['base'],
             'extra' => ['name' => 'USDC', 'version' => '2'],
+            // Discovery metadata: the CDP facilitator's Bazaar index catalogs
+            // endpoints from settled traffic; these fields describe the shop
+            // to agents browsing the index.
+            'outputSchema' => [
+                'description' => sprintf(
+                    '%s — order payment endpoint. Browse the catalogue at %s/llms.txt or via MCP at %s/mcp/shop.',
+                    config('app.name'),
+                    config('app.url'),
+                    config('app.url'),
+                ),
+            ],
         ];
     }
 

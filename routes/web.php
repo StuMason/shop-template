@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SiteController;
 use App\Http\Controllers\Storefront\CartController;
 use App\Http\Controllers\Storefront\CategoryController;
 use App\Http\Controllers\Storefront\CheckoutController;
@@ -12,7 +13,12 @@ use App\Http\Middleware\DisableInertiaSsr;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
+Route::get('robots.txt', [SiteController::class, 'robots'])->name('robots');
+Route::get('sitemap.xml', [SiteController::class, 'sitemap'])->name('sitemap');
+Route::get('llms.txt', [SiteController::class, 'llms'])->name('agent.llms');
+Route::get('llms-full.txt', [SiteController::class, 'llmsFull'])->name('agent.llms-full');
 Route::get('products', [ProductController::class, 'index'])->name('products.index');
+Route::get('products/{product:slug}.md', [SiteController::class, 'productMarkdown'])->name('agent.product-md');
 Route::get('products/{product:slug}', [ProductController::class, 'show'])->name('products.show');
 Route::get('categories/{category:slug}', [CategoryController::class, 'show'])->name('categories.show');
 

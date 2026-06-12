@@ -159,6 +159,13 @@ Three surfaces, all optional and all over the same checkout actions:
   standard Shopify has adopted; an adapter here is likely worthwhile once
   the spec settles.
 
+## AI support drafts (optional)
+
+Set `SUPPORT_DRAFTER=anthropic` + `ANTHROPIC_API_KEY` and every customer
+ticket message gets a suggested staff reply drafted from the customer's
+real order history (status, tracking, items) — one click to adopt, edit,
+send. Drafts never auto-send; a human always approves.
+
 ## Address type-ahead (optional)
 
 Set `ADDRESS_LOOKUP=google` and a server-side `GOOGLE_PLACES_API_KEY`

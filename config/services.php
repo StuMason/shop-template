@@ -54,6 +54,15 @@ return [
         'signature_secret' => env('ACP_SIGNATURE_SECRET'),
     ],
 
+    'support_drafter' => [
+        'driver' => env('SUPPORT_DRAFTER', 'none'),
+    ],
+
+    'anthropic' => [
+        'api_key' => env('ANTHROPIC_API_KEY'),
+        'model' => env('ANTHROPIC_MODEL', 'claude-haiku-4-5-20251001'),
+    ],
+
     'x402' => [
         'enabled' => env('X402_ENABLED', false),
         'facilitator_url' => env('X402_FACILITATOR_URL', 'https://x402.org/facilitator'),

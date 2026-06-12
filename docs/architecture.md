@@ -137,6 +137,16 @@ is a snapshot — don't derive it from the product at read time.
   response is the only thing trusted, never the header itself.
   `X402_FX_RATE` converts shop currency to USD (USDC is 6 dp atomic).
 
+## Automation spine
+
+Scheduled commands (`routes/console.php`): recovery emails every 15m,
+review requests daily, weekly digest Mondays, abandoned-payment sweep
+hourly. Back-in-stock fans out from a ProductVariant observer on any
+0 -> positive stock change. AI support drafts (`SupportDrafterManager`,
+same manager pattern: none|anthropic|fake) trigger on customer ticket
+messages and are cleared by any staff reply — drafts are suggestions,
+never sent automatically.
+
 ## Frontend / SSR
 
 - Layout is assigned by page-name prefix in **both** `resources/js/app.tsx`

@@ -10,6 +10,7 @@ import { index, reply, status as statusRoute } from '@/routes/admin/tickets';
 type AdminTicketDetail = {
     id: number;
     subject: string;
+    draft_reply: string | null;
     status: string;
     customer: string;
     email: string;
@@ -82,7 +83,10 @@ export default function AdminSupportShow({
                 <TicketThread messages={ticket.messages} />
 
                 <div className="max-w-xl">
-                    <TicketReplyForm action={reply(ticket.id).url} />
+                    <TicketReplyForm
+                        action={reply(ticket.id).url}
+                        draft={ticket.draft_reply}
+                    />
                 </div>
             </div>
         </>

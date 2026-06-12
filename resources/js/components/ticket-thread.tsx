@@ -41,9 +41,12 @@ export function TicketThread({ messages }: { messages: TicketMessage[] }) {
 export function TicketReplyForm({
     action,
     disabled = false,
+    draft = null,
 }: {
     action: string;
     disabled?: boolean;
+    /** AI-drafted reply the staff member can adopt with one click. */
+    draft?: string | null;
 }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         body: '',
@@ -60,6 +63,26 @@ export function TicketReplyForm({
             }}
             className="flex flex-col gap-3"
         >
+            {draft && data.body === '' && (
+                <div className="rounded-lg border border-dashed p-3 text-sm">
+                    <div className="mb-2 flex items-center justify-between gap-2">
+                        <span className="font-medium">
+                            Suggested reply (AI-drafted from the order data)
+                        </span>
+                        <Button
+                            type="button"
+                            variant="secondary"
+                            size="sm"
+                            onClick={() => setData('body', draft)}
+                        >
+                            Use draft
+                        </Button>
+                    </div>
+                    <p className="whitespace-pre-line text-muted-foreground">
+                        {draft}
+                    </p>
+                </div>
+            )}
             <div className="grid gap-2">
                 <Label htmlFor="reply-body">Reply</Label>
                 <textarea

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Account;
 
 use App\Enums\TicketStatus;
 use App\Http\Controllers\Controller;
+use App\Jobs\DraftTicketReply;
 use App\Models\Ticket;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -62,6 +63,8 @@ class TicketController extends Controller
             'body' => $validated['body'],
         ]);
 
+        DraftTicketReply::dispatch($ticket);
+
         return to_route('account.tickets.show', $ticket)->with('success', 'Ticket opened — we\'ll get back to you.');
     }
 
@@ -94,7 +97,9 @@ class TicketController extends Controller
             'body' => $validated['body'],
         ]);
 
-        $ticket->update(['status' => TicketStatus::Open, 'last_message_at' => now()]);
+        $ticket->update(['status' => TicketStatus::Open, 'last_message_at' => now(), 'draft_reply' => null]);
+
+        DraftTicketReply::dispatch($ticket);
 
         return back();
     }

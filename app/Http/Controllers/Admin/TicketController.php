@@ -53,6 +53,7 @@ class TicketController extends Controller
             'ticket' => [
                 'id' => $ticket->id,
                 'subject' => $ticket->subject,
+                'draft_reply' => $ticket->draft_reply,
                 'status' => $ticket->status->value,
                 'customer' => $ticket->user->name,
                 'email' => $ticket->user->email,
@@ -84,7 +85,7 @@ class TicketController extends Controller
             'body' => $validated['body'],
         ]);
 
-        $ticket->update(['status' => TicketStatus::Open, 'last_message_at' => now()]);
+        $ticket->update(['status' => TicketStatus::Open, 'last_message_at' => now(), 'draft_reply' => null]);
 
         $ticket->user->notify(new TicketReplyNotification($ticket));
 

@@ -20,10 +20,11 @@ use Illuminate\Support\Carbon;
  * @property string $subject
  * @property TicketStatus $status
  * @property Carbon $last_message_at
+ * @property string|null $draft_reply
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['order_id', 'subject', 'status', 'last_message_at'])]
+#[Fillable(['order_id', 'subject', 'status', 'last_message_at', 'draft_reply'])]
 class Ticket extends Model
 {
     /** @use HasFactory<TicketFactory> */

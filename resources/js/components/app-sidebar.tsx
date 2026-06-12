@@ -1,5 +1,5 @@
-import { Link } from '@inertiajs/react';
-import { BookOpen, FolderGit2, LayoutGrid } from 'lucide-react';
+import { Link, usePage } from '@inertiajs/react';
+import { LayoutGrid, Package, Store, Tags } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -13,7 +13,10 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
+import { dashboard, home } from '@/routes';
+import { dashboard as adminDashboard } from '@/routes/admin';
+import { index as adminCategoriesIndex } from '@/routes/admin/categories';
+import { index as adminProductsIndex } from '@/routes/admin/products';
 import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
@@ -24,20 +27,38 @@ const mainNavItems: NavItem[] = [
     },
 ];
 
-const footerNavItems: NavItem[] = [
+const adminNavItems: NavItem[] = [
     {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: FolderGit2,
+        title: 'Admin',
+        href: adminDashboard(),
+        icon: LayoutGrid,
     },
     {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpen,
+        title: 'Products',
+        href: adminProductsIndex(),
+        icon: Package,
+    },
+    {
+        title: 'Categories',
+        href: adminCategoriesIndex(),
+        icon: Tags,
+    },
+];
+
+const footerNavItems: NavItem[] = [
+    {
+        title: 'Storefront',
+        href: home(),
+        icon: Store,
     },
 ];
 
 export function AppSidebar() {
+    const { auth } = usePage<{
+        auth: { isStaff: boolean };
+        [key: string]: unknown;
+    }>().props;
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
@@ -54,6 +75,9 @@ export function AppSidebar() {
 
             <SidebarContent>
                 <NavMain items={mainNavItems} />
+                {auth.isStaff && (
+                    <NavMain items={adminNavItems} label="Shop admin" />
+                )}
             </SidebarContent>
 
             <SidebarFooter>

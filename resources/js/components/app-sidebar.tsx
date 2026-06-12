@@ -1,5 +1,13 @@
 import { Link, usePage } from '@inertiajs/react';
-import { LayoutGrid, Package, ReceiptText, Store, Tags, Truck } from 'lucide-react';
+import {
+    LayoutGrid,
+    LifeBuoy,
+    Package,
+    ReceiptText,
+    Store,
+    Tags,
+    Truck,
+} from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -19,6 +27,7 @@ import { index as adminCategoriesIndex } from '@/routes/admin/categories';
 import { index as adminOrdersIndex } from '@/routes/admin/orders';
 import { index as adminProductsIndex } from '@/routes/admin/products';
 import { index as adminShippingIndex } from '@/routes/admin/shipping';
+import { index as adminTicketsIndex } from '@/routes/admin/tickets';
 import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
@@ -54,6 +63,11 @@ const adminNavItems: NavItem[] = [
         title: 'Shipping',
         href: adminShippingIndex(),
         icon: Truck,
+    },
+    {
+        title: 'Support',
+        href: adminTicketsIndex(),
+        icon: LifeBuoy,
     },
 ];
 

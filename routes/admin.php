@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ProductMediaController;
 use App\Http\Controllers\Admin\ProductOptionController;
 use App\Http\Controllers\Admin\ProductVariantController;
 use App\Http\Controllers\Admin\ShippingController;
+use App\Http\Controllers\Admin\TicketController;
 use App\Http\Middleware\DisableInertiaSsr;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,11 @@ Route::middleware(['auth', 'verified', 'role:admin|staff', DisableInertiaSsr::cl
         Route::get('orders/{order:id}', [OrderController::class, 'show'])->name('orders.show');
         Route::patch('orders/{order:id}/status', [OrderController::class, 'updateStatus'])->name('orders.status');
         Route::post('payments/{payment}/refunds', [OrderController::class, 'storeRefund'])->name('payments.refunds.store');
+
+        Route::get('support', [TicketController::class, 'index'])->name('tickets.index');
+        Route::get('support/{ticket}', [TicketController::class, 'show'])->name('tickets.show');
+        Route::post('support/{ticket}/reply', [TicketController::class, 'reply'])->name('tickets.reply');
+        Route::patch('support/{ticket}/status', [TicketController::class, 'updateStatus'])->name('tickets.status');
 
         Route::get('shipping', [ShippingController::class, 'index'])->name('shipping.index');
         Route::post('shipping/zones', [ShippingController::class, 'storeZone'])->name('shipping.zones.store');

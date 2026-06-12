@@ -18,7 +18,7 @@ RUN composer install \
 # Frontend Build Stage
 # ============================================
 # Uses PHP+Node image so Laravel Vite plugins (e.g., Wayfinder) can run artisan commands
-FROM ghcr.io/stumason/laravel-coolify-base:8.4-node AS frontend-build
+FROM ghcr.io/stumason/laravel-coolify-base:8.5-node AS frontend-build
 
 WORKDIR /app
 
@@ -45,7 +45,7 @@ RUN npm run build:ssr
 # Using pre-built base image with PHP extensions already compiled.
 # This reduces build time from ~12 minutes to ~2-3 minutes.
 # To build from scratch instead, set COOLIFY_USE_BASE_IMAGE=false
-FROM ghcr.io/stumason/laravel-coolify-base:8.4-node AS production
+FROM ghcr.io/stumason/laravel-coolify-base:8.5-node AS production
 
 LABEL maintainer="Laravel Coolify" \
       description="Laravel application deployed via Coolify"

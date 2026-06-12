@@ -15,7 +15,11 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { index, status as statusRoute } from '@/routes/admin/orders';
+import {
+    index,
+    packingSlip,
+    status as statusRoute,
+} from '@/routes/admin/orders';
 import { store as storeRefund } from '@/routes/admin/payments/refunds';
 
 type AdminOrderDetail = {
@@ -248,6 +252,15 @@ export default function AdminOrderShow({ order }: { order: AdminOrderDetail }) {
                         {order.email}
                     </span>
                     <div className="ml-auto flex gap-2">
+                        <Button variant="outline" size="sm" asChild>
+                            <a
+                                href={packingSlip(order.id).url}
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                Packing slip
+                            </a>
+                        </Button>
                         {order.available_transitions.map((target) => (
                             <Button
                                 key={target}

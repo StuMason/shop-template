@@ -13,6 +13,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Payment;
+use App\Support\ShopSettings;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -103,6 +105,19 @@ class OrderController extends Controller
                     fn (string $status): bool => $order->status->canTransitionTo(OrderStatus::from($status)),
                 )),
             ],
+        ]);
+    }
+
+    /**
+     * Print-friendly packing slip (no prices).
+     */
+    public function packingSlip(Order $order): View
+    {
+        $order->loadMissing('items');
+
+        return view('admin.packing-slip', [
+            'order' => $order,
+            'shopName' => app(ShopSettings::class)->name(),
         ]);
     }
 

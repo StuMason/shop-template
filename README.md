@@ -98,6 +98,25 @@ This shop speaks machine. `GET /llms.txt` indexes the catalogue,
 Checkout intentionally stops at a signed `pay_url`: payment is authorised by
 the human at their own bank. Agents shop; people pay.
 
+## Before you trade (the boring-but-vital list)
+
+1. **Legal pages** — edit `resources/markdown/{terms,privacy,returns,about}.md`
+   (they ship as placeholders marked *REPLACE BEFORE TRADING*) and set your
+   trading details in **Admin → Settings** (shown in the footer).
+2. **Real email** — set `MAIL_MAILER` to a transactional provider
+   ([Resend](https://resend.com) or Postmark are painless) and add SPF/DKIM
+   DNS records for your sending domain, or confirmations land in spam.
+3. **VAT** — if registered, flip it on in **Admin → Settings** (number +
+   rate) and mark any zero-rated products on their edit screens. Prices are
+   always VAT-inclusive.
+4. **Error monitoring** — set `SENTRY_LARAVEL_DSN` (sentry-laravel is wired
+   and silent until then).
+5. **Backups** — schedule Coolify backups for the two volumes (`database/`
+   and `storage/app/public/`). One bad day without them is fatal.
+6. **GoCardless live credentials** — swap `GOCARDLESS_ENVIRONMENT=live` with
+   a live access token and a webhook endpoint secret pointing at
+   `/webhooks/gocardless`.
+
 ## Commands you'll use
 
 | Command | What it does |

@@ -37,6 +37,7 @@ Route::middleware(['auth', 'verified', 'role:admin|staff', DisableInertiaSsr::cl
         Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
         Route::get('orders/{order:id}', [OrderController::class, 'show'])->name('orders.show');
         Route::patch('orders/{order:id}/status', [OrderController::class, 'updateStatus'])->name('orders.status');
+        Route::get('orders/{order:id}/packing-slip', [OrderController::class, 'packingSlip'])->name('orders.packing-slip');
         Route::post('payments/{payment}/refunds', [OrderController::class, 'storeRefund'])->name('payments.refunds.store');
 
         Route::resource('discounts', DiscountController::class)->only(['index', 'store', 'update', 'destroy']);

@@ -135,3 +135,25 @@ it('stores tracking details when shipping and includes them in the email', funct
         },
     );
 });
+
+it('renders a packing slip without prices', function () {
+    $order = Order::factory()->paid()->create();
+    $order->items()->create([
+        'product_variant_id' => null,
+        'product_name' => 'Enamel Mug',
+        'variant_name' => 'Default',
+        'sku' => 'MUG-1',
+        'unit_price' => 1450,
+        'quantity' => 2,
+        'line_total' => 2900,
+    ]);
+
+    $this->actingAs($this->staff)
+        ->get(route('admin.orders.packing-slip', $order->id))
+        ->assertOk()
+        ->assertSee('Packing slip')
+        ->assertSee('Enamel Mug')
+        ->assertSee('MUG-1')
+        ->assertDontSee('£14.50')
+        ->assertDontSee('£29.00');
+});

@@ -20,6 +20,9 @@ RUN composer install \
 # Uses PHP+Node image so Laravel Vite plugins (e.g., Wayfinder) can run artisan commands
 FROM ghcr.io/stumason/laravel-coolify-base:8.5-node AS frontend-build
 
+# medialibrary (spatie/image) needs exif; not yet in the base image.
+RUN docker-php-ext-install exif
+
 WORKDIR /app
 
 # Copy composer binary from composer image
@@ -46,6 +49,9 @@ RUN npm run build:ssr
 # This reduces build time from ~12 minutes to ~2-3 minutes.
 # To build from scratch instead, set COOLIFY_USE_BASE_IMAGE=false
 FROM ghcr.io/stumason/laravel-coolify-base:8.5-node AS production
+
+# medialibrary (spatie/image) needs exif; not yet in the base image.
+RUN docker-php-ext-install exif
 
 LABEL maintainer="Laravel Coolify" \
       description="Laravel application deployed via Coolify"

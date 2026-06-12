@@ -111,7 +111,7 @@ the human at their own bank. Agents shop; people pay.
    always VAT-inclusive.
 4. **Error monitoring** — set `SENTRY_LARAVEL_DSN` (sentry-laravel is wired
    and silent until then).
-5. **Backups** — schedule Coolify backups for the two volumes (`database/`
+5. **Backups** — schedule Coolify backups for the volumes (`/data`
    and `storage/app/public/`). One bad day without them is fatal.
 6. **GoCardless live credentials** — swap `GOCARDLESS_ENVIRONMENT=live` with
    a live access token and a webhook endpoint secret pointing at

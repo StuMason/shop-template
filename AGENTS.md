@@ -39,7 +39,10 @@ them:
 ## Deploying
 
 Dockerfile is multi-stage, serves on :8080, health-checks `/up`. Persist
-three paths: `database/`, `storage/app/public`, `storage/app/private`.
+three paths: a data dir for SQLite (set `DB_DATABASE=/data/database.sqlite`
+and mount `/data` — NEVER mount `database/` itself, the volume would shadow
+new migration files shipped in the image), `storage/app/public`, and
+`storage/app/private`.
 The entrypoint migrates, seeds (`AUTO_SEED=true`, once), generates Passport
 keys, and optimizes. See `docs/architecture.md` before changing commerce
 code — it lists the invariants.

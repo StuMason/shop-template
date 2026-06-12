@@ -196,6 +196,11 @@ never sent automatically.
   token). Without it, setting a real gateway in `.env` makes the test suite
   call the live payment API. If you add a new external integration, pin its
   env there too.
+- **Never volume-mount `database/` in production.** The named volume copies
+  the directory on first use and then shadows it forever — new migration
+  files ship in the image but are invisible, so `migrate` says "Nothing to
+  migrate" while tables are missing. Set `DB_DATABASE=/data/database.sqlite`
+  and mount `/data` instead. (Found in production: reviews 500'd the PDP.)
 - **Banks fulfil a beat after authorising.** The return-URL verify can land
   while the billing request is still `pending`; the confirmation page polls
   and re-verifies server-side until settled, so it self-heals without a

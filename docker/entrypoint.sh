@@ -77,7 +77,11 @@ STEP=$((STEP + 1))
 echo ""
 # Passport keys sign the admin MCP's OAuth tokens. Generate on first boot;
 # set PASSPORT_PRIVATE_KEY/PASSPORT_PUBLIC_KEY envs to persist across deploys.
-php artisan passport:keys --no-interaction 2>/dev/null || true
+if [ ! -f storage/oauth-private.key ]; then
+    php artisan passport:keys --no-interaction || true
+fi
+# passport:keys writes root-owned 0600 keys; php-fpm runs as www-data.
+chown www-data:www-data storage/oauth-*.key 2>/dev/null || true
 
 echo "[$STEP/$TOTAL_STEPS] Optimizing application..."
 php artisan optimize

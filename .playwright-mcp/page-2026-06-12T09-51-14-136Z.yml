@@ -1,0 +1,80 @@
+- generic [ref=e2]:
+  - generic [ref=e36]:
+    - generic [ref=e40]:
+      - list [ref=e42]:
+        - listitem [ref=e43]:
+          - link "Laravel Starter Kit" [ref=e44] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=e46]
+            - generic [ref=e49]: Laravel Starter Kit
+      - generic [ref=e50]:
+        - generic [ref=e51]:
+          - generic [ref=e52]: Platform
+          - list [ref=e53]:
+            - listitem [ref=e54]:
+              - link "Dashboard" [ref=e55] [cursor=pointer]:
+                - /url: /dashboard
+                - img [ref=e56]
+                - generic [ref=e61]: Dashboard
+        - generic [ref=e62]:
+          - generic [ref=e63]: Shop admin
+          - list [ref=e64]:
+            - listitem [ref=e65]:
+              - link "Admin" [ref=e66] [cursor=pointer]:
+                - /url: /admin
+                - img [ref=e67]
+                - generic [ref=e72]: Admin
+            - listitem [ref=e73]:
+              - link "Products" [ref=e74] [cursor=pointer]:
+                - /url: /admin/products
+                - img [ref=e75]
+                - generic [ref=e79]: Products
+            - listitem [ref=e80]:
+              - link "Categories" [ref=e81] [cursor=pointer]:
+                - /url: /admin/categories
+                - img [ref=e82]
+                - generic [ref=e86]: Categories
+            - listitem [ref=e87]:
+              - link "Orders" [ref=e88] [cursor=pointer]:
+                - /url: /admin/orders
+                - img [ref=e89]
+                - generic [ref=e91]: Orders
+            - listitem [ref=e92]:
+              - link "Shipping" [ref=e93] [cursor=pointer]:
+                - /url: /admin/shipping
+                - img [ref=e94]
+                - generic [ref=e99]: Shipping
+            - listitem [ref=e100]:
+              - link "Support" [ref=e101] [cursor=pointer]:
+                - /url: /admin/support
+                - img [ref=e102]
+                - generic [ref=e109]: Support
+      - generic [ref=e110]:
+        - list [ref=e113]:
+          - listitem [ref=e114]:
+            - link "Storefront" [ref=e115] [cursor=pointer]:
+              - /url: /
+              - img [ref=e116]
+              - generic [ref=e121]: Storefront
+        - list [ref=e122]:
+          - listitem [ref=e123]:
+            - button "AU Admin User" [ref=e124]:
+              - generic [ref=e126]: AU
+              - generic [ref=e128]: Admin User
+              - img [ref=e129]
+    - main [ref=e132]:
+      - generic [ref=e134]:
+        - button "Toggle sidebar" [ref=e135]:
+          - img
+          - generic [ref=e136]: Toggle sidebar
+        - navigation "breadcrumb" [ref=e137]:
+          - list [ref=e138]:
+            - listitem [ref=e139]:
+              - link "Dashboard" [disabled] [ref=e140]
+      - generic [ref=e141]:
+        - generic [ref=e142]:
+          - img [ref=e144]
+          - img [ref=e147]
+          - img [ref=e150]
+        - img [ref=e153]
+  - region "Notifications alt+T"

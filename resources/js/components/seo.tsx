@@ -23,9 +23,20 @@ export function Seo({
     noindex = false,
     jsonLd = [],
 }: SeoProps) {
-    const { url } = usePage();
-    const resolvedCanonical =
-        canonical ?? (typeof url === 'string' ? url.split('?')[0] : undefined);
+    const { url, props } = usePage<{
+        shop: { url: string };
+        [key: string]: unknown;
+    }>();
+    // Canonicals must be absolute; Inertia's url (and wayfinder .url()) are
+    // path-relative, so prefix the app URL shared by the backend (SSR-safe).
+    const base = props.shop.url;
+    const path =
+        canonical ?? (typeof url === 'string' ? url.split('?')[0] : '');
+    const resolvedCanonical = path
+        ? path.startsWith('http')
+            ? path
+            : `${base}${path === '/' ? '' : path}`
+        : undefined;
 
     return (
         <Head title={title}>

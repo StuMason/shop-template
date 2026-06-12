@@ -1,0 +1,134 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - generic [ref=e7]:
+      - list [ref=e9]:
+        - listitem [ref=e10]:
+          - link "Laravel Starter Kit" [ref=e11] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=e13]
+            - generic [ref=e16]: Laravel Starter Kit
+      - generic [ref=e17]:
+        - generic [ref=e18]:
+          - generic [ref=e19]: Platform
+          - list [ref=e20]:
+            - listitem [ref=e21]:
+              - link "Dashboard" [ref=e22] [cursor=pointer]:
+                - /url: /dashboard
+                - img [ref=e23]
+                - generic [ref=e28]: Dashboard
+        - generic [ref=e29]:
+          - generic [ref=e30]: Shop admin
+          - list [ref=e31]:
+            - listitem [ref=e32]:
+              - link "Admin" [ref=e33] [cursor=pointer]:
+                - /url: /admin
+                - img [ref=e34]
+                - generic [ref=e39]: Admin
+            - listitem [ref=e40]:
+              - link "Products" [ref=e41] [cursor=pointer]:
+                - /url: /admin/products
+                - img [ref=e42]
+                - generic [ref=e46]: Products
+            - listitem [ref=e47]:
+              - link "Categories" [ref=e48] [cursor=pointer]:
+                - /url: /admin/categories
+                - img [ref=e49]
+                - generic [ref=e53]: Categories
+            - listitem [ref=e54]:
+              - link "Orders" [ref=e55] [cursor=pointer]:
+                - /url: /admin/orders
+                - img [ref=e56]
+                - generic [ref=e58]: Orders
+            - listitem [ref=e59]:
+              - link "Shipping" [ref=e60] [cursor=pointer]:
+                - /url: /admin/shipping
+                - img [ref=e61]
+                - generic [ref=e66]: Shipping
+            - listitem [ref=e67]:
+              - link "Support" [ref=e68] [cursor=pointer]:
+                - /url: /admin/support
+                - img [ref=e69]
+                - generic [ref=e76]: Support
+      - generic [ref=e77]:
+        - list [ref=e80]:
+          - listitem [ref=e81]:
+            - link "Storefront" [ref=e82] [cursor=pointer]:
+              - /url: /
+              - img [ref=e83]
+              - generic [ref=e88]: Storefront
+        - list [ref=e89]:
+          - listitem [ref=e90]:
+            - button "AU Admin User" [ref=e91]:
+              - generic [ref=e93]: AU
+              - generic [ref=e95]: Admin User
+              - img [ref=e96]
+    - main [ref=e99]:
+      - button "Toggle sidebar" [ref=e102]:
+        - img
+        - generic [ref=e103]: Toggle sidebar
+      - generic [ref=e130]:
+        - generic [ref=e131]:
+          - link "Back to orders" [ref=e132] [cursor=pointer]:
+            - /url: /admin/orders
+            - img [ref=e133]
+          - heading "ORD-260612-EYPQ" [level=1] [ref=e135]
+          - generic [ref=e136]: shipped
+          - generic [ref=e137]: 12 Jun 2026, 09:50 · Guest · stu-test@example.com
+          - button "Mark delivered" [ref=e198]
+        - table [ref=e142]:
+          - rowgroup [ref=e143]:
+            - row "Item SKU Qty Unit price Total" [ref=e144]:
+              - columnheader "Item" [ref=e145]
+              - columnheader "SKU" [ref=e146]
+              - columnheader "Qty" [ref=e147]
+              - columnheader "Unit price" [ref=e148]
+              - columnheader "Total" [ref=e149]
+          - rowgroup [ref=e150]:
+            - row "Organic Cotton Tee (L / Black) ORGANICCOTTO-563 1 £25.00 £25.00" [ref=e151]:
+              - cell "Organic Cotton Tee (L / Black)" [ref=e152]:
+                - text: Organic Cotton Tee
+                - generic [ref=e153]: (L / Black)
+              - cell "ORGANICCOTTO-563" [ref=e154]
+              - cell "1" [ref=e155]
+              - cell "£25.00" [ref=e156]
+              - cell "£25.00" [ref=e157]
+          - rowgroup [ref=e158]:
+            - row "Subtotal £25.00" [ref=e159]:
+              - cell "Subtotal" [ref=e160]
+              - cell "£25.00" [ref=e161]
+            - row "Standard delivery £3.95" [ref=e162]:
+              - cell "Standard delivery" [ref=e163]
+              - cell "£3.95" [ref=e164]
+            - row "Total £28.95" [ref=e165]:
+              - cell "Total" [ref=e166]
+              - cell "£28.95" [ref=e167]
+        - region "Payments" [ref=e168]:
+          - heading "Payments" [level=2] [ref=e169]
+          - table [ref=e171]:
+            - rowgroup [ref=e172]:
+              - row "Gateway Status Amount Refunded Created Actions" [ref=e173]:
+                - columnheader "Gateway" [ref=e174]
+                - columnheader "Status" [ref=e175]
+                - columnheader "Amount" [ref=e176]
+                - columnheader "Refunded" [ref=e177]
+                - columnheader "Created" [ref=e178]
+                - columnheader "Actions" [ref=e179]:
+                  - generic [ref=e180]: Actions
+            - rowgroup [ref=e181]:
+              - row "fake succeeded £28.95 £0.00 12 Jun 2026, 09:50 Record refund" [ref=e182]:
+                - cell "fake" [ref=e183]
+                - cell "succeeded" [ref=e184]:
+                  - generic [ref=e185]: succeeded
+                - cell "£28.95" [ref=e186]
+                - cell "£0.00" [ref=e187]
+                - cell "12 Jun 2026, 09:50" [ref=e188]
+                - cell "Record refund" [ref=e189]:
+                  - button "Record refund" [ref=e190]
+        - generic [ref=e191]:
+          - generic [ref=e192]:
+            - paragraph [ref=e193]: Shipping address
+            - paragraph [ref=e194]: Stu Mason, 1 Harbour Way, Bristol, BS1 4DJ, GB
+          - generic [ref=e195]:
+            - paragraph [ref=e196]: Billing address
+            - paragraph [ref=e197]: Stu Mason, 1 Harbour Way, Bristol, BS1 4DJ, GB
+  - region "Notifications alt+T"

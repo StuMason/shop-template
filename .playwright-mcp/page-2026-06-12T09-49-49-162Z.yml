@@ -1,0 +1,81 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - link "Laravel" [ref=e6] [cursor=pointer]:
+          - /url: /
+        - link "Back to basket" [ref=e7] [cursor=pointer]:
+          - /url: /basket
+    - main [ref=e8]:
+      - generic [ref=e9]:
+        - heading "Checkout" [level=1] [ref=e10]
+        - generic [ref=e11]:
+          - region "Contact" [ref=e12]:
+            - heading "Contact" [level=2] [ref=e13]
+            - generic [ref=e14]:
+              - generic [ref=e15]: Email
+              - textbox "Email" [ref=e16]
+          - region "Shipping address" [ref=e17]:
+            - heading "Shipping address" [level=2] [ref=e18]
+            - generic [ref=e19]:
+              - generic [ref=e20]:
+                - generic [ref=e21]: Full name
+                - textbox "Full name" [ref=e22]
+              - generic [ref=e23]:
+                - generic [ref=e24]: Address line 1
+                - textbox "Address line 1" [ref=e25]
+              - generic [ref=e26]:
+                - generic [ref=e27]: Address line 2 (optional)
+                - textbox "Address line 2 (optional)" [ref=e28]
+              - generic [ref=e29]:
+                - generic [ref=e30]:
+                  - generic [ref=e31]: Town / city
+                  - textbox "Town / city" [ref=e32]
+                - generic [ref=e33]:
+                  - generic [ref=e34]: Postcode
+                  - textbox "Postcode" [ref=e35]
+              - generic [ref=e36]:
+                - generic [ref=e37]:
+                  - generic [ref=e38]: Country
+                  - combobox "Country" [ref=e39]:
+                    - option "GB" [selected]
+                - generic [ref=e40]:
+                  - generic [ref=e41]: Phone (optional)
+                  - textbox "Phone (optional)" [ref=e42]
+            - generic [ref=e43]:
+              - checkbox "Billing address is the same as shipping" [checked] [ref=e44]:
+                - generic:
+                  - img
+              - checkbox [checked]
+              - text: Billing address is the same as shipping
+          - region "Delivery" [ref=e45]:
+            - heading "Delivery" [level=2] [ref=e46]
+            - group "Choose a delivery method" [ref=e47]:
+              - generic [ref=e48]: Choose a delivery method
+              - generic [ref=e49] [cursor=pointer]:
+                - generic [ref=e50]:
+                  - radio "Standard delivery 3–5 working days £3.95" [checked] [ref=e51]
+                  - generic [ref=e52]:
+                    - text: Standard delivery
+                    - generic [ref=e53]: 3–5 working days
+                - generic [ref=e54]: £3.95
+              - generic [ref=e55] [cursor=pointer]:
+                - generic [ref=e56]:
+                  - radio "Express delivery Next working day when ordered before 2pm £7.95" [ref=e57]
+                  - generic [ref=e58]:
+                    - text: Express delivery
+                    - generic [ref=e59]: Next working day when ordered before 2pm
+                - generic [ref=e60]: £7.95
+          - region "Order summary" [ref=e61]:
+            - heading "Order summary" [level=2] [ref=e62]
+            - generic [ref=e63]:
+              - generic [ref=e64]:
+                - generic [ref=e65]: 1 × Organic Cotton Tee (L / Black)
+                - generic [ref=e66]: £25.00
+              - generic [ref=e67]:
+                - generic [ref=e68]: Subtotal
+                - generic [ref=e69]: £25.00
+          - button "Continue to payment" [ref=e70]
+    - contentinfo [ref=e71]:
+      - paragraph [ref=e72]: Payments are made directly from your bank account — you will be asked to approve the payment in your banking app.
+  - region "Notifications alt+T"

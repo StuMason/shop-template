@@ -48,6 +48,7 @@ class HandleInertiaRequests extends Middleware
                 'tagline' => $settings->tagline(),
                 'currency' => $settings->currency(),
                 'contact_email' => $settings->contactEmail(),
+                'url' => rtrim((string) config('app.url'), '/'),
             ],
             'auth' => [
                 'user' => $request->user(),

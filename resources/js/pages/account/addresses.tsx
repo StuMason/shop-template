@@ -310,7 +310,9 @@ export default function AccountAddresses({
                                         aria-label={`Delete address ${address.label || address.name}`}
                                         disabled={deleteForm.processing}
                                         onClick={() => {
-                                            if (confirm('Delete this address?')) {
+                                            if (
+                                                confirm('Delete this address?')
+                                            ) {
                                                 deleteForm.delete(
                                                     destroy(address.id).url,
                                                     { preserveScroll: true },

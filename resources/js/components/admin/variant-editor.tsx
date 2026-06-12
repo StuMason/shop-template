@@ -113,9 +113,7 @@ function VariantDialog({
                     <Input
                         id="variant-sku"
                         value={data.sku}
-                        onChange={(event) =>
-                            setData('sku', event.target.value)
-                        }
+                        onChange={(event) => setData('sku', event.target.value)}
                         required
                     />
                     <InputError message={errors.sku} />
@@ -138,9 +136,7 @@ function VariantDialog({
                         <InputError message={errors.price} />
                     </div>
                     <div className="grid gap-2">
-                        <Label htmlFor="variant-compare">
-                            Compare at (£)
-                        </Label>
+                        <Label htmlFor="variant-compare">Compare at (£)</Label>
                         <Input
                             id="variant-compare"
                             type="number"
@@ -148,10 +144,7 @@ function VariantDialog({
                             step="0.01"
                             value={data.compare_at_price}
                             onChange={(event) =>
-                                setData(
-                                    'compare_at_price',
-                                    event.target.value,
-                                )
+                                setData('compare_at_price', event.target.value)
                             }
                         />
                         <InputError message={errors.compare_at_price} />
@@ -197,8 +190,9 @@ function VariantDialog({
                         </legend>
                         <div className="flex flex-wrap gap-2">
                             {option.values.map((value) => {
-                                const checked =
-                                    data.option_value_ids.includes(value.id);
+                                const checked = data.option_value_ids.includes(
+                                    value.id,
+                                );
                                 const otherIdsInOption = option.values
                                     .map((v) => v.id)
                                     .filter((id) => id !== value.id);

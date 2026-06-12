@@ -49,10 +49,7 @@ function OptionDialog({
         const requestOptions = { onSuccess: onClose };
 
         if (option) {
-            put(
-                updateOption([productId, option.id]).url,
-                requestOptions,
-            );
+            put(updateOption([productId, option.id]).url, requestOptions);
         } else {
             post(storeOption(productId).url, requestOptions);
         }
@@ -160,7 +157,10 @@ export function OptionEditor({
     const { delete: destroy, processing } = useForm();
 
     return (
-        <section aria-labelledby="options-heading" className="flex flex-col gap-3">
+        <section
+            aria-labelledby="options-heading"
+            className="flex flex-col gap-3"
+        >
             <div className="flex items-center justify-between">
                 <h2 id="options-heading" className="text-base font-semibold">
                     Options

@@ -5,11 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
-import {
-    create,
-    edit,
-    index as productsIndex,
-} from '@/routes/admin/products';
+import { create, edit, index as productsIndex } from '@/routes/admin/products';
 import type { ImagePayload, Paginated } from '@/types';
 
 type AdminProductRow = {

@@ -132,11 +132,7 @@ function RefundDialog({
     );
 }
 
-export default function AdminOrderShow({
-    order,
-}: {
-    order: AdminOrderDetail;
-}) {
+export default function AdminOrderShow({ order }: { order: AdminOrderDetail }) {
     const statusForm = useForm({ status: '' });
     const [refundDialog, setRefundDialog] = useState<number | null>(null);
 
@@ -317,9 +313,9 @@ export default function AdminOrderShow({
                                             </td>
                                             <td className="px-4 py-3">
                                                 £
-                                                {(
-                                                    payment.amount / 100
-                                                ).toFixed(2)}
+                                                {(payment.amount / 100).toFixed(
+                                                    2,
+                                                )}
                                             </td>
                                             <td className="px-4 py-3">
                                                 £

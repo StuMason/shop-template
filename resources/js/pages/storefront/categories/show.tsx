@@ -27,7 +27,9 @@ export default function CategoryShow({
             <Seo
                 title={category.meta_title ?? category.name}
                 description={
-                    category.meta_description ?? category.description ?? undefined
+                    category.meta_description ??
+                    category.description ??
+                    undefined
                 }
             />
 

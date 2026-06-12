@@ -38,9 +38,7 @@ export default function ProductsIndex({
 
             <div className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6">
                 <h1 className="mb-6 text-2xl font-semibold tracking-tight">
-                    {filters.q
-                        ? `Results for “${filters.q}”`
-                        : 'All products'}
+                    {filters.q ? `Results for “${filters.q}”` : 'All products'}
                 </h1>
 
                 {/* Filters submit as a plain GET form: crawlable, zero JS state. */}
@@ -70,10 +68,7 @@ export default function ProductsIndex({
                         >
                             <option value="">All categories</option>
                             {categories.map((category) => (
-                                <option
-                                    key={category.id}
-                                    value={category.slug}
-                                >
+                                <option key={category.id} value={category.slug}>
                                     {category.name}
                                 </option>
                             ))}

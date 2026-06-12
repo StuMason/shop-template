@@ -164,9 +164,7 @@ export default function ProductShow({
                                                 setActiveImage(index)
                                             }
                                             aria-label={`View image ${index + 1}`}
-                                            aria-pressed={
-                                                index === activeImage
-                                            }
+                                            aria-pressed={index === activeImage}
                                             className={cn(
                                                 'block size-16 overflow-hidden rounded-lg border',
                                                 index === activeImage &&

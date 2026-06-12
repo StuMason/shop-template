@@ -209,7 +209,10 @@ export default function CheckoutShow({
                     }}
                     className="grid gap-10"
                 >
-                    <section aria-labelledby="contact-heading" className="grid gap-4">
+                    <section
+                        aria-labelledby="contact-heading"
+                        className="grid gap-4"
+                    >
                         <h2
                             id="contact-heading"
                             className="text-lg font-semibold"
@@ -383,9 +386,7 @@ export default function CheckoutShow({
                             </div>
                         </div>
                         <InputError
-                            message={
-                                (errors as Record<string, string>).basket
-                            }
+                            message={(errors as Record<string, string>).basket}
                         />
                     </section>
 

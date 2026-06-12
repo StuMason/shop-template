@@ -135,10 +135,7 @@ function CategoryDialog({
                         >
                             <option value="">None (top level)</option>
                             {parentChoices.map((candidate) => (
-                                <option
-                                    key={candidate.id}
-                                    value={candidate.id}
-                                >
+                                <option key={candidate.id} value={candidate.id}>
                                     {candidate.name}
                                 </option>
                             ))}
@@ -243,9 +240,7 @@ export default function AdminCategoriesIndex({
                                         Status
                                     </th>
                                     <th className="px-4 py-3">
-                                        <span className="sr-only">
-                                            Actions
-                                        </span>
+                                        <span className="sr-only">Actions</span>
                                     </th>
                                 </tr>
                             </thead>
@@ -301,8 +296,7 @@ export default function AdminCategoriesIndex({
                                                         Edit
                                                     </Button>
                                                 </DialogTrigger>
-                                                {openDialog ===
-                                                    category.id && (
+                                                {openDialog === category.id && (
                                                     <CategoryDialog
                                                         category={category}
                                                         categories={categories}
@@ -328,8 +322,7 @@ export default function AdminCategoriesIndex({
                                                                 category.id,
                                                             ).url,
                                                             {
-                                                                preserveScroll:
-                                                                    true,
+                                                                preserveScroll: true,
                                                             },
                                                         );
                                                     }

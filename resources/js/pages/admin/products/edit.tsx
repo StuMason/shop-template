@@ -59,7 +59,10 @@ function ImageManager({ product }: { product: AdminProductDetail }) {
     }
 
     return (
-        <section aria-labelledby="images-heading" className="flex flex-col gap-3">
+        <section
+            aria-labelledby="images-heading"
+            className="flex flex-col gap-3"
+        >
             <div className="flex items-center justify-between">
                 <h2 id="images-heading" className="text-base font-semibold">
                     Images
@@ -72,9 +75,7 @@ function ImageManager({ product }: { product: AdminProductDetail }) {
                         multiple
                         className="sr-only"
                         aria-label="Upload product images"
-                        onChange={(event) =>
-                            uploadSelected(event.target.files)
-                        }
+                        onChange={(event) => uploadSelected(event.target.files)}
                     />
                     <Button
                         variant="outline"

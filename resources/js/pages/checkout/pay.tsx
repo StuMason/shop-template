@@ -121,8 +121,8 @@ export default function CheckoutPay({
                     )}
                 </Button>
                 <p className="mt-3 text-center text-xs text-muted-foreground">
-                    You'll approve this payment securely in your own banking
-                    app — no card details needed.
+                    You'll approve this payment securely in your own banking app
+                    — no card details needed.
                 </p>
             </div>
         </>

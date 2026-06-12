@@ -8,11 +8,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { show as orderShow } from '@/routes/admin/orders';
-import {
-    index,
-    reply,
-    status as statusRoute,
-} from '@/routes/admin/tickets';
+import { index, reply, status as statusRoute } from '@/routes/admin/tickets';
 
 type AdminTicketDetail = {
     id: number;

@@ -42,7 +42,10 @@ export function BasketDrawer({ basket }: { basket: Basket | null }) {
                 </Button>
             </SheetTrigger>
 
-            <SheetContent side="right" className="flex w-full flex-col sm:max-w-md">
+            <SheetContent
+                side="right"
+                className="flex w-full flex-col sm:max-w-md"
+            >
                 <SheetHeader>
                     <SheetTitle>Your basket</SheetTitle>
                     <SheetDescription>

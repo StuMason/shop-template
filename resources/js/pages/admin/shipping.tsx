@@ -297,8 +297,8 @@ export default function AdminShipping({ zones }: { zones: Zone[] }) {
 
                 {zones.length === 0 && (
                     <p className="py-12 text-center text-muted-foreground">
-                        No shipping zones yet — customers can't check out
-                        until one exists.
+                        No shipping zones yet — customers can't check out until
+                        one exists.
                     </p>
                 )}
 
@@ -375,8 +375,7 @@ export default function AdminShipping({ zones }: { zones: Zone[] }) {
                                             )
                                         ) {
                                             deleteForm.delete(
-                                                zoneRoutes.destroy(zone.id)
-                                                    .url,
+                                                zoneRoutes.destroy(zone.id).url,
                                                 { preserveScroll: true },
                                             );
                                         }
@@ -461,9 +460,7 @@ export default function AdminShipping({ zones }: { zones: Zone[] }) {
                                                 variant="ghost"
                                                 size="icon"
                                                 aria-label={`Delete ${method.name}`}
-                                                disabled={
-                                                    deleteForm.processing
-                                                }
+                                                disabled={deleteForm.processing}
                                                 onClick={() => {
                                                     if (
                                                         confirm(
@@ -478,8 +475,7 @@ export default function AdminShipping({ zones }: { zones: Zone[] }) {
                                                                 ],
                                                             ).url,
                                                             {
-                                                                preserveScroll:
-                                                                    true,
+                                                                preserveScroll: true,
                                                             },
                                                         );
                                                     }

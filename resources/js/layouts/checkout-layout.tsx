@@ -53,8 +53,8 @@ export default function CheckoutLayout({
 
             <footer className="border-t py-6">
                 <p className="mx-auto w-full max-w-3xl px-4 text-xs text-muted-foreground sm:px-6">
-                    Payments are made directly from your bank account — you
-                    will be asked to approve the payment in your banking app.
+                    Payments are made directly from your bank account — you will
+                    be asked to approve the payment in your banking app.
                 </p>
             </footer>
         </div>

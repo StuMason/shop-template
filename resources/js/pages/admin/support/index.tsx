@@ -90,8 +90,7 @@ export default function AdminSupportIndex({
                                             <td className="px-4 py-3">
                                                 <Badge
                                                     variant={
-                                                        ticket.status ===
-                                                        'open'
+                                                        ticket.status === 'open'
                                                             ? 'default'
                                                             : 'outline'
                                                     }

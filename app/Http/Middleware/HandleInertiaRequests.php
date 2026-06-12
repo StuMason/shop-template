@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Actions\Cart\ResolveCart;
+use App\Http\Resources\CartResource;
 use App\Support\ShopSettings;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -51,11 +53,31 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
                 'isStaff' => $request->user()?->hasAnyRole(['admin', 'staff']) ?? false,
             ],
+            'basket' => fn (): ?array => $this->basket($request),
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'flash' => [
                 'success' => $request->session()->get('success'),
                 'error' => $request->session()->get('error'),
             ],
         ];
+    }
+
+    /**
+     * The current basket payload, or null when the visitor has none yet.
+     *
+     * @return array<string, mixed>|null
+     */
+    protected function basket(Request $request): ?array
+    {
+        if (! $request->hasSession()) {
+            return null;
+        }
+
+        $cart = app(ResolveCart::class)->find(
+            $request->user(),
+            $request->session()->get('cart_token'),
+        );
+
+        return $cart !== null ? (new CartResource($cart))->resolve() : null;
     }
 }

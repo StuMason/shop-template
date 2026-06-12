@@ -1,15 +1,17 @@
 import { Link, usePage } from '@inertiajs/react';
-import { ShoppingBag, UserRound } from 'lucide-react';
+import { UserRound } from 'lucide-react';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
+import { BasketDrawer } from '@/components/storefront/basket-drawer';
 import { home, login } from '@/routes';
 import { dashboard } from '@/routes/account';
 import { index as productsIndex } from '@/routes/products';
-import type { ShopInfo, User } from '@/types';
+import type { Basket, ShopInfo, User } from '@/types';
 
 type StorefrontPageProps = {
     shop: ShopInfo;
     auth: { user: User | null; isStaff: boolean };
+    basket: Basket | null;
     flash: { success: string | null; error: string | null };
     [key: string]: unknown;
 };
@@ -23,7 +25,7 @@ export default function StorefrontLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const { shop, auth, flash } = usePage<StorefrontPageProps>().props;
+    const { shop, auth, basket, flash } = usePage<StorefrontPageProps>().props;
     const announcement = flash.success ?? flash.error ?? '';
 
     useEffect(() => {
@@ -74,13 +76,7 @@ export default function StorefrontLayout({
                         >
                             <UserRound className="size-5" aria-hidden="true" />
                         </Link>
-                        <span
-                            className="rounded-md p-2 text-muted-foreground"
-                            aria-hidden="true"
-                            data-slot="basket-button"
-                        >
-                            <ShoppingBag className="size-5" />
-                        </span>
+                        <BasketDrawer basket={basket} />
                     </nav>
                 </div>
             </header>

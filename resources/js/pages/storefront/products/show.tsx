@@ -1,12 +1,12 @@
 import { Link, usePage, WhenVisible } from '@inertiajs/react';
 import { useMemo, useState } from 'react';
 import { Seo } from '@/components/seo';
+import { AddToBasketButton } from '@/components/storefront/add-to-basket-button';
 import {
     ProductGrid,
     ProductGridSkeleton,
 } from '@/components/storefront/product-grid';
 import { ProductImage } from '@/components/storefront/product-image';
-import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { show as categoryShow } from '@/routes/categories';
 import type {
@@ -248,14 +248,7 @@ export default function ProductShow({
                         ))}
 
                         <div className="flex flex-col gap-2">
-                            {/* Wired up to the basket in the basket phase. */}
-                            <Button size="lg" disabled className="w-full">
-                                {selectedVariant
-                                    ? selectedVariant.in_stock
-                                        ? 'Add to basket (coming soon)'
-                                        : 'Out of stock'
-                                    : 'Unavailable'}
-                            </Button>
+                            <AddToBasketButton variant={selectedVariant} />
                             {selectedVariant?.low_stock && (
                                 <p className="text-sm text-amber-600 dark:text-amber-500">
                                     Low stock — order soon.

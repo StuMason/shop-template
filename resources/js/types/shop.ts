@@ -68,6 +68,31 @@ export type CategorySummary = {
     description?: string | null;
 };
 
+export type BasketItem = {
+    id: number;
+    quantity: number;
+    line_total: string;
+    max_quantity: number;
+    variant: {
+        id: number;
+        sku: string;
+        price: string;
+        options: string;
+    };
+    product: {
+        name: string;
+        slug: string;
+        image: ImagePayload | null;
+    };
+};
+
+export type Basket = {
+    items: BasketItem[];
+    subtotal: number;
+    subtotal_formatted: string;
+    item_count: number;
+};
+
 export type PaginationLink = {
     url: string | null;
     label: string;

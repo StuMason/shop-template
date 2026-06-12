@@ -49,4 +49,9 @@ return [
         'api_key' => env('GOOGLE_PLACES_API_KEY'),
     ],
 
+    'acp' => [
+        'api_key' => env('ACP_API_KEY'),
+        'signature_secret' => env('ACP_SIGNATURE_SECRET'),
+    ],
+
 ];

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Agent\AcpCheckoutController;
+use App\Http\Controllers\Agent\AcpFeedController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\Storefront\AddressLookupController;
 use App\Http\Controllers\Storefront\CartController;
@@ -11,6 +13,7 @@ use App\Http\Controllers\Storefront\PaymentController;
 use App\Http\Controllers\Storefront\ProductController;
 use App\Http\Controllers\Webhooks\GoCardlessWebhookController;
 use App\Http\Controllers\Webhooks\PaymentWebhookController;
+use App\Http\Middleware\AuthenticateAcp;
 use App\Http\Middleware\DisableInertiaSsr;
 use Illuminate\Support\Facades\Route;
 
@@ -69,3 +72,13 @@ Route::middleware(['auth', 'verified', DisableInertiaSsr::class])->group(functio
 require __DIR__.'/settings.php';
 require __DIR__.'/account.php';
 require __DIR__.'/admin.php';
+
+// Agentic Commerce Protocol — the surface AI shopping agents speak.
+Route::prefix('acp')->middleware([AuthenticateAcp::class, 'throttle:60,1'])->name('acp.')->group(function () {
+    Route::get('feed', AcpFeedController::class)->name('feed');
+    Route::post('checkout_sessions', [AcpCheckoutController::class, 'store'])->name('sessions.store');
+    Route::get('checkout_sessions/{session}', [AcpCheckoutController::class, 'show'])->name('sessions.show');
+    Route::post('checkout_sessions/{session}', [AcpCheckoutController::class, 'update'])->name('sessions.update');
+    Route::post('checkout_sessions/{session}/complete', [AcpCheckoutController::class, 'complete'])->name('sessions.complete');
+    Route::post('checkout_sessions/{session}/cancel', [AcpCheckoutController::class, 'cancel'])->name('sessions.cancel');
+});

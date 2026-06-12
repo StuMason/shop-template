@@ -117,6 +117,16 @@ the human at their own bank. Agents shop; people pay.
    a live access token and a webhook endpoint secret pointing at
    `/webhooks/gocardless`.
 
+## Address type-ahead (optional)
+
+Set `ADDRESS_LOOKUP=google` and a server-side `GOOGLE_PLACES_API_KEY`
+(enable **Places API (New)** in Google Cloud — no referrer restrictions
+needed, the key never reaches the browser) and checkout + the address book
+gain a "Find your address" search. Leave it as `none` and the forms are
+plain manual entry. `fake` gives deterministic suggestions for local dev.
+Other providers (e.g. getAddress.io for UK PAF data) are one class
+implementing `AddressLookupProvider`.
+
 ## Commands you'll use
 
 | Command | What it does |

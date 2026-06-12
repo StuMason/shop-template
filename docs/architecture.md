@@ -80,6 +80,16 @@ implementing `App\Payments\Contracts\PaymentGateway` (two methods:
 - A human always authorises payment at their bank. MCP checkout deliberately
   stops at a signed `pay_url` — keep it that way.
 
+## Address lookup
+
+`AddressLookupManager` mirrors the payments pattern: `ADDRESS_LOOKUP` env
+picks `none | google | fake`, providers implement a two-method contract
+(suggest, resolve), and the key stays server-side — the frontend combobox
+(`resources/js/components/address-lookup.tsx`) calls `/address-lookup`
+proxy endpoints and renders nothing when the shared `shop.address_lookup`
+prop is false. Provider failures degrade to empty suggestions; manual entry
+always works.
+
 ## MCP surfaces
 
 Two servers, registered in `routes/ai.php`:

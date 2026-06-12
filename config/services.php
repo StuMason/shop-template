@@ -41,4 +41,12 @@ return [
         ],
     ],
 
+    'address_lookup' => [
+        'driver' => env('ADDRESS_LOOKUP', 'none'),
+    ],
+
+    'google_places' => [
+        'api_key' => env('GOOGLE_PLACES_API_KEY'),
+    ],
+
 ];

@@ -3,6 +3,7 @@ export type ShopInfo = {
     tagline: string;
     currency: string;
     contact_email: string;
+    address_lookup: boolean;
 };
 
 export type ImagePayload = {

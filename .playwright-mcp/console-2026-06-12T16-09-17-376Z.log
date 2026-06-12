@@ -1,0 +1,14 @@
+[     796ms] [LOG] 🔍 Browser logger active (MCP server detected). Posting to: https://shop-template.test/_boost/browser-logs @ https://shop-template.test/products/enamel-mug:175
+[   11393ms] [LOG] 🔍 Browser logger active (MCP server detected). Posting to: https://shop-template.test/_boost/browser-logs @ https://shop-template.test/checkout:175
+[   11511ms] ReferenceError: onFill is not defined
+    at c (https://shop-template.test/build/assets/show-DtAo6c-d.js:1:1351)
+    at bo (https://shop-template.test/build/assets/jsx-runtime-CXsf06Bc.js:96:47497)
+    at pc (https://shop-template.test/build/assets/jsx-runtime-CXsf06Bc.js:96:70011)
+    at Ac (https://shop-template.test/build/assets/jsx-runtime-CXsf06Bc.js:96:80284)
+    at Mu (https://shop-template.test/build/assets/jsx-runtime-CXsf06Bc.js:96:115715)
+    at ku (https://shop-template.test/build/assets/jsx-runtime-CXsf06Bc.js:96:114796)
+    at Ou (https://shop-template.test/build/assets/jsx-runtime-CXsf06Bc.js:96:114634)
+    at gu (https://shop-template.test/build/assets/jsx-runtime-CXsf06Bc.js:96:111499)
+    at cd (https://shop-template.test/build/assets/jsx-runtime-CXsf06Bc.js:96:123028)
+    at MessagePort.ee (https://shop-template.test/build/assets/jsx-runtime-CXsf06Bc.js:89:16553)
+[  123011ms] [LOG] 🔍 Browser logger active (MCP server detected). Posting to: https://shop-template.test/_boost/browser-logs @ https://shop-template.test/checkout:175

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\SiteController;
+use App\Http\Controllers\Storefront\AddressLookupController;
 use App\Http\Controllers\Storefront\CartController;
 use App\Http\Controllers\Storefront\CategoryController;
 use App\Http\Controllers\Storefront\CheckoutController;
@@ -23,6 +24,11 @@ Route::get('products/{product:slug}.md', [SiteController::class, 'productMarkdow
 Route::get('products/{product:slug}', [ProductController::class, 'show'])->name('products.show');
 Route::get('categories/{category:slug}', [CategoryController::class, 'show'])->name('categories.show');
 Route::get('pages/{page}', [PageController::class, 'show'])->name('pages.show');
+
+Route::middleware('throttle:30,1')->group(function () {
+    Route::get('address-lookup', [AddressLookupController::class, 'suggest'])->name('address-lookup.suggest');
+    Route::get('address-lookup/resolve', [AddressLookupController::class, 'resolve'])->name('address-lookup.resolve');
+});
 
 Route::get('basket', [CartController::class, 'show'])->name('cart.show');
 Route::post('basket/items', [CartController::class, 'store'])->name('cart.items.store');

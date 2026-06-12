@@ -1,6 +1,7 @@
 import { Head, useForm } from '@inertiajs/react';
 import { Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
+import { AddressLookup } from '@/components/address-lookup';
 import InputError from '@/components/input-error';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -104,6 +105,13 @@ function AddressDialog({
                     />
                     <InputError message={errors.name} />
                 </div>
+                <AddressLookup
+                    id="address-lookup"
+                    country={data.country}
+                    onSelect={(address) =>
+                        setData((current) => ({ ...current, ...address }))
+                    }
+                />
                 <div className="grid gap-2">
                     <Label htmlFor="address-line1">Address line 1</Label>
                     <Input

@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Actions\Cart\ResolveCart;
+use App\AddressLookup\AddressLookupManager;
 use App\Http\Controllers\Storefront\PageController;
 use App\Http\Resources\CartResource;
 use App\Support\ShopSettings;
@@ -50,6 +51,7 @@ class HandleInertiaRequests extends Middleware
                 'currency' => $settings->currency(),
                 'contact_email' => $settings->contactEmail(),
                 'trading_details' => $settings->tradingDetails(),
+                'address_lookup' => app(AddressLookupManager::class)->enabled(),
                 'url' => rtrim((string) config('app.url'), '/'),
                 'pages' => PageController::available(),
             ],

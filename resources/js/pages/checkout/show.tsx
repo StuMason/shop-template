@@ -1,4 +1,5 @@
 import { useForm, usePage } from '@inertiajs/react';
+import { AddressLookup } from '@/components/address-lookup';
 import InputError from '@/components/input-error';
 import { Seo } from '@/components/seo';
 import { Button } from '@/components/ui/button';
@@ -49,12 +50,14 @@ function AddressFields({
     errors,
     countries,
     onChange,
+    onFill,
 }: {
     prefix: string;
     value: AddressForm;
     errors: Record<string, string>;
     countries: string[];
     onChange: (field: keyof AddressForm, fieldValue: string) => void;
+    onFill: (address: Partial<AddressForm>) => void;
 }) {
     const field = (name: keyof AddressForm) => `${prefix}.${name}`;
 
@@ -71,6 +74,11 @@ function AddressFields({
                 />
                 <InputError message={errors[field('name')]} />
             </div>
+            <AddressLookup
+                id={`${prefix}.lookup`}
+                country={value.country}
+                onSelect={onFill}
+            />
             <div className="grid gap-2">
                 <Label htmlFor={field('line1')}>Address line 1</Label>
                 <Input
@@ -256,6 +264,12 @@ export default function CheckoutShow({
                                     [field]: fieldValue,
                                 })
                             }
+                            onFill={(address) =>
+                                setData('shipping_address', {
+                                    ...data.shipping_address,
+                                    ...address,
+                                })
+                            }
                         />
                         <label className="flex items-center gap-2 text-sm">
                             <Checkbox
@@ -291,6 +305,12 @@ export default function CheckoutShow({
                                     setData('billing_address', {
                                         ...data.billing_address,
                                         [field]: fieldValue,
+                                    })
+                                }
+                                onFill={(address) =>
+                                    setData('billing_address', {
+                                        ...data.billing_address,
+                                        ...address,
                                     })
                                 }
                             />

@@ -1,0 +1,16 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e5]:
+    - main [ref=e6]:
+      - generic [ref=e12]:
+        - img [ref=e14]
+        - heading "Hold tight, we are just processing this payment...." [level=1] [ref=e27]
+        - paragraph [ref=e28]: Please don't retry or leave this page
+        - paragraph [ref=e29]: Confirming in 5 seconds
+    - contentinfo [ref=e30]:
+      - generic [ref=e33]:
+        - generic [ref=e35]:
+          - generic [ref=e36]: Securely powered by
+          - img [ref=e38]
+        - link "stu@stuartmason.co.uk" [ref=e41] [cursor=pointer]:
+          - /url: mailto:stu@stuartmason.co.uk
+  - alert [ref=e44]: GoCardless

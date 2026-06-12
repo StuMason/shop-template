@@ -1,0 +1,36 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - link "Laravel" [ref=e6] [cursor=pointer]:
+          - /url: /
+        - link "Back to basket" [ref=e7] [cursor=pointer]:
+          - /url: /basket
+    - main [ref=e8]:
+      - generic [ref=e76]:
+        - heading "Review & pay" [level=1] [ref=e77]
+        - paragraph [ref=e78]: Order ORD-260612-PAQQ · confirmation goes to stu-gc-test@example.com
+        - generic [ref=e79]:
+          - generic [ref=e81]:
+            - generic [ref=e82]: 1 × Enamel Mug
+            - generic [ref=e83]: £14.50
+          - generic [ref=e84]:
+            - generic [ref=e85]:
+              - generic [ref=e86]: Subtotal
+              - generic [ref=e87]: £14.50
+            - generic [ref=e88]:
+              - generic [ref=e89]: Standard delivery
+              - generic [ref=e90]: £3.95
+            - generic [ref=e91]:
+              - generic [ref=e92]: Total
+              - generic [ref=e93]: £18.45
+        - generic [ref=e94]:
+          - paragraph [ref=e95]: Delivering to
+          - paragraph [ref=e96]: Stu Mason, 1 Harbour Way, Bristol, BS1 4DJ
+        - button "Pay £18.45 with your bank" [ref=e97]:
+          - img
+          - text: Pay £18.45 with your bank
+        - paragraph [ref=e98]: You'll approve this payment securely in your own banking app — no card details needed.
+    - contentinfo [ref=e74]:
+      - paragraph [ref=e75]: Payments are made directly from your bank account — you will be asked to approve the payment in your banking app.
+  - region "Notifications alt+T"

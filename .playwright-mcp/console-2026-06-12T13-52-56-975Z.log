@@ -1,0 +1,5 @@
+[     173ms] [LOG] 🔍 Browser logger active (MCP server detected). Posting to: https://shop-template.test/_boost/browser-logs @ https://shop-template.test/checkout:175
+[   55061ms] [ERROR] Failed to load resource: the server responded with a status of 409 () @ https://shop-template.test/checkout/pay/ORD-260612-PAQQ:0
+[   55544ms] [LOG] %c🟢 Build ID: production:57d515a9176c43228c22d92f8c332a077d83b302 font-weight: bold; color: green; @ https://pay-sandbox.gocardless.com/billing/static/_next/static/chunks/pages/_app-3c40b23499f25881.js:246
+[  105579ms] [LOG] %c🟢 Build ID: production:57d515a9176c43228c22d92f8c332a077d83b302 font-weight: bold; color: green; @ https://pay-sandbox.gocardless.com/billing/static/_next/static/chunks/pages/_app-3c40b23499f25881.js:246
+[  113394ms] [LOG] 🔍 Browser logger active (MCP server detected). Posting to: https://shop-template.test/_boost/browser-logs @ https://shop-template.test/checkout/complete/ORD-260612-PAQQ?signature=095f44c4ff200756b89a966503379f20f38709401f971be99efd4dd0636d0aa1:175

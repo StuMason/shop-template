@@ -125,6 +125,14 @@ implementing `App\Payments\Contracts\PaymentGateway` (two methods:
 - **Scout database engine** searches columns from `toSearchableArray()` at
   query time — there's no index to rebuild, and `whereIn('id', keys())` is
   the pattern for combining it with Eloquent constraints.
+- **phpunit.xml pins `PAYMENT_GATEWAY=fake`** (and blanks the GoCardless
+  token). Without it, setting a real gateway in `.env` makes the test suite
+  call the live payment API. If you add a new external integration, pin its
+  env there too.
+- **Banks fulfil a beat after authorising.** The return-URL verify can land
+  while the billing request is still `pending`; the confirmation page polls
+  and re-verifies server-side until settled, so it self-heals without a
+  webhook. Don't remove that loop.
 
 ## Where things live
 

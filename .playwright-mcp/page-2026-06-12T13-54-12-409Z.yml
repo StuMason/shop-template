@@ -1,0 +1,100 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - button "Back" [ref=e8] [cursor=pointer]:
+      - generic [ref=e9]:
+        - img [ref=e10]
+        - generic [ref=e13]: Back
+    - generic [ref=e14]:
+      - main [ref=e15]:
+        - generic [ref=e44]:
+          - heading "Make a one-off payment" [level=1] [ref=e46]
+          - paragraph [ref=e48]:
+            - text: By continuing, you agree to GoCardless triggering this one-off payment from your bank account, as per their
+            - link "Payer Terms of Use" [ref=e49] [cursor=pointer]:
+              - /url: https://gocardless.com/legal/payer-terms/
+            - text: .
+          - generic [ref=e53]:
+            - generic [ref=e54]:
+              - heading "Stu Mason" [level=2] [ref=e55]
+              - generic [ref=e56]:
+                - text: £18
+                - generic [ref=e57]: ".45"
+            - generic [ref=e58]: Order ORD-260612-PAQQ
+          - generic [ref=e62]:
+            - generic [ref=e64]: Email address
+            - textbox "Email address" [ref=e66]: stu-gc-test@example.com
+          - generic [ref=e67]: Bank selection is now available. You can now choose your bank to continue with the payment.
+          - generic [ref=e70]:
+            - generic [ref=e72]:
+              - img [ref=e75]
+              - generic [ref=e79]:
+                - generic [ref=e80]:
+                  - heading "Select bank" [level=2] [ref=e81]
+                  - generic [ref=e82]: Pay by bank app
+                - button "Choose bank" [ref=e85] [cursor=pointer]:
+                  - generic [ref=e86]: Choose
+            - generic [ref=e87]:
+              - button "How payment selection works" [ref=e88] [cursor=pointer]: How it works
+              - generic [ref=e89]:
+                - img [ref=e91]
+                - generic [ref=e107]: 50+
+      - contentinfo [ref=e22]:
+        - generic [ref=e26]:
+          - generic [ref=e28]:
+            - generic [ref=e29]: Securely powered by
+            - img [ref=e31]
+          - generic [ref=e34]:
+            - link "stu@stuartmason.co.uk" [ref=e35] [cursor=pointer]:
+              - /url: mailto:stu@stuartmason.co.uk
+            - generic [ref=e38]:
+              - text: Payments securely processed by GoCardless. GoCardless Ltd (company registration number 07495895) is authorised by the Financial Conduct Authority under the Payment Services Regulations 2017, registration number 597190, for the provision of payment services.
+              - generic [ref=e40]:
+                - text: GoCardless uses personal data as described in their
+                - link "Privacy Notice." [ref=e41] [cursor=pointer]:
+                  - /url: https://gocardless.com/privacy/
+  - alert [ref=e43]: GoCardless
+  - dialog "Bank selection dialog" [ref=e110]:
+    - generic [ref=e111]:
+      - button "Close" [active] [ref=e113] [cursor=pointer]:
+        - generic [ref=e114]: Close
+        - img [ref=e115]
+      - heading "Select your bank to continue" [level=1] [ref=e118]
+      - generic [ref=e120]:
+        - generic [ref=e121]: You'll be taken to your bank app to authenticate this payment. It's safe and secure.
+        - generic [ref=e123]:
+          - generic [ref=e125]:
+            - generic [ref=e126]: Results update automatically as you type.
+            - generic [ref=e127]:
+              - textbox "Search for your bank" [ref=e128]:
+                - /placeholder: Search for over 50+ banks
+              - img [ref=e130]
+          - list [ref=e135]:
+            - listitem [ref=e136]:
+              - button "Bank Down - Bank is temporarily unavailable-logo Bank Down - Bank is temporarily unavailable Temporarily Disabled" [ref=e137] [cursor=pointer]:
+                - generic [ref=e141]:
+                  - img "Bank Down - Bank is temporarily unavailable-logo" [ref=e142]
+                  - generic [ref=e144]:
+                    - text: Bank Down - Bank is temporarily unavailable
+                    - generic [ref=e146]:
+                      - img [ref=e147]
+                      - generic [ref=e152]: Temporarily Disabled
+            - listitem [ref=e153]:
+              - button "Payment Failed Bank - Authorises the payment request, but later fails the payment-logo Payment Failed Bank - Authorises the payment request, but later fails the payment" [ref=e154] [cursor=pointer]:
+                - generic [ref=e158]:
+                  - img "Payment Failed Bank - Authorises the payment request, but later fails the payment-logo" [ref=e159]
+                  - generic [ref=e161]: Payment Failed Bank - Authorises the payment request, but later fails the payment
+            - listitem [ref=e162]:
+              - button "Payment Failed Bank - Payer has insufficient funds-logo Payment Failed Bank - Payer has insufficient funds" [ref=e163] [cursor=pointer]:
+                - generic [ref=e167]:
+                  - img "Payment Failed Bank - Payer has insufficient funds-logo" [ref=e168]
+                  - generic [ref=e170]: Payment Failed Bank - Payer has insufficient funds
+            - listitem [ref=e171]:
+              - button "Payment Failed Bank - Rejects the payment request-logo Payment Failed Bank - Rejects the payment request" [ref=e172] [cursor=pointer]:
+                - generic [ref=e176]:
+                  - img "Payment Failed Bank - Rejects the payment request-logo" [ref=e177]
+                  - generic [ref=e179]: Payment Failed Bank - Rejects the payment request
+            - listitem [ref=e180]:
+              - button "Success Bank - Authorises the payment request, and returns payment with payer account details-logo Success Bank - Authorises the payment request, and returns payment with payer account details" [ref=e181] [cursor=pointer]:
+                - generic [ref=e185]:
+                  - img "Success Bank - Authorises the payment request, and returns payment with payer account details-logo" [ref=e186]
+                  - generic [ref=e188]: Success Bank - Authorises the payment request, and returns payment with payer account details

@@ -69,11 +69,28 @@ class PaymentController extends Controller
     }
 
     /**
-     * Confirmation page (also shown for failed/pending outcomes).
+     * Confirmation page (also shown for failed/pending outcomes). Pending
+     * payments are re-verified on every visit: banks fulfil a beat after
+     * authorisation, and the frontend polls this page until settled — so it
+     * self-heals even without a webhook (local dev, missed deliveries).
      */
-    public function complete(Order $order): Response
+    public function complete(Order $order, PaymentManager $payments, MarkOrderPaid $markOrderPaid): Response
     {
         $order->loadMissing('items', 'latestPayment');
+
+        $payment = $order->latestPayment;
+
+        if ($order->status === OrderStatus::Pending && $payment !== null && ! $payment->isSettled()) {
+            $verification = $payments->driver($payment->gateway)->verify($payment);
+
+            if ($verification->status === PaymentStatus::Succeeded) {
+                $markOrderPaid->handle($order, $payment, $verification->gatewayTransactionId);
+            } elseif ($verification->status === PaymentStatus::Failed) {
+                $payment->update(['status' => PaymentStatus::Failed]);
+            }
+
+            $order->refresh()->loadMissing('items', 'latestPayment');
+        }
 
         return Inertia::render('checkout/confirmation', [
             'order' => $this->orderPayload($order),

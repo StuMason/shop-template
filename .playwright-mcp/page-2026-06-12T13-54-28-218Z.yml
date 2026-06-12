@@ -1,0 +1,78 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - button "Back" [ref=e8] [cursor=pointer]:
+      - generic [ref=e9]:
+        - img [ref=e10]
+        - generic [ref=e13]: Back
+    - generic [ref=e14]:
+      - main [ref=e15]:
+        - generic [ref=e44]:
+          - heading "Make a one-off payment" [level=1] [ref=e46]
+          - paragraph [ref=e48]:
+            - text: By continuing, you agree to GoCardless triggering this one-off payment from your bank account, as per their
+            - link "Payer Terms of Use" [ref=e49] [cursor=pointer]:
+              - /url: https://gocardless.com/legal/payer-terms/
+            - text: .
+          - generic [ref=e53]:
+            - generic [ref=e54]:
+              - heading "Stu Mason" [level=2] [ref=e55]
+              - generic [ref=e56]:
+                - text: £18
+                - generic [ref=e57]: ".45"
+            - generic [ref=e58]: Order ORD-260612-PAQQ
+          - generic [ref=e62]:
+            - generic [ref=e64]: Email address
+            - textbox "Email address" [ref=e66]: stu-gc-test@example.com
+          - generic [ref=e67]: Bank selection is now available. You can now choose your bank to continue with the payment.
+          - generic [ref=e189]:
+            - generic [ref=e190]:
+              - img "Success Bank - Authorises the payment request, and returns payment with payer account details" [ref=e193]
+              - generic [ref=e194]:
+                - heading "Success Bank - Authorises the payment request, and returns payment with payer account details" [level=2] [ref=e195]
+                - generic [ref=e196]: Pay by bank app
+            - generic [ref=e197]:
+              - button "Change bank selection" [ref=e198] [cursor=pointer]: Change
+              - img [ref=e199]
+          - generic [ref=e202]:
+            - checkbox "Securely save info for faster checkout Use your saved details, to quickly set up future Direct Debit Payments with GoCardless, including for other business that collect via GoCardless." [ref=e203]
+            - generic [ref=e204] [cursor=pointer]:
+              - img [ref=e205]
+              - generic [ref=e207]:
+                - generic [ref=e208]: Securely save info for faster checkout
+                - paragraph [ref=e210]: Use your saved details, to quickly set up future Direct Debit Payments with GoCardless, including for other business that collect via GoCardless.
+          - generic [ref=e211]:
+            - generic [ref=e212]:
+              - generic [ref=e213]:
+                - heading "Scan QR code with your phone camera to pay" [level=3] [ref=e214]
+                - generic [ref=e215]:
+                  - img [ref=e216]
+                  - paragraph [ref=e220]: Secure login via bank's mobile app
+                - generic [ref=e221]:
+                  - img [ref=e222]
+                  - paragraph [ref=e225]: One click payment authentication
+                - button "How QR code payment selection works" [ref=e226] [cursor=pointer]: How it works
+              - generic [ref=e227]:
+                - generic [ref=e229]:
+                  - img [ref=e230]
+                  - generic [ref=e232]: Faster
+                - img "Bank authorisation QR code" [ref=e233]
+                - img "Success Bank - Authorises the payment request, and returns payment with payer account details" [ref=e237]
+            - paragraph [ref=e238]: Don't have your mobile banking app installed?
+            - button "Continue to bank website for manual login" [ref=e239] [cursor=pointer]:
+              - text: Continue to manual web login
+              - img [ref=e240]
+      - contentinfo [ref=e22]:
+        - generic [ref=e26]:
+          - generic [ref=e28]:
+            - generic [ref=e29]: Securely powered by
+            - img [ref=e31]
+          - generic [ref=e34]:
+            - link "stu@stuartmason.co.uk" [ref=e35] [cursor=pointer]:
+              - /url: mailto:stu@stuartmason.co.uk
+            - generic [ref=e38]:
+              - text: Payments securely processed by GoCardless. GoCardless Ltd (company registration number 07495895) is authorised by the Financial Conduct Authority under the Payment Services Regulations 2017, registration number 597190, for the provision of payment services.
+              - generic [ref=e40]:
+                - text: GoCardless uses personal data as described in their
+                - link "Privacy Notice." [ref=e41] [cursor=pointer]:
+                  - /url: https://gocardless.com/privacy/
+  - alert [ref=e43]: GoCardless

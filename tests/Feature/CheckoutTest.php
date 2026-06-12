@@ -10,6 +10,7 @@ use App\Models\ShippingMethod;
 use App\Notifications\OrderPaidNotification;
 use App\Payments\Gateways\FakeGateway;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\URL;
 
 function checkoutPayload(ShippingMethod $method): array
 {
@@ -185,4 +186,27 @@ it('still pays the order from the abandonment sweep when the gateway says succee
 
 it('redirects an empty basket away from checkout', function () {
     $this->get(route('checkout.show'))->assertRedirect(route('cart.show'));
+});
+
+it('self-heals a pending payment on the confirmation page', function () {
+    $method = ShippingMethod::factory()->create();
+    basketWithStock();
+
+    $this->post(route('checkout.store'), checkoutPayload($method));
+    $order = Order::query()->sole();
+
+    $this->post(route('checkout.pay.start', $order));
+    $payment = $order->payments()->sole();
+
+    // The bank authorised but fulfilment lagged: the return visit saw pending.
+    FakeGateway::willReturn($payment, PaymentStatus::Pending);
+    $this->get(URL::signedRoute('checkout.complete', ['order' => $order]));
+    expect($order->fresh()->status)->toBe(OrderStatus::Pending);
+
+    // Next poll of the confirmation page re-verifies and marks it paid.
+    FakeGateway::willReturn($payment, PaymentStatus::Succeeded);
+    $this->get(URL::signedRoute('checkout.complete', ['order' => $order]))
+        ->assertInertia(fn ($page) => $page->where('order.status', 'paid'));
+
+    expect($order->fresh()->status)->toBe(OrderStatus::Paid);
 });

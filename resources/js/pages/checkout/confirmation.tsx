@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePoll } from '@inertiajs/react';
 import { CircleAlert, CircleCheck, Clock } from 'lucide-react';
 import { Seo } from '@/components/seo';
 import { Button } from '@/components/ui/button';
@@ -26,6 +26,13 @@ type OrderSummary = {
     }[];
 };
 
+/** Re-asks the server (which re-verifies at the gateway) while pending. */
+function PendingPoller() {
+    usePoll(4000);
+
+    return null;
+}
+
 export default function CheckoutConfirmation({
     order,
     paymentStatus,
@@ -42,6 +49,7 @@ export default function CheckoutConfirmation({
     return (
         <>
             <Seo title={`Order ${order.number}`} noindex />
+            {!isPaid && !isFailed && <PendingPoller />}
 
             <div className="mx-auto w-full max-w-2xl px-4 py-10 text-center sm:px-6">
                 {isPaid ? (

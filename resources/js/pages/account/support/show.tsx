@@ -1,10 +1,7 @@
 import { Head, Link } from '@inertiajs/react';
 import { ArrowLeft } from 'lucide-react';
-import {
-    TicketReplyForm,
-    TicketThread,
-    type TicketMessage,
-} from '@/components/ticket-thread';
+import { TicketReplyForm, TicketThread } from '@/components/ticket-thread';
+import type { TicketMessage } from '@/components/ticket-thread';
 import { Badge } from '@/components/ui/badge';
 import { index, reply } from '@/routes/account/tickets';
 

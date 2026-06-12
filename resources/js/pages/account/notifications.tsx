@@ -2,8 +2,8 @@ import { Head, useForm } from '@inertiajs/react';
 import { BellOff } from 'lucide-react';
 import { Pagination } from '@/components/storefront/pagination';
 import { Button } from '@/components/ui/button';
-import { readAll } from '@/routes/account/notifications';
 import { cn } from '@/lib/utils';
+import { readAll } from '@/routes/account/notifications';
 import type { Paginated } from '@/types';
 
 type NotificationRow = {

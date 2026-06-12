@@ -123,7 +123,9 @@ Tick **Digital product** on a product and attach a file: stock and shipping
 stop applying, checkout skips delivery, and paid orders auto-complete with
 signed 30-day download links in the confirmation email (25 fetches per
 line, then the customer needs fresh links from you). Files live on the
-private disk, never the public one. Selling digital B2C into the EU has
+private disk, never the public one — on Coolify, add a volume for
+`storage/app/private` so deliverables survive redeploys (alongside the
+`database/` and `storage/app/public` volumes). Selling digital B2C into the EU has
 place-of-supply VAT rules — read up before you do.
 
 ## Selling to AI agents

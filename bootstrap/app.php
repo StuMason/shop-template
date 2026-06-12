@@ -18,6 +18,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // The container only ever sits behind the deployment's own reverse
+        // proxy (Coolify/Traefik); trust its X-Forwarded-* headers so https
+        // detection and signed URLs work.
+        $middleware->trustProxies(at: '*');
+
         $middleware->encryptCookies(except: ['appearance', 'sidebar_state']);
 
         $middleware->alias([

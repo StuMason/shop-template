@@ -117,6 +117,19 @@ the human at their own bank. Agents shop; people pay.
    a live access token and a webhook endpoint secret pointing at
    `/webhooks/gocardless`.
 
+## Selling to AI agents
+
+Three surfaces, all optional and all over the same checkout actions:
+
+- **MCP** (`/mcp/shop`) — always on; agents browse, build baskets, and get
+  a human pay link.
+- **ACP** — set `ACP_API_KEY` to enable the Agentic Commerce Protocol
+  (ChatGPT shopping et al.): product feed at `/acp/feed`, checkout
+  sessions at `/acp/checkout_sessions`.
+- **x402** — set `X402_ENABLED=true` + `X402_PAY_TO` (your wallet) and
+  agents can settle orders autonomously in USDC on Base, verified through
+  the x402 facilitator. Set `X402_FX_RATE` for non-USD shops.
+
 ## Address type-ahead (optional)
 
 Set `ADDRESS_LOOKUP=google` and a server-side `GOOGLE_PLACES_API_KEY`

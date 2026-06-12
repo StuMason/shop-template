@@ -9,6 +9,7 @@ use App\Actions\Checkout\ValidateCartStock;
 use App\Exceptions\InsufficientStockException;
 use App\Exceptions\InvalidDiscountException;
 use App\Mcp\Concerns\ResolvesBasket;
+use App\Payments\PaymentManager;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
@@ -26,6 +27,7 @@ class StartCheckout extends Tool
         private readonly ValidateCartStock $validateCartStock,
         private readonly ValidateCartDiscount $validateCartDiscount,
         private readonly CreateOrderFromCart $createOrderFromCart,
+        private readonly PaymentManager $payments,
     ) {}
 
     /**
@@ -72,7 +74,12 @@ class StartCheckout extends Tool
             'order_number' => $order->number,
             'total' => $order->formattedTotal(),
             'pay_url' => URL::signedRoute('checkout.pay', ['order' => $order]),
-            'instructions' => 'Send the customer to pay_url. They will review the order and approve the payment in their own banking app. Check progress with get-order-status.',
+            ...($this->payments->x402Enabled() ? [
+                'x402_payment_url' => URL::signedRoute('agent.pay.x402', ['order' => $order]),
+                'instructions' => 'Two ways to pay: send the customer to pay_url to authorise pay-by-bank themselves, OR settle autonomously in USDC via x402_payment_url (GET it, read the 402 payment requirements, retry with a signed X-PAYMENT header). Check progress with get-order-status.',
+            ] : [
+                'instructions' => 'Send the customer to pay_url. They will review the order and approve the payment in their own banking app. Check progress with get-order-status.',
+            ]),
         ]);
     }
 

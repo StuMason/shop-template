@@ -21,6 +21,25 @@ class PaymentManager extends Manager
         return (string) config('payments.default', 'fake');
     }
 
+    public function createX402Driver(): PaymentGateway
+    {
+        return new Gateways\X402Gateway(
+            facilitatorUrl: rtrim((string) $this->config->get('services.x402.facilitator_url'), '/'),
+            payTo: (string) $this->config->get('services.x402.pay_to'),
+            network: (string) $this->config->get('services.x402.network'),
+            fxRate: (float) $this->config->get('services.x402.fx_rate'),
+        );
+    }
+
+    /**
+     * Whether the agent stablecoin rail runs alongside the human gateway.
+     */
+    public function x402Enabled(): bool
+    {
+        return (bool) $this->config->get('services.x402.enabled')
+            && (string) $this->config->get('services.x402.pay_to') !== '';
+    }
+
     public function createFakeDriver(): PaymentGateway
     {
         return new FakeGateway;

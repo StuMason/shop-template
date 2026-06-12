@@ -54,4 +54,12 @@ return [
         'signature_secret' => env('ACP_SIGNATURE_SECRET'),
     ],
 
+    'x402' => [
+        'enabled' => env('X402_ENABLED', false),
+        'facilitator_url' => env('X402_FACILITATOR_URL', 'https://x402.org/facilitator'),
+        'pay_to' => env('X402_PAY_TO'),
+        'network' => env('X402_NETWORK', 'base'),
+        'fx_rate' => env('X402_FX_RATE', 1.0),
+    ],
+
 ];

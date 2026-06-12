@@ -19,6 +19,7 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\ProductVariant;
 use App\Models\ShippingMethod;
+use App\Payments\PaymentManager;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
@@ -280,9 +281,13 @@ class AcpCheckoutController extends Controller
         $links = [];
 
         if ($session->order !== null) {
-            // Payment: a human authorises pay-by-bank at this signed URL.
-            // (With the x402 rail enabled, agents can settle in USDC instead.)
+            // A human authorises pay-by-bank at this signed URL...
             $links['payment_url'] = URL::signedRoute('checkout.pay', ['order' => $session->order]);
+
+            // ...or, when the x402 rail is on, the agent settles in USDC.
+            if (app(PaymentManager::class)->x402Enabled()) {
+                $links['x402_payment_url'] = URL::signedRoute('agent.pay.x402', ['order' => $session->order]);
+            }
         }
 
         return response()->json([

@@ -6,6 +6,7 @@ use App\Http\Controllers\Storefront\PageController;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductVariant;
+use App\Payments\PaymentManager;
 use App\Support\ShopSettings;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
@@ -86,6 +87,14 @@ class SiteController extends Controller
             $out .= "> {$this->settings->tagline()} {$this->settings->description()}\n\n";
             $out .= "Each product has a machine-readable page at {$base}/products/SLUG.md and the full catalogue is at {$base}/llms-full.txt\n\n";
             $out .= "Agents can browse, build a basket and create a checkout link via the MCP server at {$base}/mcp/shop. ";
+
+            if ((string) config('services.acp.api_key') !== '') {
+                $out .= "This shop speaks the Agentic Commerce Protocol: product feed at {$base}/acp/feed, checkout sessions at {$base}/acp/checkout_sessions (Bearer key required). ";
+            }
+
+            if (app(PaymentManager::class)->x402Enabled()) {
+                $out .= 'Orders can be settled autonomously in USDC via x402 (start-checkout returns an x402_payment_url). ';
+            }
             $out .= "Payment is pay-by-bank: a human always reviews the order and authorises payment in their own banking app.\n\n";
 
             $categories = Category::query()->active()->orderBy('position')->get();

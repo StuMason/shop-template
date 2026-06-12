@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Agent\AcpCheckoutController;
 use App\Http\Controllers\Agent\AcpFeedController;
+use App\Http\Controllers\Agent\X402PaymentController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\Storefront\AddressLookupController;
 use App\Http\Controllers\Storefront\CartController;
@@ -72,6 +73,12 @@ Route::middleware(['auth', 'verified', DisableInertiaSsr::class])->group(functio
 require __DIR__.'/settings.php';
 require __DIR__.'/account.php';
 require __DIR__.'/admin.php';
+
+// x402: agents settle an order in USDC via the facilitator. Signed URL =
+// the capability to pay; humans keep using the normal gateway.
+Route::get('agent/orders/{order}/pay', X402PaymentController::class)
+    ->middleware(['signed', 'throttle:30,1'])
+    ->name('agent.pay.x402');
 
 // Agentic Commerce Protocol — the surface AI shopping agents speak.
 Route::prefix('acp')->middleware([AuthenticateAcp::class, 'throttle:60,1'])->name('acp.')->group(function () {

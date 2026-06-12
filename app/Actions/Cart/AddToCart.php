@@ -25,7 +25,7 @@ class AddToCart
 
         $targetQuantity = ($existing->quantity ?? 0) + $quantity;
 
-        if ($variant->stock < $targetQuantity) {
+        if (! $variant->product->is_digital && $variant->stock < $targetQuantity) {
             throw new InsufficientStockException($variant, $targetQuantity);
         }
 

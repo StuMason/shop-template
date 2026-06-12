@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Checkout;
 
+use App\Actions\Cart\ResolveCart;
 use App\Actions\Checkout\CheckoutData;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -27,7 +28,8 @@ class StoreCheckoutRequest extends FormRequest
         return [
             'email' => ['required', 'email', 'max:255'],
             'shipping_method_id' => [
-                'required',
+                // Digital-only baskets need no delivery.
+                $this->cartIsFullyDigital() ? 'nullable' : 'required',
                 'integer',
                 Rule::exists('shipping_methods', 'id')->where('is_active', true),
             ],
@@ -40,12 +42,21 @@ class StoreCheckoutRequest extends FormRequest
         ];
     }
 
+    protected function cartIsFullyDigital(): bool
+    {
+        $cart = app(ResolveCart::class)->find($this->user(), $this->session()->get('cart_token'));
+
+        return $cart !== null && $cart->isFullyDigital();
+    }
+
     public function toCheckoutData(): CheckoutData
     {
         return new CheckoutData(
             email: $this->validated('email'),
             shippingAddress: $this->validated('shipping_address'),
-            shippingMethodId: (int) $this->validated('shipping_method_id'),
+            shippingMethodId: $this->validated('shipping_method_id') !== null
+                ? (int) $this->validated('shipping_method_id')
+                : null,
             billingAddress: $this->boolean('billing_same_as_shipping', true)
                 ? null
                 : $this->validated('billing_address'),

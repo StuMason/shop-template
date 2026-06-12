@@ -95,6 +95,8 @@ class ProductController extends Controller
                 'description' => $product->description,
                 'status' => $product->status->value,
                 'vat_zero_rated' => $product->vat_zero_rated,
+                'is_digital' => $product->is_digital,
+                'download_file' => $product->getFirstMedia('downloads')?->file_name,
                 'meta_title' => $product->meta_title,
                 'meta_description' => $product->meta_description,
                 'category_ids' => $product->categories->pluck('id')->all(),

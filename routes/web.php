@@ -8,6 +8,7 @@ use App\Http\Controllers\Storefront\AddressLookupController;
 use App\Http\Controllers\Storefront\CartController;
 use App\Http\Controllers\Storefront\CategoryController;
 use App\Http\Controllers\Storefront\CheckoutController;
+use App\Http\Controllers\Storefront\DownloadController;
 use App\Http\Controllers\Storefront\HomeController;
 use App\Http\Controllers\Storefront\PageController;
 use App\Http\Controllers\Storefront\PaymentController;
@@ -33,6 +34,10 @@ Route::middleware('throttle:30,1')->group(function () {
     Route::get('address-lookup', [AddressLookupController::class, 'suggest'])->name('address-lookup.suggest');
     Route::get('address-lookup/resolve', [AddressLookupController::class, 'resolve'])->name('address-lookup.resolve');
 });
+
+Route::get('orders/{order}/downloads/{item}', DownloadController::class)
+    ->middleware(['signed', 'throttle:30,1'])
+    ->name('orders.download');
 
 Route::get('basket', [CartController::class, 'show'])->name('cart.show');
 Route::post('basket/items', [CartController::class, 'store'])->name('cart.items.store');

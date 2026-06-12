@@ -24,6 +24,7 @@ type OrderDetail = {
         quantity: number;
         unit_price: string;
         line_total: string;
+        download_url: string | null;
     }[];
 };
 
@@ -111,6 +112,17 @@ export default function AccountOrderShow({ order }: { order: OrderDetail }) {
                                                 {' '}
                                                 ({item.variant_name})
                                             </span>
+                                        )}
+                                        {item.download_url && (
+                                            <>
+                                                {' '}
+                                                <a
+                                                    href={item.download_url}
+                                                    className="underline underline-offset-4"
+                                                >
+                                                    Download
+                                                </a>
+                                            </>
                                         )}
                                     </td>
                                     <td className="px-4 py-3 text-muted-foreground">

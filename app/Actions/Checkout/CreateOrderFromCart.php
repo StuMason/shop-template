@@ -51,17 +51,29 @@ class CreateOrderFromCart
             throw new InvalidArgumentException('Cannot check out an empty basket.');
         }
 
-        $shippingMethod = ShippingMethod::query()
-            ->active()
-            ->whereKey($data->shippingMethodId)
-            ->firstOrFail();
+        // Digital-only orders need no delivery; everything else must name
+        // an active shipping method.
+        $fullyDigital = $cart->isFullyDigital();
+
+        if (! $fullyDigital && $data->shippingMethodId === null) {
+            throw new InvalidArgumentException('A shipping method is required for physical items.');
+        }
+
+        $shippingMethod = $fullyDigital && $data->shippingMethodId === null
+            ? null
+            : ShippingMethod::query()->active()->whereKey($data->shippingMethodId)->firstOrFail();
 
         try {
             return DB::transaction(function () use ($cart, $data, $shippingMethod): Order {
                 $lowStock = [];
 
-                // Lock and decrement stock inside the transaction.
+                // Lock and decrement stock inside the transaction. Digital
+                // products carry no stock and skip the gate entirely.
                 foreach ($cart->items as $item) {
+                    if ($item->variant->product->is_digital) {
+                        continue;
+                    }
+
                     $variant = ProductVariant::query()
                         ->whereKey($item->product_variant_id)
                         ->lockForUpdate()
@@ -101,7 +113,7 @@ class CreateOrderFromCart
                 }
 
                 $discountedSubtotal = max($subtotal - $discountTotal, 0);
-                $shippingTotal = $shippingMethod->priceFor($discountedSubtotal);
+                $shippingTotal = $shippingMethod?->priceFor($discountedSubtotal) ?? 0;
 
                 // VAT contained in the inclusive prices (zero-rated products
                 // excluded, discount applied proportionally; delivery follows
@@ -133,7 +145,7 @@ class CreateOrderFromCart
                     'shipping_total' => $shippingTotal,
                     'vat_total' => $vatTotal,
                     'total' => $discountedSubtotal + $shippingTotal,
-                    'shipping_method_name' => $shippingMethod->name,
+                    'shipping_method_name' => $shippingMethod?->name,
                     'shipping_address' => $data->shippingAddress,
                     'billing_address' => $data->billingAddressOrShipping(),
                     'customer_note' => $data->customerNote,
@@ -149,6 +161,7 @@ class CreateOrderFromCart
                         'unit_price' => $item->variant->price,
                         'quantity' => $item->quantity,
                         'line_total' => $item->lineTotal(),
+                        'is_digital' => $item->variant->product->is_digital,
                     ]);
                 }
 

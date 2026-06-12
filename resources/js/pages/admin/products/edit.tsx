@@ -15,6 +15,7 @@ import {
     destroy as destroyProduct,
     update as updateProduct,
 } from '@/routes/admin/products';
+import { store as storeDownloadFile } from '@/routes/admin/products/download-file';
 import {
     destroy as destroyMedia,
     store as storeMedia,
@@ -28,18 +29,79 @@ type AdminProductDetail = {
     description: string | null;
     status: string;
     vat_zero_rated: boolean;
+    is_digital: boolean;
     meta_title: string | null;
     meta_description: string | null;
     category_ids: number[];
     options: AdminOption[];
     variants: AdminVariant[];
     images: { id: number; url: string; name: string }[];
+    download_file: string | null;
 };
 
 type AdminProductsEditProps = {
     product: AdminProductDetail;
     categories: { id: number; name: string }[];
 };
+
+function DownloadFileManager({ product }: { product: AdminProductDetail }) {
+    const fileInput = useRef<HTMLInputElement>(null);
+    const uploadForm = useForm<{ file: File | null }>({ file: null });
+
+    function uploadSelected(files: FileList | null) {
+        if (!files || files.length === 0) {
+            return;
+        }
+
+        uploadForm.setData('file', files[0]);
+        uploadForm.post(storeDownloadFile(product.id).url, {
+            forceFormData: true,
+            preserveScroll: true,
+            onSuccess: () => uploadForm.reset(),
+        });
+    }
+
+    return (
+        <section
+            aria-labelledby="download-heading"
+            className="flex flex-col gap-3"
+        >
+            <div className="flex items-center justify-between">
+                <h2 id="download-heading" className="text-base font-semibold">
+                    Digital deliverable
+                </h2>
+                <div>
+                    <input
+                        ref={fileInput}
+                        type="file"
+                        className="sr-only"
+                        aria-label="Upload the digital deliverable"
+                        onChange={(event) => uploadSelected(event.target.files)}
+                    />
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        disabled={uploadForm.processing}
+                        onClick={() => fileInput.current?.click()}
+                    >
+                        <Upload className="size-4" aria-hidden="true" />
+                        {uploadForm.processing
+                            ? 'Uploading…'
+                            : product.download_file
+                              ? 'Replace file'
+                              : 'Upload file'}
+                    </Button>
+                </div>
+            </div>
+            <InputError message={uploadForm.errors.file} />
+            <p className="text-sm text-muted-foreground">
+                {product.download_file
+                    ? `Buyers receive: ${product.download_file}`
+                    : 'No file yet — buyers will see an error until one is attached. Stored privately; delivered via signed links.'}
+            </p>
+        </section>
+    );
+}
 
 function ImageManager({ product }: { product: AdminProductDetail }) {
     const fileInput = useRef<HTMLInputElement>(null);
@@ -142,6 +204,7 @@ export default function AdminProductsEdit({
         description: string;
         status: string;
         vat_zero_rated: boolean;
+        is_digital: boolean;
         meta_title: string;
         meta_description: string;
         category_ids: number[];
@@ -151,6 +214,7 @@ export default function AdminProductsEdit({
         description: product.description ?? '',
         status: product.status,
         vat_zero_rated: product.vat_zero_rated,
+        is_digital: product.is_digital,
         meta_title: product.meta_title ?? '',
         meta_description: product.meta_description ?? '',
         category_ids: product.category_ids,
@@ -256,6 +320,17 @@ export default function AdminProductsEdit({
                         VAT zero-rated (books, children's clothing, …)
                     </label>
 
+                    <label className="flex items-center gap-2 text-sm">
+                        <Checkbox
+                            checked={data.is_digital}
+                            onCheckedChange={(checked) =>
+                                setData('is_digital', checked === true)
+                            }
+                        />
+                        Digital product (no shipping — buyers get download
+                        links; attach the file below)
+                    </label>
+
                     <fieldset className="grid gap-2">
                         <legend className="text-sm font-medium">
                             Categories
@@ -342,6 +417,9 @@ export default function AdminProductsEdit({
                 />
                 <Separator />
                 <ImageManager product={product} />
+                {product.is_digital && (
+                    <DownloadFileManager product={product} />
+                )}
                 <Separator />
 
                 <section

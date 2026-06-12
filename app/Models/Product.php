@@ -25,13 +25,14 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property string|null $description
  * @property ProductStatus $status
  * @property bool $vat_zero_rated
+ * @property bool $is_digital
  * @property string|null $meta_title
  * @property string|null $meta_description
  * @property Carbon|null $published_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['name', 'slug', 'description', 'status', 'vat_zero_rated', 'meta_title', 'meta_description', 'published_at'])]
+#[Fillable(['name', 'slug', 'description', 'status', 'vat_zero_rated', 'is_digital', 'meta_title', 'meta_description', 'published_at'])]
 class Product extends Model implements HasMedia
 {
     /** @use HasFactory<ProductFactory> */
@@ -90,6 +91,10 @@ class Product extends Model implements HasMedia
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('images');
+
+        // Digital deliverables live on the private local disk — never the
+        // public one. Customers reach them only via signed download routes.
+        $this->addMediaCollection('downloads')->useDisk('local')->singleFile();
     }
 
     public function registerMediaConversions(?Media $media = null): void
@@ -172,6 +177,7 @@ class Product extends Model implements HasMedia
         return [
             'status' => ProductStatus::class,
             'vat_zero_rated' => 'boolean',
+            'is_digital' => 'boolean',
             'published_at' => 'datetime',
         ];
     }

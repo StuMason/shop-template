@@ -13,7 +13,7 @@ type OrderSummary = {
     discount_total: string | null;
     discount_code: string | null;
     shipping_total: string;
-    shipping_method: string;
+    shipping_method: string | null;
     vat_total: string | null;
     vat_number: string | null;
     total: string;
@@ -23,6 +23,7 @@ type OrderSummary = {
         variant_name: string;
         quantity: number;
         line_total: string;
+        download_url: string | null;
     }[];
 };
 
@@ -96,6 +97,17 @@ export default function CheckoutConfirmation({
                                     {item.variant_name !== 'Default'
                                         ? ` (${item.variant_name})`
                                         : ''}
+                                    {item.download_url && (
+                                        <>
+                                            {' — '}
+                                            <a
+                                                href={item.download_url}
+                                                className="underline underline-offset-4"
+                                            >
+                                                Download
+                                            </a>
+                                        </>
+                                    )}
                                 </span>
                                 <span>{item.line_total}</span>
                             </div>
@@ -112,10 +124,12 @@ export default function CheckoutConfirmation({
                                 <span>−{order.discount_total}</span>
                             </div>
                         )}
-                        <div className="flex justify-between">
-                            <span>{order.shipping_method}</span>
-                            <span>{order.shipping_total}</span>
-                        </div>
+                        {order.shipping_method && (
+                            <div className="flex justify-between">
+                                <span>{order.shipping_method}</span>
+                                <span>{order.shipping_total}</span>
+                            </div>
+                        )}
                         <div className="flex justify-between pt-1 text-base font-semibold">
                             <span>Total</span>
                             <span>{order.total}</span>

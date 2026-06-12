@@ -117,6 +117,15 @@ the human at their own bank. Agents shop; people pay.
    a live access token and a webhook endpoint secret pointing at
    `/webhooks/gocardless`.
 
+## Digital products
+
+Tick **Digital product** on a product and attach a file: stock and shipping
+stop applying, checkout skips delivery, and paid orders auto-complete with
+signed 30-day download links in the confirmation email (25 fetches per
+line, then the customer needs fresh links from you). Files live on the
+private disk, never the public one. Selling digital B2C into the EU has
+place-of-supply VAT rules — read up before you do.
+
 ## Selling to AI agents
 
 Three surfaces, all optional and all over the same checkout actions:

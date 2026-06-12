@@ -54,6 +54,17 @@ class Cart extends Model
         return $this->hasMany(CartItem::class);
     }
 
+    /**
+     * True when every line is a digital product — no shipping needed.
+     */
+    public function isFullyDigital(): bool
+    {
+        $this->loadMissing('items.variant.product');
+
+        return $this->items->isNotEmpty()
+            && $this->items->every(fn (CartItem $item): bool => $item->variant->product->is_digital);
+    }
+
     public function isActive(): bool
     {
         return $this->status === CartStatus::Active;

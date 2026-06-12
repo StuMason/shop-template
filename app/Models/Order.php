@@ -28,7 +28,7 @@ use InvalidArgumentException;
  * @property int $shipping_total
  * @property int $vat_total
  * @property int $total
- * @property string $shipping_method_name
+ * @property string|null $shipping_method_name
  * @property string|null $carrier
  * @property string|null $tracking_number
  * @property array<string, string|null> $shipping_address
@@ -126,6 +126,17 @@ class Order extends Model
     public function formattedVatTotal(): string
     {
         return Money::format($this->vat_total, $this->currency);
+    }
+
+    /**
+     * True when every line is digital — fulfilment is instant downloads.
+     */
+    public function isFullyDigital(): bool
+    {
+        $this->loadMissing('items');
+
+        return $this->items->isNotEmpty()
+            && $this->items->every(fn (OrderItem $item): bool => $item->is_digital);
     }
 
     public function formattedDiscountTotal(): string

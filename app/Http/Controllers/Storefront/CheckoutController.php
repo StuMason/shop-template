@@ -54,6 +54,7 @@ class CheckoutController extends Controller
             ->first();
 
         return Inertia::render('checkout/show', [
+            'requiresShipping' => ! $cart->isFullyDigital(),
             'shippingMethods' => $shippingMethods,
             'email' => $request->user()?->email,
             'defaultAddress' => $defaultAddress?->toSnapshot(),

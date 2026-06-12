@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -63,6 +64,9 @@ class OrderController extends Controller
                     'quantity' => $item->quantity,
                     'unit_price' => $item->formattedUnitPrice(),
                     'line_total' => $item->formattedLineTotal(),
+                    'download_url' => $item->is_digital && $order->paid_at !== null
+                        ? URL::temporarySignedRoute('orders.download', now()->addDays(30), ['order' => $order, 'item' => $item])
+                        : null,
                 ])->all(),
             ],
         ]);

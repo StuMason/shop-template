@@ -14,9 +14,14 @@ class ValidateCartStock
      */
     public function handle(Cart $cart): void
     {
-        $cart->loadMissing('items.variant');
+        $cart->loadMissing('items.variant.product');
 
         foreach ($cart->items as $item) {
+            // Digital products have no stock to run out of.
+            if ($item->variant->product->is_digital) {
+                continue;
+            }
+
             if ($item->variant->stock < $item->quantity) {
                 throw new InsufficientStockException($item->variant, $item->quantity);
             }

@@ -15,6 +15,11 @@ class RestockOrderItems
         $order->loadMissing('items');
 
         foreach ($order->items as $item) {
+            // Digital items never took stock.
+            if ($item->is_digital) {
+                continue;
+            }
+
             if ($item->product_variant_id !== null) {
                 ProductVariant::query()
                     ->whereKey($item->product_variant_id)

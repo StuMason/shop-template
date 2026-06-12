@@ -53,6 +53,7 @@ export type ProductDetail = {
     id: number;
     name: string;
     slug: string;
+    is_digital: boolean;
     description: string | null;
     meta_title: string | null;
     meta_description: string | null;

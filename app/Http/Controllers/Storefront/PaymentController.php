@@ -119,6 +119,9 @@ class PaymentController extends Controller
             'total' => $order->formattedTotal(),
             'shipping_address' => $order->shipping_address,
             'items' => $order->items->map(fn (OrderItem $item): array => [
+                'download_url' => $item->is_digital && $order->paid_at !== null
+                    ? URL::temporarySignedRoute('orders.download', now()->addDays(30), ['order' => $order, 'item' => $item])
+                    : null,
                 'id' => $item->id,
                 'product_name' => $item->product_name,
                 'variant_name' => $item->variant_name,

@@ -12,7 +12,7 @@ type OrderSummary = {
     discount_total: string | null;
     discount_code: string | null;
     shipping_total: string;
-    shipping_method: string;
+    shipping_method: string | null;
     vat_total: string | null;
     total: string;
     shipping_address: Record<string, string | null>;
@@ -86,10 +86,12 @@ export default function CheckoutPay({
                                 <span>−{order.discount_total}</span>
                             </div>
                         )}
-                        <div className="flex justify-between">
-                            <span>{order.shipping_method}</span>
-                            <span>{order.shipping_total}</span>
-                        </div>
+                        {order.shipping_method && (
+                            <div className="flex justify-between">
+                                <span>{order.shipping_method}</span>
+                                <span>{order.shipping_total}</span>
+                            </div>
+                        )}
                         <div className="flex justify-between pt-1 text-base font-semibold">
                             <span>Total</span>
                             <span>{order.total}</span>

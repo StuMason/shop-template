@@ -32,6 +32,7 @@ Route::middleware(['auth', 'verified', 'role:admin|staff', DisableInertiaSsr::cl
         Route::delete('products/{product}/options/{option}', [ProductOptionController::class, 'destroy'])->name('products.options.destroy');
 
         Route::post('products/{product}/media', [ProductMediaController::class, 'store'])->name('products.media.store');
+        Route::post('products/{product}/download-file', [ProductMediaController::class, 'storeDownload'])->name('products.download-file.store');
         Route::delete('products/{product}/media/{mediaId}', [ProductMediaController::class, 'destroy'])->name('products.media.destroy');
 
         Route::get('orders', [OrderController::class, 'index'])->name('orders.index');

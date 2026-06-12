@@ -23,14 +23,28 @@ use Illuminate\Support\Carbon;
  * @property int $unit_price
  * @property int $quantity
  * @property int $line_total
+ * @property bool $is_digital
+ * @property int $download_count
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['product_variant_id', 'product_name', 'variant_name', 'sku', 'unit_price', 'quantity', 'line_total'])]
+#[Fillable(['product_variant_id', 'product_name', 'variant_name', 'sku', 'unit_price', 'quantity', 'line_total', 'is_digital', 'download_count'])]
 class OrderItem extends Model
 {
     /** @use HasFactory<OrderItemFactory> */
     use HasFactory;
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'is_digital' => 'boolean',
+        ];
+    }
 
     /**
      * @return BelongsTo<Order, $this>

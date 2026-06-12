@@ -47,7 +47,7 @@ class StartCheckout extends Tool
 
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'email'],
-            'shipping_method_id' => ['required', 'integer', 'exists:shipping_methods,id'],
+            'shipping_method_id' => ['nullable', 'integer', 'exists:shipping_methods,id'],
             ...CheckoutData::addressRules('shipping_address'),
         ]);
 
@@ -64,7 +64,9 @@ class StartCheckout extends Tool
             $order = $this->createOrderFromCart->handle($cart, new CheckoutData(
                 email: $validated['email'],
                 shippingAddress: $validated['shipping_address'],
-                shippingMethodId: (int) $validated['shipping_method_id'],
+                shippingMethodId: isset($validated['shipping_method_id'])
+                    ? (int) $validated['shipping_method_id']
+                    : null,
             ));
         } catch (InsufficientStockException|InvalidDiscountException $exception) {
             return Response::error($exception->getMessage());
@@ -93,7 +95,7 @@ class StartCheckout extends Tool
         return [
             'basket_token' => $schema->string()->description('The basket token from create-basket.')->required(),
             'email' => $schema->string()->description('Customer email for order confirmation.')->required(),
-            'shipping_method_id' => $schema->integer()->description('Delivery method ID from list-shipping-methods.')->required(),
+            'shipping_method_id' => $schema->integer()->description('Delivery method ID from list-shipping-methods. Omit for baskets containing only digital products.'),
             'shipping_address' => $schema->object([
                 'name' => $schema->string()->required(),
                 'line1' => $schema->string()->required(),

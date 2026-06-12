@@ -27,7 +27,7 @@ class ProductCardResource extends JsonResource
             'slug' => $this->slug,
             'price' => $this->defaultVariant?->formattedPrice(),
             'compare_at_price' => $this->defaultVariant?->formattedCompareAtPrice(),
-            'in_stock' => $this->variants->contains(fn ($variant): bool => $variant->isInStock()),
+            'in_stock' => $this->is_digital || $this->variants->contains(fn ($variant): bool => $variant->isInStock()),
             'image' => $this->imagePayload('thumb'),
         ];
     }

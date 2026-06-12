@@ -246,6 +246,12 @@ export default function ProductShow({
                         ))}
 
                         <div className="flex flex-col gap-2">
+                            {product.is_digital && (
+                                <p className="text-sm text-muted-foreground">
+                                    Digital download — delivered instantly by
+                                    email after payment.
+                                </p>
+                            )}
                             <AddToBasketButton variant={selectedVariant} />
                             {selectedVariant?.low_stock && (
                                 <p className="text-sm text-amber-600 dark:text-amber-500">

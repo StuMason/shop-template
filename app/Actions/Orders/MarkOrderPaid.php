@@ -31,5 +31,12 @@ class MarkOrderPaid
         $order->update(['paid_at' => now()]);
 
         OrderPaid::dispatch($order);
+
+        // Digital-only orders fulfil themselves: the paid email carries the
+        // download links, so there is nothing left to ship.
+        if ($order->isFullyDigital()) {
+            $order->transitionTo(OrderStatus::Delivered);
+            $order->update(['delivered_at' => now()]);
+        }
     }
 }

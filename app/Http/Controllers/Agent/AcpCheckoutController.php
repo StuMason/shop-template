@@ -109,10 +109,12 @@ class AcpCheckoutController extends Controller
             return $this->payload($session, ['Session is no longer open.'], 409);
         }
 
+        $fullyDigital = $session->cart->isFullyDigital();
+
         $missing = array_keys(array_filter([
             'buyer email' => $session->email === null,
             'shipping address' => $session->shipping_address === null,
-            'fulfillment option' => $session->shipping_method_id === null,
+            'fulfillment option' => ! $fullyDigital && $session->shipping_method_id === null,
         ]));
 
         if ($missing !== []) {
@@ -128,7 +130,9 @@ class AcpCheckoutController extends Controller
             $order = $createOrderFromCart->handle($cart, new CheckoutData(
                 email: (string) $session->email,
                 shippingAddress: $session->shipping_address ?? [],
-                shippingMethodId: (int) $session->shipping_method_id,
+                shippingMethodId: $session->shipping_method_id !== null
+                    ? (int) $session->shipping_method_id
+                    : null,
                 customerNote: 'Placed by an AI agent via ACP.',
             ));
         } catch (InsufficientStockException|InvalidDiscountException $exception) {

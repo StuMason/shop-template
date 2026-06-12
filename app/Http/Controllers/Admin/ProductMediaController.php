@@ -10,6 +10,20 @@ use Illuminate\Http\Request;
 class ProductMediaController extends Controller
 {
     /**
+     * Attach the digital deliverable (single file, private disk).
+     */
+    public function storeDownload(Request $request, Product $product): RedirectResponse
+    {
+        $request->validate([
+            'file' => ['required', 'file', 'max:204800'],
+        ]);
+
+        $product->addMediaFromRequest('file')->toMediaCollection('downloads');
+
+        return back()->with('success', 'Download file attached.');
+    }
+
+    /**
      * Attach uploaded images to the product.
      */
     public function store(Request $request, Product $product): RedirectResponse

@@ -22,6 +22,7 @@ type AddressForm = {
 };
 
 type CheckoutShowProps = {
+    requiresShipping: boolean;
     shippingMethods: {
         id: number;
         name: string;
@@ -175,6 +176,7 @@ function AddressFields({
 }
 
 export default function CheckoutShow({
+    requiresShipping,
     shippingMethods,
     email,
     defaultAddress,
@@ -194,7 +196,9 @@ export default function CheckoutShow({
         customer_note: string;
     }>({
         email: email ?? '',
-        shipping_method_id: shippingMethods[0]?.id ?? null,
+        shipping_method_id: requiresShipping
+            ? (shippingMethods[0]?.id ?? null)
+            : null,
         shipping_address: { ...EMPTY_ADDRESS, ...defaultAddress },
         billing_same_as_shipping: true,
         billing_address: EMPTY_ADDRESS,
@@ -317,63 +321,76 @@ export default function CheckoutShow({
                         </section>
                     )}
 
-                    <section
-                        aria-labelledby="method-heading"
-                        className="grid gap-4"
-                    >
-                        <h2
-                            id="method-heading"
-                            className="text-lg font-semibold"
+                    {!requiresShipping && (
+                        <p className="rounded-lg border bg-muted/30 p-4 text-sm text-muted-foreground">
+                            Everything in your basket is a digital product —
+                            download links arrive by email as soon as payment
+                            clears. No delivery needed.
+                        </p>
+                    )}
+
+                    {requiresShipping && (
+                        <section
+                            aria-labelledby="method-heading"
+                            className="grid gap-4"
                         >
-                            Delivery
-                        </h2>
-                        <fieldset className="grid gap-2">
-                            <legend className="sr-only">
-                                Choose a delivery method
-                            </legend>
-                            {shippingMethods.map((method) => (
-                                <label
-                                    key={method.id}
-                                    className={`flex cursor-pointer items-center justify-between gap-4 rounded-lg border p-4 text-sm has-checked:border-primary ${
-                                        data.shipping_method_id === method.id
-                                            ? 'border-primary'
-                                            : ''
-                                    }`}
-                                >
-                                    <span className="flex items-center gap-3">
-                                        <input
-                                            type="radio"
-                                            name="shipping_method_id"
-                                            checked={
-                                                data.shipping_method_id ===
-                                                method.id
-                                            }
-                                            onChange={() =>
-                                                setData(
-                                                    'shipping_method_id',
-                                                    method.id,
-                                                )
-                                            }
-                                        />
-                                        <span>
-                                            <span className="font-medium">
-                                                {method.name}
-                                            </span>
-                                            {method.description && (
-                                                <span className="block text-muted-foreground">
-                                                    {method.description}
+                            <h2
+                                id="method-heading"
+                                className="text-lg font-semibold"
+                            >
+                                Delivery
+                            </h2>
+                            <fieldset className="grid gap-2">
+                                <legend className="sr-only">
+                                    Choose a delivery method
+                                </legend>
+                                {shippingMethods.map((method) => (
+                                    <label
+                                        key={method.id}
+                                        className={`flex cursor-pointer items-center justify-between gap-4 rounded-lg border p-4 text-sm has-checked:border-primary ${
+                                            data.shipping_method_id ===
+                                            method.id
+                                                ? 'border-primary'
+                                                : ''
+                                        }`}
+                                    >
+                                        <span className="flex items-center gap-3">
+                                            <input
+                                                type="radio"
+                                                name="shipping_method_id"
+                                                checked={
+                                                    data.shipping_method_id ===
+                                                    method.id
+                                                }
+                                                onChange={() =>
+                                                    setData(
+                                                        'shipping_method_id',
+                                                        method.id,
+                                                    )
+                                                }
+                                            />
+                                            <span>
+                                                <span className="font-medium">
+                                                    {method.name}
                                                 </span>
-                                            )}
+                                                {method.description && (
+                                                    <span className="block text-muted-foreground">
+                                                        {method.description}
+                                                    </span>
+                                                )}
+                                            </span>
                                         </span>
-                                    </span>
-                                    <span className="font-semibold">
-                                        {method.price}
-                                    </span>
-                                </label>
-                            ))}
-                            <InputError message={errors.shipping_method_id} />
-                        </fieldset>
-                    </section>
+                                        <span className="font-semibold">
+                                            {method.price}
+                                        </span>
+                                    </label>
+                                ))}
+                                <InputError
+                                    message={errors.shipping_method_id}
+                                />
+                            </fieldset>
+                        </section>
+                    )}
 
                     <section
                         aria-labelledby="summary-heading"

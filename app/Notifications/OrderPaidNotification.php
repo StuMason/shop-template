@@ -50,9 +50,11 @@ class OrderPaidNotification extends Notification implements ShouldQueue
             $message->line("- {$item->quantity} × {$item->product_name} ({$item->variant_name}) — {$item->formattedLineTotal()}");
         }
 
-        $message
-            ->line("Shipping: {$this->order->formattedShippingTotal()}")
-            ->line("Total: {$this->order->formattedTotal()}");
+        if (! $this->order->isFullyDigital()) {
+            $message->line("Shipping: {$this->order->formattedShippingTotal()}");
+        }
+
+        $message->line("Total: {$this->order->formattedTotal()}");
 
         if ($this->order->vat_total > 0) {
             $vatNumber = app(ShopSettings::class)->vatNumber();
@@ -63,9 +65,25 @@ class OrderPaidNotification extends Notification implements ShouldQueue
             );
         }
 
+        $digitalItems = $this->order->items->filter(fn ($item) => $item->is_digital);
+
+        if ($digitalItems->isNotEmpty()) {
+            $message->line('Your downloads (links valid for 30 days):');
+
+            foreach ($digitalItems as $item) {
+                $message->line("- {$item->product_name}: ".URL::temporarySignedRoute(
+                    'orders.download',
+                    now()->addDays(30),
+                    ['order' => $this->order, 'item' => $item],
+                ));
+            }
+        }
+
         return $message
             ->action('View your order', $url)
-            ->line("We'll let you know as soon as it ships. — {$shopName}");
+            ->line($this->order->isFullyDigital()
+                ? "Enjoy! — {$shopName}"
+                : "We'll let you know as soon as it ships. — {$shopName}");
     }
 
     /**

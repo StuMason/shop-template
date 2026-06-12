@@ -15,7 +15,7 @@ readonly class CheckoutData
     public function __construct(
         public string $email,
         public array $shippingAddress,
-        public int $shippingMethodId,
+        public ?int $shippingMethodId,
         public ?array $billingAddress = null,
         public ?string $customerNote = null,
     ) {}

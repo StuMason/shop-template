@@ -19,7 +19,7 @@ enum OrderStatus: string
     {
         return in_array($target, match ($this) {
             self::Pending => [self::Paid, self::Cancelled],
-            self::Paid => [self::Processing, self::Shipped, self::Cancelled, self::Refunded],
+            self::Paid => [self::Processing, self::Shipped, self::Delivered, self::Cancelled, self::Refunded],
             self::Processing => [self::Shipped, self::Cancelled, self::Refunded],
             self::Shipped => [self::Delivered, self::Refunded],
             self::Delivered => [self::Refunded],

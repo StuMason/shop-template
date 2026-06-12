@@ -14,6 +14,12 @@ return [
     |
     */
 
+    'gocardless' => [
+        'access_token' => env('GOCARDLESS_ACCESS_TOKEN'),
+        'environment' => env('GOCARDLESS_ENVIRONMENT', 'sandbox'),
+        'webhook_secret' => env('GOCARDLESS_WEBHOOK_SECRET'),
+    ],
+
     'postmark' => [
         'key' => env('POSTMARK_API_KEY'),
     ],

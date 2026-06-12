@@ -4,6 +4,9 @@ namespace App\Payments;
 
 use App\Payments\Contracts\PaymentGateway;
 use App\Payments\Gateways\FakeGateway;
+use App\Payments\Gateways\GoCardlessGateway;
+use GoCardlessPro\Client;
+use GoCardlessPro\Environment;
 use Illuminate\Support\Manager;
 
 /**
@@ -21,5 +24,15 @@ class PaymentManager extends Manager
     public function createFakeDriver(): PaymentGateway
     {
         return new FakeGateway;
+    }
+
+    public function createGocardlessDriver(): PaymentGateway
+    {
+        return new GoCardlessGateway(new Client([
+            'access_token' => (string) config('services.gocardless.access_token'),
+            'environment' => config('services.gocardless.environment') === 'live'
+                ? Environment::LIVE
+                : Environment::SANDBOX,
+        ]));
     }
 }

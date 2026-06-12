@@ -6,6 +6,7 @@ use App\Http\Controllers\Storefront\CheckoutController;
 use App\Http\Controllers\Storefront\HomeController;
 use App\Http\Controllers\Storefront\PaymentController;
 use App\Http\Controllers\Storefront\ProductController;
+use App\Http\Controllers\Webhooks\GoCardlessWebhookController;
 use App\Http\Controllers\Webhooks\PaymentWebhookController;
 use App\Http\Middleware\DisableInertiaSsr;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +41,10 @@ Route::middleware(DisableInertiaSsr::class)->group(function () {
 Route::post('webhooks/payments', PaymentWebhookController::class)
     ->middleware('throttle:webhooks')
     ->name('webhooks.payments');
+
+Route::post('webhooks/gocardless', GoCardlessWebhookController::class)
+    ->middleware('throttle:webhooks')
+    ->name('webhooks.gocardless');
 
 Route::middleware(['auth', 'verified', DisableInertiaSsr::class])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');

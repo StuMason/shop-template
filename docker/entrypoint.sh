@@ -75,6 +75,10 @@ STEP=$((STEP + 1))
 # Step 2: Application Optimization
 # ===========================================
 echo ""
+# Passport keys sign the admin MCP's OAuth tokens. Generate on first boot;
+# set PASSPORT_PRIVATE_KEY/PASSPORT_PUBLIC_KEY envs to persist across deploys.
+php artisan passport:keys --no-interaction 2>/dev/null || true
+
 echo "[$STEP/$TOTAL_STEPS] Optimizing application..."
 php artisan optimize
 echo "       Optimization completed (config, routes, views, events cached)."

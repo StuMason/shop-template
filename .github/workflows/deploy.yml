@@ -1,0 +1,34 @@
+name: deploy
+
+# Triggers a Coolify deployment after tests pass on main. Needs two repo
+# secrets: COOLIFY_URL (e.g. https://coolify.example.com) and COOLIFY_TOKEN,
+# plus COOLIFY_APPLICATION_UUID. Without them the job is skipped, so fresh
+# clones stay green.
+on:
+  workflow_run:
+    workflows: [tests]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
+    steps:
+      - name: Trigger Coolify deployment
+        env:
+          COOLIFY_URL: ${{ secrets.COOLIFY_URL }}
+          COOLIFY_TOKEN: ${{ secrets.COOLIFY_TOKEN }}
+          COOLIFY_APPLICATION_UUID: ${{ secrets.COOLIFY_APPLICATION_UUID }}
+        run: |
+          if [ -z "$COOLIFY_URL" ] || [ -z "$COOLIFY_TOKEN" ] || [ -z "$COOLIFY_APPLICATION_UUID" ]; then
+            echo "Coolify secrets not configured — skipping deployment."
+            exit 0
+          fi
+
+          curl --fail-with-body -X POST \
+            -H "Authorization: Bearer $COOLIFY_TOKEN" \
+            "$COOLIFY_URL/api/v1/deploy?uuid=$COOLIFY_APPLICATION_UUID"

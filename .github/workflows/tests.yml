@@ -54,8 +54,11 @@ jobs:
       - name: Generate Application Key
         run: php artisan key:generate
 
-      - name: Build Assets
-        run: npm run build
+      - name: Build Assets (client + SSR)
+        run: npm run build:ssr
+
+      - name: Frontend Type Check
+        run: npm run types:check
 
       - name: Run Type Analysis
         run: composer types:check

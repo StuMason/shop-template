@@ -380,9 +380,21 @@ export default function CheckoutShow({
                                     <span>{item.line_total}</span>
                                 </div>
                             ))}
-                            <div className="mt-2 flex justify-between border-t pt-2 font-semibold">
+                            <div className="mt-2 flex justify-between border-t pt-2">
                                 <span>Subtotal</span>
                                 <span>{basket?.subtotal_formatted}</span>
+                            </div>
+                            {basket?.discount_formatted && (
+                                <div className="flex justify-between text-muted-foreground">
+                                    <span>
+                                        Discount ({basket.discount_code})
+                                    </span>
+                                    <span>−{basket.discount_formatted}</span>
+                                </div>
+                            )}
+                            <div className="flex justify-between font-semibold">
+                                <span>Total before delivery</span>
+                                <span>{basket?.total_formatted}</span>
                             </div>
                         </div>
                         <InputError

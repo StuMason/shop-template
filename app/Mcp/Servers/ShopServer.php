@@ -3,6 +3,7 @@
 namespace App\Mcp\Servers;
 
 use App\Mcp\Tools\AddToBasket;
+use App\Mcp\Tools\ApplyDiscountToBasket;
 use App\Mcp\Tools\CreateBasket;
 use App\Mcp\Tools\GetOrderStatus;
 use App\Mcp\Tools\GetProduct;
@@ -41,6 +42,7 @@ class ShopServer extends Server
         ViewBasket::class,
         UpdateBasketItem::class,
         RemoveFromBasket::class,
+        ApplyDiscountToBasket::class,
         ListShippingMethods::class,
         StartCheckout::class,
         GetOrderStatus::class,

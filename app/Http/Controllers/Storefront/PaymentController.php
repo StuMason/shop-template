@@ -93,6 +93,8 @@ class PaymentController extends Controller
             'email' => $order->email,
             'status' => $order->status->value,
             'subtotal' => $order->formattedSubtotal(),
+            'discount_total' => $order->discount_total > 0 ? $order->formattedDiscountTotal() : null,
+            'discount_code' => $order->discount_code,
             'shipping_total' => $order->formattedShippingTotal(),
             'shipping_method' => $order->shipping_method_name,
             'vat_total' => $order->vat_total > 0 ? $order->formattedVatTotal() : null,

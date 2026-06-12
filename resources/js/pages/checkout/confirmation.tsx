@@ -10,6 +10,8 @@ type OrderSummary = {
     email: string;
     status: string;
     subtotal: string;
+    discount_total: string | null;
+    discount_code: string | null;
     shipping_total: string;
     shipping_method: string;
     vat_total: string | null;
@@ -96,6 +98,12 @@ export default function CheckoutConfirmation({
                             <span>Subtotal</span>
                             <span>{order.subtotal}</span>
                         </div>
+                        {order.discount_total && (
+                            <div className="flex justify-between text-muted-foreground">
+                                <span>Discount ({order.discount_code})</span>
+                                <span>−{order.discount_total}</span>
+                            </div>
+                        )}
                         <div className="flex justify-between">
                             <span>{order.shipping_method}</span>
                             <span>{order.shipping_total}</span>

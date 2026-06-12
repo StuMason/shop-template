@@ -8,6 +8,7 @@ use App\Events\LowStockDetected;
 use App\Events\OrderPlaced;
 use App\Exceptions\InsufficientStockException;
 use App\Models\Cart;
+use App\Models\Discount;
 use App\Models\Order;
 use App\Models\ProductVariant;
 use App\Models\ShippingMethod;
@@ -78,16 +79,41 @@ class CreateOrderFromCart
                 }
 
                 $subtotal = $cart->items->sum(fn ($item): int => $item->lineTotal());
-                $shippingTotal = $shippingMethod->priceFor($subtotal);
+
+                // Lock the discount row so concurrent checkouts can't exceed
+                // max_uses, then re-validate and snapshot it.
+                $discountTotal = 0;
+                $discountCode = null;
+
+                if ($cart->discount_id !== null) {
+                    $discount = Discount::query()
+                        ->whereKey($cart->discount_id)
+                        ->lockForUpdate()
+                        ->first();
+
+                    if ($discount !== null && $discount->rejectionReason($subtotal) === null) {
+                        $discountTotal = $discount->amountFor($subtotal);
+                        $discountCode = $discount->code;
+                        $discount->increment('used_count');
+                    }
+                }
+
+                $discountedSubtotal = max($subtotal - $discountTotal, 0);
+                $shippingTotal = $shippingMethod->priceFor($discountedSubtotal);
 
                 // VAT contained in the inclusive prices (zero-rated products
-                // excluded; delivery follows the standard rate).
+                // excluded, discount applied proportionally; delivery follows
+                // the standard rate).
                 $vatTotal = 0;
 
                 if ($this->settings->vatRegistered()) {
-                    $standardRated = $cart->items
+                    $standardRated = (int) $cart->items
                         ->reject(fn ($item): bool => $item->variant->product->vat_zero_rated)
                         ->sum(fn ($item): int => $item->lineTotal());
+
+                    if ($subtotal > 0) {
+                        $standardRated -= (int) round($discountTotal * $standardRated / $subtotal);
+                    }
 
                     $vatTotal = Vat::contained($standardRated + $shippingTotal, $this->settings->vatRate());
                 }
@@ -100,9 +126,11 @@ class CreateOrderFromCart
                     'status' => OrderStatus::Pending,
                     'currency' => $this->settings->currency(),
                     'subtotal' => $subtotal,
+                    'discount_total' => $discountTotal,
+                    'discount_code' => $discountCode,
                     'shipping_total' => $shippingTotal,
                     'vat_total' => $vatTotal,
-                    'total' => $subtotal + $shippingTotal,
+                    'total' => $discountedSubtotal + $shippingTotal,
                     'shipping_method_name' => $shippingMethod->name,
                     'shipping_address' => $data->shippingAddress,
                     'billing_address' => $data->billingAddressOrShipping(),

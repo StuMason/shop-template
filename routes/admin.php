@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductMediaController;
@@ -37,6 +38,8 @@ Route::middleware(['auth', 'verified', 'role:admin|staff', DisableInertiaSsr::cl
         Route::get('orders/{order:id}', [OrderController::class, 'show'])->name('orders.show');
         Route::patch('orders/{order:id}/status', [OrderController::class, 'updateStatus'])->name('orders.status');
         Route::post('payments/{payment}/refunds', [OrderController::class, 'storeRefund'])->name('payments.refunds.store');
+
+        Route::resource('discounts', DiscountController::class)->only(['index', 'store', 'update', 'destroy']);
 
         Route::get('support', [TicketController::class, 'index'])->name('tickets.index');
         Route::get('support/{ticket}', [TicketController::class, 'show'])->name('tickets.show');

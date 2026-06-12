@@ -2,6 +2,7 @@ import { Link, usePage } from '@inertiajs/react';
 import {
     LayoutGrid,
     LifeBuoy,
+    BadgePercent,
     Package,
     ReceiptText,
     Settings2,
@@ -26,6 +27,7 @@ import {
 import { dashboard, home } from '@/routes';
 import { dashboard as adminDashboard } from '@/routes/admin';
 import { index as adminCategoriesIndex } from '@/routes/admin/categories';
+import { index as adminDiscountsIndex } from '@/routes/admin/discounts';
 import { index as adminOrdersIndex } from '@/routes/admin/orders';
 import { index as adminProductsIndex } from '@/routes/admin/products';
 import { edit as adminSettingsEdit } from '@/routes/admin/settings';
@@ -67,6 +69,11 @@ const adminNavItems: NavItem[] = [
         title: 'Shipping',
         href: adminShippingIndex(),
         icon: Truck,
+    },
+    {
+        title: 'Discounts',
+        href: adminDiscountsIndex(),
+        icon: BadgePercent,
     },
     {
         title: 'Support',

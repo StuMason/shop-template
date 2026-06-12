@@ -28,6 +28,8 @@ Route::get('basket', [CartController::class, 'show'])->name('cart.show');
 Route::post('basket/items', [CartController::class, 'store'])->name('cart.items.store');
 Route::patch('basket/items/{item}', [CartController::class, 'update'])->name('cart.items.update');
 Route::delete('basket/items/{item}', [CartController::class, 'destroy'])->name('cart.items.destroy');
+Route::post('basket/discount', [CartController::class, 'applyDiscount'])->name('cart.discount.store');
+Route::delete('basket/discount', [CartController::class, 'removeDiscount'])->name('cart.discount.destroy');
 
 Route::middleware(DisableInertiaSsr::class)->group(function () {
     Route::get('checkout', [CheckoutController::class, 'show'])->name('checkout.show');

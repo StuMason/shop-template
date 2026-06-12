@@ -23,6 +23,8 @@ use InvalidArgumentException;
  * @property OrderStatus $status
  * @property string $currency
  * @property int $subtotal
+ * @property int $discount_total
+ * @property string|null $discount_code
  * @property int $shipping_total
  * @property int $vat_total
  * @property int $total
@@ -42,6 +44,7 @@ use InvalidArgumentException;
  */
 #[Fillable([
     'number', 'user_id', 'cart_id', 'email', 'status', 'currency', 'subtotal',
+    'discount_total', 'discount_code',
     'shipping_total', 'vat_total', 'total', 'shipping_method_name', 'carrier',
     'tracking_number', 'shipping_address', 'billing_address', 'customer_note',
     'placed_at', 'paid_at', 'shipped_at', 'delivered_at', 'cancelled_at',
@@ -123,6 +126,11 @@ class Order extends Model
     public function formattedVatTotal(): string
     {
         return Money::format($this->vat_total, $this->currency);
+    }
+
+    public function formattedDiscountTotal(): string
+    {
+        return Money::format($this->discount_total, $this->currency);
     }
 
     /**

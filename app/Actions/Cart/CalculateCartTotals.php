@@ -9,11 +9,19 @@ class CalculateCartTotals
 {
     public function handle(Cart $cart): CartTotals
     {
-        $cart->loadMissing('items.variant');
+        $cart->loadMissing('items.variant', 'discount');
+
+        $subtotal = (int) $cart->items->sum(fn ($item): int => $item->lineTotal());
+
+        // A discount that has become invalid (expired, fully redeemed, below
+        // minimum spend) silently contributes nothing rather than blocking.
+        $discount = $cart->discount?->amountFor($subtotal) ?? 0;
 
         return new CartTotals(
-            subtotal: $cart->items->sum(fn ($item): int => $item->lineTotal()),
+            subtotal: $subtotal,
             itemCount: (int) $cart->items->sum('quantity'),
+            discount: $discount,
+            discountCode: $discount > 0 ? $cart->discount->code : null,
         );
     }
 }

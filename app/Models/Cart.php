@@ -18,12 +18,13 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property string $token
  * @property int|null $user_id
+ * @property int|null $discount_id
  * @property CartStatus $status
  * @property Carbon|null $expires_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['token', 'user_id', 'status', 'expires_at'])]
+#[Fillable(['token', 'user_id', 'discount_id', 'status', 'expires_at'])]
 class Cart extends Model
 {
     /** @use HasFactory<CartFactory> */
@@ -35,6 +36,14 @@ class Cart extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return BelongsTo<Discount, $this>
+     */
+    public function discount(): BelongsTo
+    {
+        return $this->belongsTo(Discount::class);
     }
 
     /**

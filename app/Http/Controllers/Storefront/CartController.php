@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Storefront;
 
 use App\Actions\Cart\AddToCart;
+use App\Actions\Cart\ApplyDiscount;
 use App\Actions\Cart\RemoveCartItem;
+use App\Actions\Cart\RemoveDiscount;
 use App\Actions\Cart\ResolveCart;
 use App\Actions\Cart\UpdateCartItem;
 use App\Exceptions\InsufficientStockException;
+use App\Exceptions\InvalidDiscountException;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\CartItem;
@@ -79,6 +82,34 @@ class CartController extends Controller
     public function destroy(Request $request, CartItem $item, RemoveCartItem $removeCartItem): RedirectResponse
     {
         $removeCartItem->handle($this->resolveCartForWrite($request), $item);
+
+        return back();
+    }
+
+    /**
+     * Apply a discount code to the basket.
+     */
+    public function applyDiscount(Request $request, ApplyDiscount $applyDiscount): RedirectResponse
+    {
+        $validated = $request->validate([
+            'code' => ['required', 'string', 'max:64'],
+        ]);
+
+        try {
+            $discount = $applyDiscount->handle($this->resolveCartForWrite($request), $validated['code']);
+        } catch (InvalidDiscountException $exception) {
+            throw ValidationException::withMessages(['code' => $exception->getMessage()]);
+        }
+
+        return back()->with('success', "Code {$discount->code} applied.");
+    }
+
+    /**
+     * Remove the basket's discount code.
+     */
+    public function removeDiscount(Request $request, RemoveDiscount $removeDiscount): RedirectResponse
+    {
+        $removeDiscount->handle($this->resolveCartForWrite($request));
 
         return back();
     }

@@ -69,6 +69,14 @@ export function BasketDrawer({ basket }: { basket: Basket | null }) {
                                     {basket.subtotal_formatted}
                                 </span>
                             </div>
+                            {basket.discount_formatted && (
+                                <div className="flex items-center justify-between text-sm text-muted-foreground">
+                                    <span>
+                                        Discount ({basket.discount_code})
+                                    </span>
+                                    <span>−{basket.discount_formatted}</span>
+                                </div>
+                            )}
                             <p className="text-xs text-muted-foreground">
                                 Shipping is calculated at checkout.
                             </p>

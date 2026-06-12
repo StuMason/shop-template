@@ -90,6 +90,11 @@ export type Basket = {
     items: BasketItem[];
     subtotal: number;
     subtotal_formatted: string;
+    discount: number;
+    discount_formatted: string | null;
+    discount_code: string | null;
+    total: number;
+    total_formatted: string;
     item_count: number;
 };
 

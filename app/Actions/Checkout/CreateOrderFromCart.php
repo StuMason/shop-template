@@ -91,8 +91,10 @@ class CreateOrderFromCart
                         ->lockForUpdate()
                         ->first();
 
-                    if ($discount !== null && $discount->rejectionReason($subtotal) === null) {
-                        $discountTotal = $discount->amountFor($subtotal);
+                    $rejection = $discount?->rejectionReason($subtotal, $data->email, $cart->user_id);
+
+                    if ($discount !== null && $rejection === null) {
+                        $discountTotal = $discount->amountFor($subtotal, $data->email, $cart->user_id);
                         $discountCode = $discount->code;
                         $discount->increment('used_count');
                     }

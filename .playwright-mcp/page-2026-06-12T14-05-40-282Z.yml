@@ -1,0 +1,191 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - generic [ref=e7]:
+      - list [ref=e9]:
+        - listitem [ref=e10]:
+          - link "Laravel Starter Kit" [ref=e11] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=e13]
+            - generic [ref=e16]: Laravel Starter Kit
+      - generic [ref=e17]:
+        - generic [ref=e18]:
+          - generic [ref=e19]: Platform
+          - list [ref=e20]:
+            - listitem [ref=e21]:
+              - link "Dashboard" [ref=e22] [cursor=pointer]:
+                - /url: /dashboard
+                - img [ref=e23]
+                - generic [ref=e28]: Dashboard
+        - generic [ref=e29]:
+          - generic [ref=e30]: Shop admin
+          - list [ref=e31]:
+            - listitem [ref=e32]:
+              - link "Admin" [ref=e33] [cursor=pointer]:
+                - /url: /admin
+                - img [ref=e34]
+                - generic [ref=e39]: Admin
+            - listitem [ref=e40]:
+              - link "Products" [ref=e41] [cursor=pointer]:
+                - /url: /admin/products
+                - img [ref=e42]
+                - generic [ref=e46]: Products
+            - listitem [ref=e47]:
+              - link "Categories" [ref=e48] [cursor=pointer]:
+                - /url: /admin/categories
+                - img [ref=e49]
+                - generic [ref=e53]: Categories
+            - listitem [ref=e54]:
+              - link "Orders" [ref=e55] [cursor=pointer]:
+                - /url: /admin/orders
+                - img [ref=e56]
+                - generic [ref=e58]: Orders
+            - listitem [ref=e59]:
+              - link "Shipping" [ref=e60] [cursor=pointer]:
+                - /url: /admin/shipping
+                - img [ref=e61]
+                - generic [ref=e66]: Shipping
+            - listitem [ref=e67]:
+              - link "Discounts" [ref=e68] [cursor=pointer]:
+                - /url: /admin/discounts
+                - img [ref=e69]
+                - generic [ref=e72]: Discounts
+            - listitem [ref=e73]:
+              - link "Support" [ref=e74] [cursor=pointer]:
+                - /url: /admin/support
+                - img [ref=e75]
+                - generic [ref=e82]: Support
+            - listitem [ref=e83]:
+              - link "Users" [ref=e84] [cursor=pointer]:
+                - /url: /admin/users
+                - img [ref=e85]
+                - generic [ref=e89]: Users
+            - listitem [ref=e90]:
+              - link "Settings" [ref=e91] [cursor=pointer]:
+                - /url: /admin/settings
+                - img [ref=e92]
+                - generic [ref=e95]: Settings
+      - generic [ref=e96]:
+        - list [ref=e99]:
+          - listitem [ref=e100]:
+            - link "Storefront" [ref=e101] [cursor=pointer]:
+              - /url: /
+              - img [ref=e102]
+              - generic [ref=e107]: Storefront
+        - list [ref=e108]:
+          - listitem [ref=e109]:
+            - button "AU Admin User" [ref=e110]:
+              - generic [ref=e112]: AU
+              - generic [ref=e114]: Admin User
+              - img [ref=e115]
+    - main [ref=e118]:
+      - button "Toggle sidebar" [ref=e121]:
+        - img
+        - generic [ref=e122]: Toggle sidebar
+      - generic [ref=e123]:
+        - generic [ref=e124]:
+          - heading "Products" [level=1] [ref=e125]
+          - generic [ref=e126]:
+            - searchbox "Search products" [ref=e128]
+            - link "New product" [ref=e129] [cursor=pointer]:
+              - /url: /admin/products/create
+              - img
+              - text: New product
+        - table [ref=e132]:
+          - rowgroup [ref=e133]:
+            - row "Product Status Price Variants" [ref=e134]:
+              - columnheader "Product" [ref=e135]
+              - columnheader "Status" [ref=e136]
+              - columnheader "Price" [ref=e137]
+              - columnheader "Variants" [ref=e138]
+          - rowgroup [ref=e139]:
+            - row "Merino Beanie published £28.00 8" [ref=e140]:
+              - cell "Merino Beanie" [ref=e141]:
+                - link "Merino Beanie" [ref=e142] [cursor=pointer]:
+                  - /url: /admin/products/10/edit
+                  - text: Merino Beanie
+              - cell "published" [ref=e144]:
+                - generic [ref=e145]: published
+              - cell "£28.00" [ref=e146]
+              - cell "8" [ref=e147]
+            - row "Heavyweight Hoodie published £65.00 8" [ref=e148]:
+              - cell "Heavyweight Hoodie" [ref=e149]:
+                - link "Heavyweight Hoodie" [ref=e150] [cursor=pointer]:
+                  - /url: /admin/products/9/edit
+                  - text: Heavyweight Hoodie
+              - cell "published" [ref=e152]:
+                - generic [ref=e153]: published
+              - cell "£65.00" [ref=e154]
+              - cell "8" [ref=e155]
+            - row "Organic Cotton Tee published £25.00 8" [ref=e156]:
+              - cell "Organic Cotton Tee" [ref=e157]:
+                - link "Organic Cotton Tee" [ref=e158] [cursor=pointer]:
+                  - /url: /admin/products/8/edit
+                  - text: Organic Cotton Tee
+              - cell "published" [ref=e160]:
+                - generic [ref=e161]: published
+              - cell "£25.00" [ref=e162]
+              - cell "8" [ref=e163]
+            - row "Notebook Set published £15.00 1" [ref=e164]:
+              - cell "Notebook Set" [ref=e165]:
+                - link "Notebook Set" [ref=e166] [cursor=pointer]:
+                  - /url: /admin/products/7/edit
+                  - text: Notebook Set
+              - cell "published" [ref=e168]:
+                - generic [ref=e169]: published
+              - cell "£15.00" [ref=e170]
+              - cell "1" [ref=e171]
+            - row "Soy Candle published £22.00 1" [ref=e172]:
+              - cell "Soy Candle" [ref=e173]:
+                - link "Soy Candle" [ref=e174] [cursor=pointer]:
+                  - /url: /admin/products/6/edit
+                  - text: Soy Candle
+              - cell "published" [ref=e176]:
+                - generic [ref=e177]: published
+              - cell "£22.00" [ref=e178]
+              - cell "1" [ref=e179]
+            - row "Leather Keyring published £9.50 1" [ref=e180]:
+              - cell "Leather Keyring" [ref=e181]:
+                - link "Leather Keyring" [ref=e182] [cursor=pointer]:
+                  - /url: /admin/products/5/edit
+                  - text: Leather Keyring
+              - cell "published" [ref=e184]:
+                - generic [ref=e185]: published
+              - cell "£9.50" [ref=e186]
+              - cell "1" [ref=e187]
+            - row "Canvas Tote published £18.00 1" [ref=e188]:
+              - cell "Canvas Tote" [ref=e189]:
+                - link "Canvas Tote" [ref=e190] [cursor=pointer]:
+                  - /url: /admin/products/4/edit
+                  - text: Canvas Tote
+              - cell "published" [ref=e192]:
+                - generic [ref=e193]: published
+              - cell "£18.00" [ref=e194]
+              - cell "1" [ref=e195]
+            - row "Linen Tea Towel published £12.00 1" [ref=e196]:
+              - cell "Linen Tea Towel" [ref=e197]:
+                - link "Linen Tea Towel" [ref=e198] [cursor=pointer]:
+                  - /url: /admin/products/3/edit
+                  - text: Linen Tea Towel
+              - cell "published" [ref=e200]:
+                - generic [ref=e201]: published
+              - cell "£12.00" [ref=e202]
+              - cell "1" [ref=e203]
+            - row "Oak Chopping Board published £39.00 1" [ref=e204]:
+              - cell "Oak Chopping Board" [ref=e205]:
+                - link "Oak Chopping Board" [ref=e206] [cursor=pointer]:
+                  - /url: /admin/products/2/edit
+                  - text: Oak Chopping Board
+              - cell "published" [ref=e208]:
+                - generic [ref=e209]: published
+              - cell "£39.00" [ref=e210]
+              - cell "1" [ref=e211]
+            - row "Enamel Mug published £14.50 1" [ref=e212]:
+              - cell "Enamel Mug" [ref=e213]:
+                - link "Enamel Mug" [ref=e214] [cursor=pointer]:
+                  - /url: /admin/products/1/edit
+                  - text: Enamel Mug
+              - cell "published" [ref=e216]:
+                - generic [ref=e217]: published
+              - cell "£14.50" [ref=e218]
+              - cell "1" [ref=e219]
+  - region "Notifications alt+T"

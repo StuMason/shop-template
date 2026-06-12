@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Storefront;
 use App\Actions\Cart\CalculateCartTotals;
 use App\Actions\Cart\ResolveCart;
 use App\Actions\Checkout\CreateOrderFromCart;
+use App\Actions\Checkout\ValidateCartDiscount;
 use App\Actions\Checkout\ValidateCartStock;
 use App\Exceptions\InsufficientStockException;
+use App\Exceptions\InvalidDiscountException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Checkout\StoreCheckoutRequest;
 use App\Models\ShippingMethod;
@@ -67,6 +69,7 @@ class CheckoutController extends Controller
     public function store(
         StoreCheckoutRequest $request,
         ValidateCartStock $validateCartStock,
+        ValidateCartDiscount $validateCartDiscount,
         CreateOrderFromCart $createOrderFromCart,
     ): RedirectResponse {
         $cart = $this->resolveCart->find($request->user(), $request->session()->get('cart_token'));
@@ -77,8 +80,9 @@ class CheckoutController extends Controller
 
         try {
             $validateCartStock->handle($cart);
+            $validateCartDiscount->handle($cart, $request->validated('email'));
             $order = $createOrderFromCart->handle($cart, $request->toCheckoutData());
-        } catch (InsufficientStockException $exception) {
+        } catch (InsufficientStockException|InvalidDiscountException $exception) {
             throw ValidationException::withMessages(['basket' => $exception->getMessage()]);
         }
 

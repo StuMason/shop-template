@@ -29,6 +29,7 @@ class DiscountController extends Controller
                 'starts_at' => $discount->starts_at?->toDateString(),
                 'ends_at' => $discount->ends_at?->toDateString(),
                 'max_uses' => $discount->max_uses,
+                'once_per_customer' => $discount->once_per_customer,
                 'used_count' => $discount->used_count,
                 'is_active' => $discount->is_active,
             ]);
@@ -81,6 +82,7 @@ class DiscountController extends Controller
             'starts_at' => ['nullable', 'date'],
             'ends_at' => ['nullable', 'date', 'after_or_equal:starts_at'],
             'max_uses' => ['nullable', 'integer', 'min:1'],
+            'once_per_customer' => ['boolean'],
             'is_active' => ['boolean'],
         ]);
 

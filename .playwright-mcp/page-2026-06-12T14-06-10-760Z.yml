@@ -1,0 +1,272 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - generic [ref=e7]:
+      - list [ref=e9]:
+        - listitem [ref=e10]:
+          - link "Laravel Starter Kit" [ref=e11] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=e13]
+            - generic [ref=e16]: Laravel Starter Kit
+      - generic [ref=e17]:
+        - generic [ref=e18]:
+          - generic [ref=e19]: Platform
+          - list [ref=e20]:
+            - listitem [ref=e21]:
+              - link "Dashboard" [ref=e22] [cursor=pointer]:
+                - /url: /dashboard
+                - img [ref=e23]
+                - generic [ref=e28]: Dashboard
+        - generic [ref=e29]:
+          - generic [ref=e30]: Shop admin
+          - list [ref=e31]:
+            - listitem [ref=e32]:
+              - link "Admin" [ref=e33] [cursor=pointer]:
+                - /url: /admin
+                - img [ref=e34]
+                - generic [ref=e39]: Admin
+            - listitem [ref=e40]:
+              - link "Products" [ref=e41] [cursor=pointer]:
+                - /url: /admin/products
+                - img [ref=e42]
+                - generic [ref=e46]: Products
+            - listitem [ref=e47]:
+              - link "Categories" [ref=e48] [cursor=pointer]:
+                - /url: /admin/categories
+                - img [ref=e49]
+                - generic [ref=e53]: Categories
+            - listitem [ref=e54]:
+              - link "Orders" [ref=e55] [cursor=pointer]:
+                - /url: /admin/orders
+                - img [ref=e56]
+                - generic [ref=e58]: Orders
+            - listitem [ref=e59]:
+              - link "Shipping" [ref=e60] [cursor=pointer]:
+                - /url: /admin/shipping
+                - img [ref=e61]
+                - generic [ref=e66]: Shipping
+            - listitem [ref=e67]:
+              - link "Discounts" [ref=e68] [cursor=pointer]:
+                - /url: /admin/discounts
+                - img [ref=e69]
+                - generic [ref=e72]: Discounts
+            - listitem [ref=e73]:
+              - link "Support" [ref=e74] [cursor=pointer]:
+                - /url: /admin/support
+                - img [ref=e75]
+                - generic [ref=e82]: Support
+            - listitem [ref=e83]:
+              - link "Users" [ref=e84] [cursor=pointer]:
+                - /url: /admin/users
+                - img [ref=e85]
+                - generic [ref=e89]: Users
+            - listitem [ref=e90]:
+              - link "Settings" [ref=e91] [cursor=pointer]:
+                - /url: /admin/settings
+                - img [ref=e92]
+                - generic [ref=e95]: Settings
+      - generic [ref=e96]:
+        - list [ref=e99]:
+          - listitem [ref=e100]:
+            - link "Storefront" [ref=e101] [cursor=pointer]:
+              - /url: /
+              - img [ref=e102]
+              - generic [ref=e107]: Storefront
+        - list [ref=e108]:
+          - listitem [ref=e109]:
+            - button "AU Admin User" [ref=e110]:
+              - generic [ref=e112]: AU
+              - generic [ref=e114]: Admin User
+              - img [ref=e115]
+    - main [ref=e118]:
+      - button "Toggle sidebar" [ref=e121]:
+        - img
+        - generic [ref=e122]: Toggle sidebar
+      - generic [ref=e220]:
+        - generic [ref=e221]:
+          - heading "Organic Cotton Tee" [level=1] [ref=e222]
+          - link "View in shop" [ref=e223] [cursor=pointer]:
+            - /url: /products/organic-cotton-tee
+            - img
+            - text: View in shop
+        - generic [ref=e224]:
+          - generic [ref=e225]:
+            - generic [ref=e226]:
+              - generic [ref=e227]: Name
+              - textbox "Name" [ref=e228]: Organic Cotton Tee
+            - generic [ref=e229]:
+              - generic [ref=e230]: Slug
+              - textbox "Slug" [ref=e231]: organic-cotton-tee
+          - generic [ref=e232]:
+            - generic [ref=e233]: Description
+            - textbox "Description" [ref=e234]: A boxy-fit organic cotton tee, combed and ring-spun. Pre-shrunk. This is demo content seeded by the shop template — replace it with your own catalogue.
+          - generic [ref=e235]:
+            - generic [ref=e236]: Status
+            - combobox "Status" [ref=e237]:
+              - option "Draft"
+              - option "Published" [selected]
+              - option "Archived"
+          - generic [ref=e238]:
+            - checkbox "VAT zero-rated (books, children's clothing, …)" [ref=e239]
+            - checkbox
+            - text: VAT zero-rated (books, children's clothing, …)
+          - group "Categories" [ref=e240]:
+            - generic [ref=e241]: Categories
+            - generic [ref=e242]:
+              - generic [ref=e243]:
+                - checkbox "Accessories" [ref=e244]
+                - checkbox
+                - text: Accessories
+              - generic [ref=e245]:
+                - checkbox "Apparel" [checked] [ref=e246]:
+                  - generic:
+                    - img
+                - checkbox [checked]
+                - text: Apparel
+              - generic [ref=e247]:
+                - checkbox "Gifts" [ref=e248]
+                - checkbox
+                - text: Gifts
+              - generic [ref=e249]:
+                - checkbox "Homeware" [ref=e250]
+                - checkbox
+                - text: Homeware
+          - generic [ref=e251]:
+            - generic [ref=e252]:
+              - generic [ref=e253]: Meta title
+              - textbox "Meta title" [ref=e254]
+            - generic [ref=e255]:
+              - generic [ref=e256]: Meta description
+              - textbox "Meta description" [ref=e257]
+          - button "Save changes" [ref=e259]
+        - region "Options" [ref=e260]:
+          - generic [ref=e261]:
+            - heading "Options" [level=2] [ref=e262]
+            - button "Add option" [ref=e263]:
+              - img
+              - text: Add option
+          - list [ref=e264]:
+            - listitem [ref=e265]:
+              - generic [ref=e266]:
+                - paragraph [ref=e267]: Size
+                - paragraph [ref=e268]: S, M, L, XL
+              - generic [ref=e269]:
+                - button "Edit" [ref=e270]
+                - button "Delete Size" [ref=e271]:
+                  - img
+            - listitem [ref=e272]:
+              - generic [ref=e273]:
+                - paragraph [ref=e274]: Colour
+                - paragraph [ref=e275]: Black, Ecru
+              - generic [ref=e276]:
+                - button "Edit" [ref=e277]
+                - button "Delete Colour" [ref=e278]:
+                  - img
+        - region "Variants" [ref=e279]:
+          - generic [ref=e280]:
+            - heading "Variants" [level=2] [ref=e281]
+            - button "Add variant" [ref=e282]:
+              - img
+              - text: Add variant
+          - table [ref=e284]:
+            - rowgroup [ref=e285]:
+              - row "SKU Options Price Stock Actions" [ref=e286]:
+                - columnheader "SKU" [ref=e287]
+                - columnheader "Options" [ref=e288]
+                - columnheader "Price" [ref=e289]
+                - columnheader "Stock" [ref=e290]
+                - columnheader "Actions" [ref=e291]:
+                  - generic [ref=e292]: Actions
+            - rowgroup [ref=e293]:
+              - row "ORGANICCOTTO-275 default S / Black £25.00 25 Edit Delete ORGANICCOTTO-275" [ref=e294]:
+                - cell "ORGANICCOTTO-275 default" [ref=e295]:
+                  - text: ORGANICCOTTO-275
+                  - generic [ref=e296]: default
+                - cell "S / Black" [ref=e297]
+                - cell "£25.00" [ref=e298]
+                - cell "25" [ref=e299]
+                - cell "Edit Delete ORGANICCOTTO-275" [ref=e300]:
+                  - button "Edit" [ref=e301]
+                  - button "Delete ORGANICCOTTO-275" [ref=e302]:
+                    - img
+              - row "ORGANICCOTTO-292 S / Ecru £25.00 17 Edit Delete ORGANICCOTTO-292" [ref=e303]:
+                - cell "ORGANICCOTTO-292" [ref=e304]
+                - cell "S / Ecru" [ref=e305]
+                - cell "£25.00" [ref=e306]
+                - cell "17" [ref=e307]
+                - cell "Edit Delete ORGANICCOTTO-292" [ref=e308]:
+                  - button "Edit" [ref=e309]
+                  - button "Delete ORGANICCOTTO-292" [ref=e310]:
+                    - img
+              - row "ORGANICCOTTO-625 M / Black £25.00 9 Edit Delete ORGANICCOTTO-625" [ref=e311]:
+                - cell "ORGANICCOTTO-625" [ref=e312]
+                - cell "M / Black" [ref=e313]
+                - cell "£25.00" [ref=e314]
+                - cell "9" [ref=e315]
+                - cell "Edit Delete ORGANICCOTTO-625" [ref=e316]:
+                  - button "Edit" [ref=e317]
+                  - button "Delete ORGANICCOTTO-625" [ref=e318]:
+                    - img
+              - row "ORGANICCOTTO-645 M / Ecru £25.00 1 Edit Delete ORGANICCOTTO-645" [ref=e319]:
+                - cell "ORGANICCOTTO-645" [ref=e320]
+                - cell "M / Ecru" [ref=e321]
+                - cell "£25.00" [ref=e322]
+                - cell "1" [ref=e323]
+                - cell "Edit Delete ORGANICCOTTO-645" [ref=e324]:
+                  - button "Edit" [ref=e325]
+                  - button "Delete ORGANICCOTTO-645" [ref=e326]:
+                    - img
+              - row "ORGANICCOTTO-563 L / Black £25.00 0 Edit Delete ORGANICCOTTO-563" [ref=e327]:
+                - cell "ORGANICCOTTO-563" [ref=e328]
+                - cell "L / Black" [ref=e329]
+                - cell "£25.00" [ref=e330]
+                - cell "0" [ref=e331]
+                - cell "Edit Delete ORGANICCOTTO-563" [ref=e332]:
+                  - button "Edit" [ref=e333]
+                  - button "Delete ORGANICCOTTO-563" [ref=e334]:
+                    - img
+              - row "ORGANICCOTTO-609 L / Ecru £25.00 24 Edit Delete ORGANICCOTTO-609" [ref=e335]:
+                - cell "ORGANICCOTTO-609" [ref=e336]
+                - cell "L / Ecru" [ref=e337]
+                - cell "£25.00" [ref=e338]
+                - cell "24" [ref=e339]
+                - cell "Edit Delete ORGANICCOTTO-609" [ref=e340]:
+                  - button "Edit" [ref=e341]
+                  - button "Delete ORGANICCOTTO-609" [ref=e342]:
+                    - img
+              - row "ORGANICCOTTO-754 XL / Black £27.00 7 Edit Delete ORGANICCOTTO-754" [ref=e343]:
+                - cell "ORGANICCOTTO-754" [ref=e344]
+                - cell "XL / Black" [ref=e345]
+                - cell "£27.00" [ref=e346]
+                - cell "7" [ref=e347]
+                - cell "Edit Delete ORGANICCOTTO-754" [ref=e348]:
+                  - button "Edit" [ref=e349]
+                  - button "Delete ORGANICCOTTO-754" [ref=e350]:
+                    - img
+              - row "ORGANICCOTTO-449 XL / Ecru £27.00 11 Edit Delete ORGANICCOTTO-449" [ref=e351]:
+                - cell "ORGANICCOTTO-449" [ref=e352]
+                - cell "XL / Ecru" [ref=e353]
+                - cell "£27.00" [ref=e354]
+                - cell "11" [ref=e355]
+                - cell "Edit Delete ORGANICCOTTO-449" [ref=e356]:
+                  - button "Edit" [ref=e357]
+                  - button "Delete ORGANICCOTTO-449" [ref=e358]:
+                    - img
+        - region "Images" [ref=e359]:
+          - generic [ref=e360]:
+            - heading "Images" [level=2] [ref=e361]
+            - generic [ref=e362]:
+              - button "Upload product images" [ref=e363]
+              - button "Upload images" [ref=e364]:
+                - img
+                - text: Upload images
+          - list [ref=e365]:
+            - listitem [ref=e366]:
+              - img "organic-cotton-tee.webp" [ref=e367]
+              - button "Delete organic-cotton-tee.webp" [ref=e368]:
+                - img
+        - region "Delete product" [ref=e369]:
+          - generic [ref=e370]:
+            - heading "Delete product" [level=2] [ref=e371]
+            - paragraph [ref=e372]: Removes the product, its variants and images.
+          - button "Delete" [ref=e373]
+  - region "Notifications alt+T"

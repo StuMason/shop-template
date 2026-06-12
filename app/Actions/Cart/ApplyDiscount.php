@@ -27,7 +27,13 @@ class ApplyDiscount
 
         $subtotal = $this->calculateCartTotals->handle($cart)->subtotal;
 
-        if (($reason = $discount->rejectionReason($subtotal)) !== null) {
+        $reason = $discount->rejectionReason(
+            $subtotal,
+            $cart->user?->email,
+            $cart->user_id,
+        );
+
+        if ($reason !== null) {
             throw new InvalidDiscountException($reason);
         }
 

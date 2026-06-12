@@ -4,8 +4,10 @@ namespace App\Mcp\Tools;
 
 use App\Actions\Checkout\CheckoutData;
 use App\Actions\Checkout\CreateOrderFromCart;
+use App\Actions\Checkout\ValidateCartDiscount;
 use App\Actions\Checkout\ValidateCartStock;
 use App\Exceptions\InsufficientStockException;
+use App\Exceptions\InvalidDiscountException;
 use App\Mcp\Concerns\ResolvesBasket;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Illuminate\Support\Facades\URL;
@@ -22,6 +24,7 @@ class StartCheckout extends Tool
 
     public function __construct(
         private readonly ValidateCartStock $validateCartStock,
+        private readonly ValidateCartDiscount $validateCartDiscount,
         private readonly CreateOrderFromCart $createOrderFromCart,
     ) {}
 
@@ -54,13 +57,14 @@ class StartCheckout extends Tool
 
         try {
             $this->validateCartStock->handle($cart);
+            $this->validateCartDiscount->handle($cart, $validated['email']);
 
             $order = $this->createOrderFromCart->handle($cart, new CheckoutData(
                 email: $validated['email'],
                 shippingAddress: $validated['shipping_address'],
                 shippingMethodId: (int) $validated['shipping_method_id'],
             ));
-        } catch (InsufficientStockException $exception) {
+        } catch (InsufficientStockException|InvalidDiscountException $exception) {
             return Response::error($exception->getMessage());
         }
 

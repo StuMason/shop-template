@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\OrderStatus;
 use App\Models\Discount;
 use App\Models\Order;
 use App\Models\Product;
@@ -130,4 +131,67 @@ it('lets admins manage discount codes', function () {
         ->assertRedirect();
 
     expect(Discount::query()->count())->toBe(0);
+});
+
+it('enforces once-per-customer codes by email for guests', function () {
+    $method = ShippingMethod::factory()->create();
+    Discount::factory()->create(['code' => 'WELCOME', 'once_per_customer' => true]);
+
+    // First order with the code succeeds.
+    discountBasket();
+    $this->post(route('cart.discount.store'), ['code' => 'WELCOME']);
+    discountCheckout($method);
+
+    // Second basket, same email: checkout is blocked with a clear error.
+    test()->flushSession();
+    discountBasket();
+    $this->post(route('cart.discount.store'), ['code' => 'WELCOME'])->assertRedirect();
+
+    $this->post(route('checkout.store'), [
+        'email' => 'deal@example.com',
+        'shipping_method_id' => $method->id,
+        'billing_same_as_shipping' => true,
+        'shipping_address' => [
+            'name' => 'D Hunter', 'line1' => '1 St', 'city' => 'Bristol',
+            'postcode' => 'BS1 1AA', 'country' => 'GB',
+        ],
+    ])->assertSessionHasErrors('basket');
+
+    expect(Order::query()->count())->toBe(1);
+});
+
+it('rejects once-per-customer codes at apply time for logged-in repeat customers', function () {
+    $user = User::factory()->create();
+    Discount::factory()->create(['code' => 'WELCOME', 'once_per_customer' => true]);
+    Order::factory()->paid()->create(['user_id' => $user->id, 'discount_code' => 'WELCOME']);
+
+    $this->actingAs($user);
+    discountBasket();
+
+    $this->post(route('cart.discount.store'), ['code' => 'WELCOME'])
+        ->assertSessionHasErrors('code');
+});
+
+it('lets a customer reuse a once-per-customer code after a cancelled order', function () {
+    Discount::factory()->create(['code' => 'WELCOME', 'once_per_customer' => true]);
+    Order::factory()->create([
+        'email' => 'deal@example.com',
+        'discount_code' => 'WELCOME',
+        'status' => OrderStatus::Cancelled,
+    ]);
+
+    $method = ShippingMethod::factory()->create();
+    discountBasket();
+    $this->post(route('cart.discount.store'), ['code' => 'WELCOME']);
+    $this->post(route('checkout.store'), [
+        'email' => 'deal@example.com',
+        'shipping_method_id' => $method->id,
+        'billing_same_as_shipping' => true,
+        'shipping_address' => [
+            'name' => 'D Hunter', 'line1' => '1 St', 'city' => 'Bristol',
+            'postcode' => 'BS1 1AA', 'country' => 'GB',
+        ],
+    ]);
+
+    expect(Order::query()->latest('id')->first()->discount_code)->toBe('WELCOME');
 });

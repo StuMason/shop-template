@@ -15,7 +15,7 @@ class CalculateCartTotals
 
         // A discount that has become invalid (expired, fully redeemed, below
         // minimum spend) silently contributes nothing rather than blocking.
-        $discount = $cart->discount?->amountFor($subtotal) ?? 0;
+        $discount = $cart->discount?->amountFor($subtotal, $cart->user?->email, $cart->user_id) ?? 0;
 
         return new CartTotals(
             subtotal: $subtotal,

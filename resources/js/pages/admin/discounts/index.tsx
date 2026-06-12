@@ -27,6 +27,7 @@ type DiscountRow = {
     starts_at: string | null;
     ends_at: string | null;
     max_uses: number | null;
+    once_per_customer: boolean;
     used_count: number;
     is_active: boolean;
 };
@@ -58,6 +59,7 @@ function DiscountDialog({
             starts_at: discount?.starts_at ?? '',
             ends_at: discount?.ends_at ?? '',
             max_uses: discount?.max_uses ? String(discount.max_uses) : '',
+            once_per_customer: discount?.once_per_customer ?? false,
             is_active: discount?.is_active ?? true,
         },
     );
@@ -232,6 +234,16 @@ function DiscountDialog({
                     </label>
                 </div>
 
+                <label className="flex items-center gap-2 text-sm">
+                    <Checkbox
+                        checked={data.once_per_customer}
+                        onCheckedChange={(checked) =>
+                            setData('once_per_customer', checked === true)
+                        }
+                    />
+                    Once per customer (matched by email or account)
+                </label>
+
                 <DialogFooter>
                     <Button type="submit" disabled={processing}>
                         {processing ? 'Saving…' : 'Save discount'}
@@ -334,6 +346,11 @@ export default function AdminDiscountsIndex({
                                             {discount.max_uses
                                                 ? ` / ${discount.max_uses}`
                                                 : ''}
+                                            {discount.once_per_customer && (
+                                                <span className="block text-xs text-muted-foreground">
+                                                    once per customer
+                                                </span>
+                                            )}
                                         </td>
                                         <td className="px-4 py-3">
                                             <Badge

@@ -107,3 +107,31 @@ it('shows customers their own orders only', function () {
         ->get(route('account.orders.show', $order))
         ->assertNotFound();
 });
+
+it('stores tracking details when shipping and includes them in the email', function () {
+    Notification::fake();
+
+    $order = Order::factory()->paid()->create();
+
+    $this->actingAs($this->staff)
+        ->patch(route('admin.orders.status', $order->id), [
+            'status' => 'shipped',
+            'tracking_number' => 'AB123456789GB',
+            'carrier' => 'Royal Mail',
+        ])
+        ->assertRedirect();
+
+    $order->refresh();
+
+    expect($order->tracking_number)->toBe('AB123456789GB')
+        ->and($order->carrier)->toBe('Royal Mail');
+
+    Notification::assertSentOnDemand(
+        OrderShippedNotification::class,
+        function (OrderShippedNotification $notification, array $channels, $notifiable): bool {
+            $mail = $notification->toMail($notifiable);
+
+            return str_contains(implode(' ', $mail->introLines), 'AB123456789GB');
+        },
+    );
+});

@@ -76,6 +76,8 @@ class OrderController extends Controller
                 'subtotal' => $order->formattedSubtotal(),
                 'shipping_total' => $order->formattedShippingTotal(),
                 'shipping_method' => $order->shipping_method_name,
+                'carrier' => $order->carrier,
+                'tracking_number' => $order->tracking_number,
                 'total' => $order->formattedTotal(),
                 'shipping_address' => $order->shipping_address,
                 'billing_address' => $order->billing_address,
@@ -117,6 +119,8 @@ class OrderController extends Controller
     ): RedirectResponse {
         $validated = $request->validate([
             'status' => ['required', Rule::in(['paid', 'shipped', 'delivered', 'cancelled'])],
+            'tracking_number' => ['nullable', 'string', 'max:128'],
+            'carrier' => ['nullable', 'string', 'max:64'],
         ]);
 
         $target = OrderStatus::from($validated['status']);
@@ -141,7 +145,11 @@ class OrderController extends Controller
                     ],
                 ),
             ),
-            OrderStatus::Shipped => $shipOrder->handle($order),
+            OrderStatus::Shipped => $shipOrder->handle(
+                $order,
+                $validated['tracking_number'] ?? null,
+                $validated['carrier'] ?? null,
+            ),
             OrderStatus::Delivered => $deliverOrder->handle($order),
             OrderStatus::Cancelled => $cancelOrder->handle($order),
             default => null,

@@ -38,10 +38,18 @@ class OrderShippedNotification extends Notification implements ShouldQueue
             ? URL::signedRoute('orders.guest-show', ['order' => $this->order])
             : route('account.orders.show', $this->order);
 
-        return (new MailMessage)
+        $message = (new MailMessage)
             ->subject("Your order is on its way — {$this->order->number}")
-            ->line("Order {$this->order->number} has been shipped to {$this->order->shipping_address['postcode']}.")
-            ->action('View your order', $url);
+            ->line("Order {$this->order->number} has been shipped to {$this->order->shipping_address['postcode']}.");
+
+        if ($this->order->tracking_number !== null) {
+            $message->line(trim(
+                ($this->order->carrier ? "{$this->order->carrier} " : '')
+                ."tracking number: {$this->order->tracking_number}",
+            ));
+        }
+
+        return $message->action('View your order', $url);
     }
 
     /**

@@ -49,6 +49,8 @@ class OrderController extends Controller
                 'subtotal' => $order->formattedSubtotal(),
                 'shipping_total' => $order->formattedShippingTotal(),
                 'shipping_method' => $order->shipping_method_name,
+                'carrier' => $order->carrier,
+                'tracking_number' => $order->tracking_number,
                 'total' => $order->formattedTotal(),
                 'shipping_address' => $order->shipping_address,
                 'billing_address' => $order->billing_address,

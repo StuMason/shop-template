@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Actions\Cart\ResolveCart;
+use App\Http\Controllers\Storefront\PageController;
 use App\Http\Resources\CartResource;
 use App\Support\ShopSettings;
 use Illuminate\Http\Request;
@@ -48,11 +49,14 @@ class HandleInertiaRequests extends Middleware
                 'tagline' => $settings->tagline(),
                 'currency' => $settings->currency(),
                 'contact_email' => $settings->contactEmail(),
+                'trading_details' => $settings->tradingDetails(),
                 'url' => rtrim((string) config('app.url'), '/'),
+                'pages' => PageController::available(),
             ],
             'auth' => [
                 'user' => $request->user(),
                 'isStaff' => $request->user()?->hasAnyRole(['admin', 'staff']) ?? false,
+                'isAdmin' => $request->user()?->hasRole('admin') ?? false,
             ],
             'basket' => fn (): ?array => $this->basket($request),
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',

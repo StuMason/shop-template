@@ -10,6 +10,8 @@ type OrderDetail = {
     subtotal: string;
     shipping_total: string;
     shipping_method: string;
+    carrier: string | null;
+    tracking_number: string | null;
     total: string;
     shipping_address: Record<string, string | null>;
     billing_address: Record<string, string | null>;
@@ -72,6 +74,16 @@ export default function AccountOrderShow({ order }: { order: OrderDetail }) {
                         Placed {order.placed_at}
                     </span>
                 </div>
+
+                {order.tracking_number && (
+                    <p className="rounded-xl border bg-muted/30 px-4 py-3 text-sm">
+                        {order.carrier ? `${order.carrier} ` : ''}tracking
+                        number:{' '}
+                        <span className="font-medium">
+                            {order.tracking_number}
+                        </span>
+                    </p>
+                )}
 
                 <div className="overflow-hidden rounded-xl border">
                     <table className="w-full text-sm">

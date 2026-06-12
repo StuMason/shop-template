@@ -29,6 +29,8 @@ type AdminOrderDetail = {
     subtotal: string;
     shipping_total: string;
     shipping_method: string;
+    carrier: string | null;
+    tracking_number: string | null;
     total: string;
     shipping_address: Record<string, string | null>;
     billing_address: Record<string, string | null>;
@@ -132,11 +134,88 @@ function RefundDialog({
     );
 }
 
+function ShipDialog({
+    order,
+    onClose,
+}: {
+    order: AdminOrderDetail;
+    onClose: () => void;
+}) {
+    const { data, setData, patch, processing, errors, transform } = useForm({
+        tracking_number: '',
+        carrier: '',
+    });
+
+    return (
+        <DialogContent>
+            <DialogHeader>
+                <DialogTitle>Mark {order.number} shipped</DialogTitle>
+                <DialogDescription>
+                    The tracking number is included in the customer's dispatch
+                    email. Both fields are optional.
+                </DialogDescription>
+            </DialogHeader>
+            <form
+                onSubmit={(event) => {
+                    event.preventDefault();
+                    transform((current) => ({
+                        ...current,
+                        status: 'shipped',
+                    }));
+                    patch(statusRoute(order.id).url, {
+                        preserveScroll: true,
+                        onSuccess: onClose,
+                    });
+                }}
+                className="flex flex-col gap-4"
+            >
+                <div className="grid grid-cols-2 gap-4">
+                    <div className="grid gap-2">
+                        <Label htmlFor="ship-carrier">Carrier</Label>
+                        <Input
+                            id="ship-carrier"
+                            value={data.carrier}
+                            placeholder="Royal Mail"
+                            onChange={(event) =>
+                                setData('carrier', event.target.value)
+                            }
+                        />
+                        <InputError message={errors.carrier} />
+                    </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor="ship-tracking">Tracking number</Label>
+                        <Input
+                            id="ship-tracking"
+                            value={data.tracking_number}
+                            onChange={(event) =>
+                                setData('tracking_number', event.target.value)
+                            }
+                        />
+                        <InputError message={errors.tracking_number} />
+                    </div>
+                </div>
+                <DialogFooter>
+                    <Button type="submit" disabled={processing}>
+                        {processing ? 'Saving…' : 'Mark shipped'}
+                    </Button>
+                </DialogFooter>
+            </form>
+        </DialogContent>
+    );
+}
+
 export default function AdminOrderShow({ order }: { order: AdminOrderDetail }) {
     const statusForm = useForm({ status: '' });
     const [refundDialog, setRefundDialog] = useState<number | null>(null);
+    const [shipDialog, setShipDialog] = useState(false);
 
     function transition(status: string) {
+        if (status === 'shipped') {
+            setShipDialog(true);
+
+            return;
+        }
+
         if (
             status === 'cancelled' &&
             !confirm(`Cancel order ${order.number} and restock its items?`)
@@ -187,6 +266,25 @@ export default function AdminOrderShow({ order }: { order: AdminOrderDetail }) {
                     </div>
                 </div>
                 <InputError message={statusForm.errors.status} />
+
+                <Dialog open={shipDialog} onOpenChange={setShipDialog}>
+                    {shipDialog && (
+                        <ShipDialog
+                            order={order}
+                            onClose={() => setShipDialog(false)}
+                        />
+                    )}
+                </Dialog>
+
+                {order.tracking_number && (
+                    <p className="rounded-xl border bg-muted/30 px-4 py-3 text-sm">
+                        {order.carrier ? `${order.carrier} ` : ''}tracking
+                        number:{' '}
+                        <span className="font-medium">
+                            {order.tracking_number}
+                        </span>
+                    </p>
+                )}
 
                 {order.customer_note && (
                     <div className="rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm dark:border-amber-700 dark:bg-amber-950">

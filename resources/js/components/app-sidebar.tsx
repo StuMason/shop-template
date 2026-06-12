@@ -4,9 +4,11 @@ import {
     LifeBuoy,
     Package,
     ReceiptText,
+    Settings2,
     Store,
     Tags,
     Truck,
+    UsersRound,
 } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
@@ -26,8 +28,10 @@ import { dashboard as adminDashboard } from '@/routes/admin';
 import { index as adminCategoriesIndex } from '@/routes/admin/categories';
 import { index as adminOrdersIndex } from '@/routes/admin/orders';
 import { index as adminProductsIndex } from '@/routes/admin/products';
+import { edit as adminSettingsEdit } from '@/routes/admin/settings';
 import { index as adminShippingIndex } from '@/routes/admin/shipping';
 import { index as adminTicketsIndex } from '@/routes/admin/tickets';
+import { index as adminUsersIndex } from '@/routes/admin/users';
 import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
@@ -71,6 +75,19 @@ const adminNavItems: NavItem[] = [
     },
 ];
 
+const adminOnlyNavItems: NavItem[] = [
+    {
+        title: 'Users',
+        href: adminUsersIndex(),
+        icon: UsersRound,
+    },
+    {
+        title: 'Settings',
+        href: adminSettingsEdit(),
+        icon: Settings2,
+    },
+];
+
 const footerNavItems: NavItem[] = [
     {
         title: 'Storefront',
@@ -81,7 +98,7 @@ const footerNavItems: NavItem[] = [
 
 export function AppSidebar() {
     const { auth } = usePage<{
-        auth: { isStaff: boolean };
+        auth: { isStaff: boolean; isAdmin: boolean };
         [key: string]: unknown;
     }>().props;
 
@@ -102,7 +119,14 @@ export function AppSidebar() {
             <SidebarContent>
                 <NavMain items={mainNavItems} />
                 {auth.isStaff && (
-                    <NavMain items={adminNavItems} label="Shop admin" />
+                    <NavMain
+                        items={
+                            auth.isAdmin
+                                ? [...adminNavItems, ...adminOnlyNavItems]
+                                : adminNavItems
+                        }
+                        label="Shop admin"
+                    />
                 )}
             </SidebarContent>
 

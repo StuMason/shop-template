@@ -6,8 +6,10 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductMediaController;
 use App\Http\Controllers\Admin\ProductOptionController;
 use App\Http\Controllers\Admin\ProductVariantController;
+use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\ShippingController;
 use App\Http\Controllers\Admin\TicketController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Middleware\DisableInertiaSsr;
 use Illuminate\Support\Facades\Route;
 
@@ -48,4 +50,12 @@ Route::middleware(['auth', 'verified', 'role:admin|staff', DisableInertiaSsr::cl
         Route::post('shipping/zones/{zone}/methods', [ShippingController::class, 'storeMethod'])->name('shipping.methods.store');
         Route::put('shipping/zones/{zone}/methods/{method}', [ShippingController::class, 'updateMethod'])->name('shipping.methods.update');
         Route::delete('shipping/zones/{zone}/methods/{method}', [ShippingController::class, 'destroyMethod'])->name('shipping.methods.destroy');
+
+        Route::middleware('role:admin')->group(function () {
+            Route::get('settings', [SettingController::class, 'edit'])->name('settings.edit');
+            Route::put('settings', [SettingController::class, 'update'])->name('settings.update');
+
+            Route::get('users', [UserController::class, 'index'])->name('users.index');
+            Route::patch('users/{user}/role', [UserController::class, 'updateRole'])->name('users.role');
+        });
     });

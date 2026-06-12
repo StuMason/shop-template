@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Storefront\PageController;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductVariant;
@@ -52,6 +53,10 @@ class SiteController extends Controller
                 '  <url><loc>'.htmlspecialchars($base).'</loc><priority>1.0</priority></url>',
                 '  <url><loc>'.htmlspecialchars($base.'/products').'</loc><priority>0.8</priority></url>',
             ];
+
+            foreach (PageController::available() as $page) {
+                $rows[] = '  <url><loc>'.htmlspecialchars($base.'/pages/'.$page).'</loc><priority>0.4</priority></url>';
+            }
 
             foreach (Category::query()->active()->orderBy('position')->get() as $category) {
                 $rows[] = '  <url><loc>'.htmlspecialchars($base.'/categories/'.$category->slug).'</loc><priority>0.7</priority></url>';

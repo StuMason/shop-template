@@ -5,6 +5,7 @@ use App\Http\Controllers\Storefront\CartController;
 use App\Http\Controllers\Storefront\CategoryController;
 use App\Http\Controllers\Storefront\CheckoutController;
 use App\Http\Controllers\Storefront\HomeController;
+use App\Http\Controllers\Storefront\PageController;
 use App\Http\Controllers\Storefront\PaymentController;
 use App\Http\Controllers\Storefront\ProductController;
 use App\Http\Controllers\Webhooks\GoCardlessWebhookController;
@@ -21,6 +22,7 @@ Route::get('products', [ProductController::class, 'index'])->name('products.inde
 Route::get('products/{product:slug}.md', [SiteController::class, 'productMarkdown'])->name('agent.product-md');
 Route::get('products/{product:slug}', [ProductController::class, 'show'])->name('products.show');
 Route::get('categories/{category:slug}', [CategoryController::class, 'show'])->name('categories.show');
+Route::get('pages/{page}', [PageController::class, 'show'])->name('pages.show');
 
 Route::get('basket', [CartController::class, 'show'])->name('cart.show');
 Route::post('basket/items', [CartController::class, 'store'])->name('cart.items.store');

@@ -5,16 +5,27 @@ import { toast } from 'sonner';
 import { BasketDrawer } from '@/components/storefront/basket-drawer';
 import { home, login } from '@/routes';
 import { dashboard } from '@/routes/account';
+import { show as pagesShow } from '@/routes/pages';
 import { index as productsIndex } from '@/routes/products';
 import type { Basket, ShopInfo, User } from '@/types';
 
 type StorefrontPageProps = {
-    shop: ShopInfo;
+    shop: ShopInfo & {
+        trading_details: string | null;
+        pages: string[];
+    };
     auth: { user: User | null; isStaff: boolean };
     basket: Basket | null;
     flash: { success: string | null; error: string | null };
     [key: string]: unknown;
 };
+
+function pageTitle(slug: string): string {
+    return slug
+        .split('-')
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+}
 
 /**
  * Public storefront chrome: skip link, header with nav and basket, footer,
@@ -86,17 +97,42 @@ export default function StorefrontLayout({
             </main>
 
             <footer className="border-t py-10">
-                <div className="mx-auto flex w-full max-w-7xl flex-col gap-2 px-4 text-sm text-muted-foreground sm:px-6">
-                    <p className="font-medium text-foreground">{shop.name}</p>
-                    <p>{shop.tagline}</p>
-                    <p>
-                        <a
-                            href={`mailto:${shop.contact_email}`}
-                            className="hover:underline"
-                        >
-                            {shop.contact_email}
-                        </a>
-                    </p>
+                <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 text-sm text-muted-foreground sm:flex-row sm:justify-between sm:px-6">
+                    <div className="flex flex-col gap-2">
+                        <p className="font-medium text-foreground">
+                            {shop.name}
+                        </p>
+                        <p>{shop.tagline}</p>
+                        <p>
+                            <a
+                                href={`mailto:${shop.contact_email}`}
+                                className="hover:underline"
+                            >
+                                {shop.contact_email}
+                            </a>
+                        </p>
+                        {shop.trading_details && (
+                            <p className="max-w-md text-xs">
+                                {shop.trading_details}
+                            </p>
+                        )}
+                    </div>
+                    {shop.pages.length > 0 && (
+                        <nav aria-label="Information">
+                            <ul className="flex flex-col gap-1.5">
+                                {shop.pages.map((slug) => (
+                                    <li key={slug}>
+                                        <Link
+                                            href={pagesShow(slug)}
+                                            className="hover:text-foreground hover:underline"
+                                        >
+                                            {pageTitle(slug)}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </nav>
+                    )}
                 </div>
             </footer>
 

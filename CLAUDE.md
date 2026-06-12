@@ -213,3 +213,21 @@ Use Wayfinder to generate TypeScript functions for Laravel routes. Import from `
 - IMPORTANT: Activate `inertia-react-development` when working with Inertia React client-side patterns.
 
 </laravel-boost-guidelines>
+
+# Shop Template — Project Rules
+
+Read `docs/architecture.md` before changing commerce code — it lists the
+invariants (integer-pence money, decrement-at-order stock, verify-lookback
+payment trust, cart_id idempotency) and the gotchas that already bit us.
+
+- Commerce mutations live in `app/Actions/**`; web controllers and MCP tools
+  are thin adapters over the same actions. Never fork logic into a controller.
+- Money is integer pence, formatted server-side only (`App\Support\Money`).
+- Never mark an order paid from a redirect or webhook body — only via
+  `PaymentGateway::verify()`.
+- Update the layout resolvers in `resources/js/app.tsx` AND `ssr.tsx` together.
+- Regenerate wayfinder with `php artisan wayfinder:generate --with-form`.
+- Gate every phase: `composer test` (pint, larastan 7, pest) +
+  `npm run types:check` + `npm run lint:check` + `npm run format:check` +
+  `npm run build:ssr`. CI runs the check-only variants; run `npm run format`
+  and `npm run lint` (fixers) before committing frontend work.

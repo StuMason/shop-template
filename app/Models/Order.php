@@ -26,6 +26,8 @@ use InvalidArgumentException;
  * @property int $shipping_total
  * @property int $total
  * @property string $shipping_method_name
+ * @property string|null $carrier
+ * @property string|null $tracking_number
  * @property array<string, string|null> $shipping_address
  * @property array<string, string|null> $billing_address
  * @property string|null $customer_note
@@ -39,9 +41,9 @@ use InvalidArgumentException;
  */
 #[Fillable([
     'number', 'user_id', 'cart_id', 'email', 'status', 'currency', 'subtotal',
-    'shipping_total', 'total', 'shipping_method_name', 'shipping_address',
-    'billing_address', 'customer_note', 'placed_at', 'paid_at', 'shipped_at',
-    'delivered_at', 'cancelled_at',
+    'shipping_total', 'total', 'shipping_method_name', 'carrier',
+    'tracking_number', 'shipping_address', 'billing_address', 'customer_note',
+    'placed_at', 'paid_at', 'shipped_at', 'delivered_at', 'cancelled_at',
 ])]
 class Order extends Model
 {

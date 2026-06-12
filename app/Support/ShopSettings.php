@@ -74,6 +74,18 @@ class ShopSettings
     }
 
     /**
+     * Free-text trading details shown in the storefront footer (legal name,
+     * company number, registered address). Distance-selling rules require
+     * customers to be able to see who they're buying from.
+     */
+    public function tradingDetails(): ?string
+    {
+        $value = $this->get('trading_details');
+
+        return is_string($value) && $value !== '' ? $value : null;
+    }
+
+    /**
      * @return array<string, mixed>
      */
     protected function all(): array

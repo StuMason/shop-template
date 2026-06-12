@@ -15,6 +15,14 @@ use Database\Seeders\RolesSeeder;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Passport\Passport;
 
+beforeEach(function () {
+    // The Passport guard needs RSA keys even to reject a request; they're
+    // gitignored, so generate them when absent (fresh clones, CI).
+    if (! file_exists(storage_path('oauth-public.key'))) {
+        $this->artisan('passport:keys');
+    }
+});
+
 it('summarises sales for a period', function () {
     Order::factory()->paid()->create(['total' => 5000, 'subtotal' => 5000, 'shipping_total' => 0]);
     Order::factory()->paid()->create(['total' => 3000, 'subtotal' => 3000, 'shipping_total' => 0]);

@@ -34,6 +34,34 @@
         <link rel="icon" href="/favicon.svg" type="image/svg+xml">
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
+        {{-- Baseline SEO. Pages override title/description/canonical via the <Seo> component. --}}
+        <meta name="description" content="{{ config('shop.description') }}" inertia="description">
+        <link rel="canonical" href="{{ url()->current() }}" inertia="canonical">
+        <meta property="og:site_name" content="{{ app(\App\Support\ShopSettings::class)->name() }}">
+        <meta property="og:type" content="website" inertia="og:type">
+
+        {{-- Site-level structured data, driven by shop settings. --}}
+        @php
+            $shopSettings = app(\App\Support\ShopSettings::class);
+            $siteJsonLd = [
+                '@context' => 'https://schema.org',
+                '@graph' => [
+                    [
+                        '@type' => 'WebSite',
+                        'name' => $shopSettings->name(),
+                        'url' => config('app.url'),
+                    ],
+                    [
+                        '@type' => 'Organization',
+                        'name' => $shopSettings->name(),
+                        'url' => config('app.url'),
+                        'email' => $shopSettings->contactEmail(),
+                    ],
+                ],
+            ];
+        @endphp
+        <script type="application/ld+json">{!! json_encode($siteJsonLd, JSON_UNESCAPED_SLASHES) !!}</script>
+
         @fonts
 
         @viteReactRefresh

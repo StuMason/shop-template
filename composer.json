@@ -14,8 +14,13 @@
         "laravel/chisel": "^0.1.0",
         "laravel/fortify": "^1.37.2",
         "laravel/framework": "^13.7",
+        "laravel/mcp": "^0.8.1",
+        "laravel/scout": "^11.2",
         "laravel/tinker": "^3.0",
-        "laravel/wayfinder": "^0.1.14"
+        "laravel/wayfinder": "^0.1.14",
+        "spatie/laravel-medialibrary": "^11.23",
+        "spatie/laravel-permission": "^8.0",
+        "stumason/laravel-coolify": "^3.3"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
@@ -69,7 +74,7 @@
             "@test"
         ],
         "types:check": [
-            "phpstan analyse"
+            "phpstan analyse --memory-limit=1G"
         ],
         "test": [
             "@php artisan config:clear --ansi",

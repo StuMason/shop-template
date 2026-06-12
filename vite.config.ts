@@ -28,4 +28,9 @@ export default defineConfig({
             formVariants: true,
         }),
     ],
+    ssr: {
+        // Bundle all dependencies into the SSR build so production needs no
+        // node_modules at runtime (single self-contained bootstrap/ssr/ssr.mjs).
+        noExternal: true,
+    },
 });

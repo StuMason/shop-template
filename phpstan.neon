@@ -10,4 +10,8 @@ parameters:
         - database/
         - routes/
 
+    excludePaths:
+        # Vendor-published config; references the optional medialibrary-pro package.
+        - config/media-library.php
+
     level: 7

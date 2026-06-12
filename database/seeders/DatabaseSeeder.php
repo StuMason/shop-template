@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
 
         $admin->assignRole('admin');
 
+        $this->call(ShippingSeeder::class);
         $this->call(DemoCatalogueSeeder::class);
     }
 }

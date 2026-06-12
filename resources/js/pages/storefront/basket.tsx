@@ -3,6 +3,7 @@ import { ShoppingBag } from 'lucide-react';
 import { Seo } from '@/components/seo';
 import { BasketLine } from '@/components/storefront/basket-line';
 import { Button } from '@/components/ui/button';
+import { show as checkoutShow } from '@/routes/checkout';
 import { index as productsIndex } from '@/routes/products';
 import type { Basket } from '@/types';
 
@@ -43,9 +44,8 @@ export default function BasketPage() {
                             <p className="text-sm text-muted-foreground">
                                 Shipping is calculated at checkout.
                             </p>
-                            {/* Checkout button is wired up in the checkout phase. */}
-                            <Button size="lg" disabled>
-                                Checkout (coming soon)
+                            <Button size="lg" asChild>
+                                <Link href={checkoutShow()}>Checkout</Link>
                             </Button>
                         </div>
                     </div>

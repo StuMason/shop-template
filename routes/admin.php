@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductMediaController;
 use App\Http\Controllers\Admin\ProductOptionController;
 use App\Http\Controllers\Admin\ProductVariantController;
+use App\Http\Controllers\Admin\ShippingController;
 use App\Http\Middleware\DisableInertiaSsr;
 use Illuminate\Support\Facades\Route;
 
@@ -27,4 +29,17 @@ Route::middleware(['auth', 'verified', 'role:admin|staff', DisableInertiaSsr::cl
 
         Route::post('products/{product}/media', [ProductMediaController::class, 'store'])->name('products.media.store');
         Route::delete('products/{product}/media/{mediaId}', [ProductMediaController::class, 'destroy'])->name('products.media.destroy');
+
+        Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
+        Route::get('orders/{order:id}', [OrderController::class, 'show'])->name('orders.show');
+        Route::patch('orders/{order:id}/status', [OrderController::class, 'updateStatus'])->name('orders.status');
+        Route::post('payments/{payment}/refunds', [OrderController::class, 'storeRefund'])->name('payments.refunds.store');
+
+        Route::get('shipping', [ShippingController::class, 'index'])->name('shipping.index');
+        Route::post('shipping/zones', [ShippingController::class, 'storeZone'])->name('shipping.zones.store');
+        Route::put('shipping/zones/{zone}', [ShippingController::class, 'updateZone'])->name('shipping.zones.update');
+        Route::delete('shipping/zones/{zone}', [ShippingController::class, 'destroyZone'])->name('shipping.zones.destroy');
+        Route::post('shipping/zones/{zone}/methods', [ShippingController::class, 'storeMethod'])->name('shipping.methods.store');
+        Route::put('shipping/zones/{zone}/methods/{method}', [ShippingController::class, 'updateMethod'])->name('shipping.methods.update');
+        Route::delete('shipping/zones/{zone}/methods/{method}', [ShippingController::class, 'destroyMethod'])->name('shipping.methods.destroy');
     });

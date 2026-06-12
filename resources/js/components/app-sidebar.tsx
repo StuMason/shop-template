@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { LayoutGrid, Package, Store, Tags } from 'lucide-react';
+import { LayoutGrid, Package, ReceiptText, Store, Tags, Truck } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -16,7 +16,9 @@ import {
 import { dashboard, home } from '@/routes';
 import { dashboard as adminDashboard } from '@/routes/admin';
 import { index as adminCategoriesIndex } from '@/routes/admin/categories';
+import { index as adminOrdersIndex } from '@/routes/admin/orders';
 import { index as adminProductsIndex } from '@/routes/admin/products';
+import { index as adminShippingIndex } from '@/routes/admin/shipping';
 import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
@@ -42,6 +44,16 @@ const adminNavItems: NavItem[] = [
         title: 'Categories',
         href: adminCategoriesIndex(),
         icon: Tags,
+    },
+    {
+        title: 'Orders',
+        href: adminOrdersIndex(),
+        icon: ReceiptText,
+    },
+    {
+        title: 'Shipping',
+        href: adminShippingIndex(),
+        icon: Truck,
     },
 ];
 

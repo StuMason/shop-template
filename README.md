@@ -1,8 +1,16 @@
 # Shop Template
 
+[![tests](https://github.com/StuMason/shop-template/actions/workflows/tests.yml/badge.svg)](https://github.com/StuMason/shop-template/actions/workflows/tests.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+![Laravel 13](https://img.shields.io/badge/Laravel-13-FF2D20?logo=laravel&logoColor=white)
+![PHP 8.4](https://img.shields.io/badge/PHP-8.4-777BB4?logo=php&logoColor=white)
+
 A blank-slate Laravel shop you can clone, brand, and ship in an afternoon.
 Sell any physical product: SSR storefront, pay-by-bank checkout, full admin,
 and first-class support for AI agents as customers.
+
+**[Live demo →](https://shop-template.stumason.dev)** · built by
+[Stu Mason](https://stumason.dev) ([@StuMason](https://github.com/StuMason))
 
 > **[`CAPABILITIES.md`](CAPABILITIES.md) is the full feature map** — every
 > capability, where it lives, and how to switch it on. Start there.
@@ -189,6 +197,24 @@ implementing `AddressLookupProvider`.
 | `npm run build:ssr` | production client + SSR bundles |
 | `php artisan payments:expire-abandoned` | abandon stale pending payments (scheduled hourly) |
 
+## Contributing
+
+Issues and PRs welcome. The whole suite gates on every change — run
+`composer test` (Pint, Larastan level 7, Pest) plus `npm run types:check`,
+`npm run lint:check`, `npm run format:check` and `npm run build:ssr` before
+opening a PR. CI runs the check-only variants on PHP 8.4 and 8.5. See
+[`CONTRIBUTING.md`](CONTRIBUTING.md) and [`docs/architecture.md`](docs/architecture.md).
+
+## Credits
+
+Built by **[Stu Mason](https://stumason.dev)** — Laravel & AI engineering.
+
+- 🌐 [stumason.dev](https://stumason.dev)
+- 🐙 [github.com/StuMason](https://github.com/StuMason) · [more about me](https://github.com/StuMason/StuMason)
+- 🛒 [Live demo](https://shop-template.stumason.dev)
+
+If this saved you time, a ⭐ on the repo is hugely appreciated.
+
 ## License
 
-[MIT](LICENSE)
+[MIT](LICENSE) © [Stu Mason](https://stumason.dev)

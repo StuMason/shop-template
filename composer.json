@@ -1,13 +1,27 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/react-starter-kit",
+    "name": "stumason/shop-template",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "A blank-slate, AI-agent-ready Laravel commerce template (MCP, ACP, x402, pay-by-bank).",
     "keywords": [
         "laravel",
-        "framework"
+        "ecommerce",
+        "shop",
+        "template",
+        "mcp",
+        "agentic-commerce",
+        "x402",
+        "inertia",
+        "react"
     ],
     "license": "MIT",
+    "homepage": "https://github.com/StuMason/shop-template",
+    "authors": [
+        {
+            "name": "Stu Mason",
+            "homepage": "https://stumason.dev"
+        }
+    ],
     "require": {
         "php": "^8.4",
         "gocardless/gocardless-pro": "^7.2",

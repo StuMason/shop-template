@@ -1,0 +1,55 @@
+# Run the whole shop with one command:
+#
+#   docker compose up
+#
+# Then open http://localhost:8080 — admin@example.com / password.
+#
+# Self-contained: SQLite + database-backed queue/cache/sessions, no external
+# services. The container generates and persists its own APP_KEY on first
+# boot and seeds the demo catalogue once. For production, set a real APP_URL,
+# switch PAYMENT_GATEWAY/MAIL_MAILER, and put a TLS-terminating proxy in front.
+name: shop-template
+
+services:
+  app:
+    build:
+      context: .
+    # Once you publish an image you can skip the build and pull instead:
+    # image: ghcr.io/stumason/shop-template:latest
+    ports:
+      - "8080:8080"
+    environment:
+      APP_NAME: "Shop Template"
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_URL: "http://localhost:8080"
+      # SQLite on a named volume — see DB_DATABASE / /data below.
+      DB_CONNECTION: sqlite
+      DB_DATABASE: /data/database.sqlite
+      SESSION_DRIVER: database
+      QUEUE_CONNECTION: database
+      CACHE_STORE: database
+      SCOUT_DRIVER: database
+      MEDIA_DISK: public
+      MAIL_MAILER: log
+      PAYMENT_GATEWAY: fake
+      INERTIA_SSR_ENABLED: "true"
+      INERTIA_SSR_URL: "http://127.0.0.1:13714"
+      # Seed the demo shop on first boot only (idempotent via a marker file).
+      AUTO_SEED: "true"
+    volumes:
+      - shop-data:/data
+      - shop-public:/var/www/html/storage/app/public
+      - shop-private:/var/www/html/storage/app/private
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/up"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+
+volumes:
+  shop-data:
+  shop-public:
+  shop-private:

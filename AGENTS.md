@@ -8,6 +8,14 @@ so you extend rather than duplicate.
 
 ## One-command setup
 
+Containerised — no PHP/Node/database needed on the host:
+
+```bash
+docker compose up        # builds, generates APP_KEY, migrates, seeds, serves :8080
+```
+
+Or natively (Herd / local PHP + Node):
+
 ```bash
 composer setup   # install, .env, key, migrate, seed demo catalogue, npm install + build
 composer dev     # serve (localhost:8000) + queue + logs + vite

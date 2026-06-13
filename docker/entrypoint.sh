@@ -27,6 +27,24 @@ if [ "${DB_CONNECTION:-sqlite}" = "sqlite" ]; then
     echo "SQLite database ready at $DB_FILE"
 fi
 
+DATA_DIR="$(dirname "${DB_DATABASE:-/var/www/html/database/database.sqlite}")"
+
+# ===========================================
+# Step 0.1: Application key
+# ===========================================
+# A one-command `docker compose up` must work without manual setup. When
+# APP_KEY isn't supplied, persist a generated one beside the database so it
+# survives restarts (sessions and encrypted columns stay valid). Platforms
+# that set APP_KEY explicitly skip this entirely.
+if [ -z "${APP_KEY:-}" ]; then
+    KEY_FILE="$DATA_DIR/app_key"
+    if [ ! -f "$KEY_FILE" ]; then
+        php artisan key:generate --show > "$KEY_FILE"
+    fi
+    export APP_KEY="$(cat "$KEY_FILE")"
+    echo "APP_KEY loaded from $KEY_FILE"
+fi
+
 # ===========================================
 # Step 1: Database Migrations (if enabled)
 # ===========================================
@@ -61,9 +79,18 @@ if [ "$AUTO_MIGRATE" = "true" ]; then
     echo "       Migrations completed successfully."
 
     if [ "${AUTO_SEED:-false}" = "true" ]; then
-        echo ""
-        echo "[$STEP/$TOTAL_STEPS] Seeding database (AUTO_SEED=true)..."
-        php artisan db:seed --force || echo "WARNING: seeding failed (continuing)"
+        # Seed once, ever — a marker in the data volume means restarts (and
+        # `docker compose up` after the first) never duplicate the catalogue.
+        SEED_MARKER="$DATA_DIR/.seeded"
+        if [ ! -f "$SEED_MARKER" ]; then
+            echo ""
+            echo "[$STEP/$TOTAL_STEPS] Seeding database (first boot, AUTO_SEED=true)..."
+            if php artisan db:seed --force; then
+                touch "$SEED_MARKER"
+            else
+                echo "WARNING: seeding failed (continuing)"
+            fi
+        fi
     fi
 else
     echo ""

@@ -76,14 +76,25 @@ real shop this afternoon.
 
 ## Quickstart
 
+**One command, zero setup** (Docker):
+
 ```bash
-# 1. Use this template (or clone), then:
+docker compose up
+```
+
+Open <http://localhost:8080> — the container generates its own `APP_KEY`,
+migrates, and seeds the demo shop on first boot. Nothing else to install, no
+database to provision.
+
+**Or run it natively** (Herd / local PHP + Node):
+
+```bash
 composer setup     # installs, migrates, seeds the demo shop, builds assets
 composer dev       # server + queue + logs + vite (Herd users: site is already live)
 ```
 
-Log in as `admin@example.com` / `password` — the demo catalogue, a UK
-shipping zone, and the admin role are all seeded.
+Either way, log in as `admin@example.com` / `password` — the demo catalogue,
+a UK shipping zone, and the admin role are all seeded.
 
 Payments default to the **fake gateway** locally (every payment succeeds).
 For real pay-by-bank, create a free [GoCardless sandbox
@@ -111,26 +122,47 @@ GOCARDLESS_WEBHOOK_SECRET=your-webhook-secret
    admin.
 6. Rewrite this README for your shop.
 
-## Deploy to Coolify
+## Deploy
 
-The repo ships a multi-stage `Dockerfile` (built on
-`ghcr.io/stumason/laravel-coolify-base`, ~2–3 min builds) running php-fpm,
-nginx, the Inertia SSR server, a queue worker and the scheduler under
-supervisord, with a `/up` healthcheck.
+The repo ships a multi-stage `Dockerfile` (php-fpm, nginx, Inertia SSR, a
+queue worker and the scheduler under supervisord, `/up` healthcheck) — the
+same image runs everywhere below.
 
-1. Create a Coolify application pointing at your repo (build pack:
-   Dockerfile), or run `php artisan coolify:provision` (stumason/laravel-coolify
-   is installed).
-2. Mount persistent volumes for `/var/www/html/database` (SQLite) and
-   `/var/www/html/storage/app/public` (media).
-3. Set your `.env` values in Coolify (see `.env.example`); set
-   `INERTIA_SSR_ENABLED=true`.
+### Self-host (any Docker host)
+
+```bash
+docker compose up -d
+```
+
+Persist three volumes (the compose file already does): a data dir for SQLite,
+`storage/app/public` (media) and `storage/app/private` (digital files). Put a
+TLS-terminating reverse proxy in front and set a real `APP_URL`. That's it.
+
+### Railway
+
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/new/template?template=https://github.com/StuMason/shop-template)
+
+`railway.json` configures the Dockerfile build + `/up` healthcheck. After
+creating the service: add a **volume mounted at `/data`** and set
+`DB_DATABASE=/data/database.sqlite`, the service **target port to 8080**, and
+your `APP_URL`/`SHOP_*` vars. `APP_KEY` is generated automatically on first
+boot if you don't supply one.
+
+### Coolify
+
+1. Create an application pointing at your repo (build pack: Dockerfile), or
+   run `php artisan coolify:provision` (stumason/laravel-coolify is installed).
+2. Mount a volume at **`/data`** and set `DB_DATABASE=/data/database.sqlite`,
+   plus volumes for `storage/app/public` and `storage/app/private`.
+   **Don't mount `database/` itself** — the volume shadows migration files
+   shipped in the image.
+3. Set your `.env` values (see `.env.example`); `INERTIA_SSR_ENABLED=true`.
 4. Optional: add `COOLIFY_URL`, `COOLIFY_TOKEN` and `COOLIFY_APPLICATION_UUID`
    repo secrets and pushes to `main` deploy automatically after CI passes.
 
-**Scaling up:** swap SQLite for Postgres (`DB_CONNECTION=pgsql` + a Coolify
-Postgres service), media to S3/R2 (`MEDIA_DISK=s3` + `AWS_*` vars), search to
-Meilisearch (`SCOUT_DRIVER=meilisearch`). No code changes.
+**Scaling up:** swap SQLite for Postgres (`DB_CONNECTION=pgsql`), media to
+S3/R2 (`MEDIA_DISK=s3` + `AWS_*`), search to Meilisearch
+(`SCOUT_DRIVER=meilisearch`). No code changes.
 
 ## For AI agents
 

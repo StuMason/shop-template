@@ -132,6 +132,8 @@ triggers only; `verify()` is the sole authority.
 | Feature | Where | Toggle |
 | --- | --- | --- |
 | Multi-stage Docker, supervisord (fpm/nginx/ssr/queue/scheduler) | `Dockerfile`, `docker/supervisord.conf` | always on |
+| One-command run (auto APP_KEY, seed-once) | `compose.yaml`, `docker/entrypoint.sh` | `docker compose up` |
+| Railway one-click deploy | `railway.json` | always on |
 | Media disk (public volume → S3/R2) | `config/filesystems.php` | `MEDIA_DISK=public` |
 | Error monitoring | `bootstrap/app.php` | `SENTRY_LARAVEL_DSN=...` |
 | Runtime shop settings (cached over config) | `app/Support/ShopSettings.php` | always on |

@@ -3,6 +3,9 @@
 This is a complete, self-contained shop. An agent can install it, run it,
 test it, deploy it, and trade through it without human intervention.
 
+`CAPABILITIES.md` is the full feature map — read it before building anything,
+so you extend rather than duplicate.
+
 ## One-command setup
 
 ```bash

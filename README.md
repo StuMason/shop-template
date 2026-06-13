@@ -4,6 +4,9 @@ A blank-slate Laravel shop you can clone, brand, and ship in an afternoon.
 Sell any physical product: SSR storefront, pay-by-bank checkout, full admin,
 and first-class support for AI agents as customers.
 
+> **[`CAPABILITIES.md`](CAPABILITIES.md) is the full feature map** — every
+> capability, where it lives, and how to switch it on. Start there.
+
 ## What's in the box
 
 - **Storefront** — server-rendered (Inertia v3 SSR), SEO-first: per-page meta,

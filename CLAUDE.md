@@ -217,9 +217,12 @@ Use Wayfinder to generate TypeScript functions for Laravel routes. Import from `
 
 # Shop Template — Project Rules
 
-Read `docs/architecture.md` before changing commerce code — it lists the
-invariants (integer-pence money, decrement-at-order stock, verify-lookback
-payment trust, cart_id idempotency) and the gotchas that already bit us.
+Read `CAPABILITIES.md` before building any feature — it's the canonical map of
+everything the shop already does (and where it lives). If it's listed, don't
+rebuild it. Then read `docs/architecture.md` before changing commerce code —
+it lists the invariants (integer-pence money, decrement-at-order stock,
+verify-lookback payment trust, cart_id idempotency) and the gotchas that
+already bit us.
 
 - Commerce mutations live in `app/Actions/**`; web controllers and MCP tools
   are thin adapters over the same actions. Never fork logic into a controller.

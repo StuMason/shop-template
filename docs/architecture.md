@@ -1,8 +1,9 @@
 # Architecture
 
-For developers and AI agents working on this codebase. The README covers
-running and branding the shop; this covers how it's built, the invariants
-that must hold, and the decisions you shouldn't accidentally reverse.
+For developers and AI agents working on this codebase. `CAPABILITIES.md` is
+the feature map (what exists and where); the README covers running and
+branding the shop; this covers how it's built, the invariants that must hold,
+and the decisions you shouldn't accidentally reverse.
 
 ## Domain map
 

@@ -1,13 +1,20 @@
-# Shop Template
+# Shop Template — commerce for the agent era
 
 [![tests](https://github.com/StuMason/shop-template/actions/workflows/tests.yml/badge.svg)](https://github.com/StuMason/shop-template/actions/workflows/tests.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Laravel 13](https://img.shields.io/badge/Laravel-13-FF2D20?logo=laravel&logoColor=white)
 ![PHP 8.4](https://img.shields.io/badge/PHP-8.4-777BB4?logo=php&logoColor=white)
+![Lighthouse 100](https://img.shields.io/badge/Lighthouse-100s-0CCE6B?logo=lighthouse&logoColor=white)
 
-A blank-slate Laravel shop you can clone, brand, and ship in an afternoon.
-Sell any physical product: SSR storefront, pay-by-bank checkout, full admin,
-and first-class support for AI agents as customers.
+**The open-source Laravel commerce platform built for how people — and AI
+agents — shop in 2026.**
+
+A Lighthouse-100, SEO-first storefront your customers love, wired to three
+agent payment rails (**MCP**, **ACP**, **x402**) so ChatGPT, Claude, or
+anything with a crypto wallet can discover, buy, and even *receive* products
+with no human in the loop. Sells physical **and** digital goods. Runs on
+SQLite with zero external services. Clone it, brand it in two files, ship a
+real shop this afternoon.
 
 **[Live demo →](https://shop-template.stumason.dev)** · built by
 [Stu Mason](https://stumason.dev) ([@StuMason](https://github.com/StuMason))
@@ -17,31 +24,55 @@ and first-class support for AI agents as customers.
 
 ## What's in the box
 
-- **Storefront** — server-rendered (Inertia v3 SSR), SEO-first: per-page meta,
-  Product/Offer/Breadcrumb JSON-LD, sitemap, canonical URLs. React 19 +
-  Tailwind 4.
-- **Catalogue** — products with options/variants (per-variant SKU, price,
-  stock), categories, WebP responsive images (spatie/medialibrary), search
-  (Laravel Scout, database engine — swap to Meilisearch with one env var).
-- **Basket & checkout** — guest + account baskets that merge on login,
-  stock-safe order creation (locked decrements, idempotent submits), flat-rate
-  shipping zones with free-over thresholds, guest checkout.
-- **Pay by bank** — GoCardless Instant Bank Pay via hosted Billing Request
-  Flows. No card forms, no PCI scope. The gateway is a driver
-  (`PAYMENT_GATEWAY=gocardless|fake`); add Stripe et al by implementing one
-  interface.
-- **Admin** — same Inertia/React stack, behind spatie RBAC (admin/staff):
-  products with a variant editor and image uploads, orders with a guarded
-  status machine and manual refunds, categories, shipping, support, settings.
-- **Customer account** — order history, address book, notifications
-  (mail + in-app), support tickets.
-- **AI-ready** — `/llms.txt`, `/llms-full.txt`, `/products/{slug}.md`, an
-  AI-welcoming robots.txt, and an **MCP server at `/mcp/shop`**: agents can
-  search, build a basket, and get a checkout link — but a human always
-  authorises payment in their own banking app.
-- **Production-ready** — Dockerfile + supervisord (php-fpm, nginx, SSR, queue,
-  scheduler) for Coolify, CI (tests on PHP 8.3–8.5, larastan level 7, pint,
-  eslint, tsc, SSR build), dependabot with auto-merge, security audits.
+### 🛍️ For your customers
+
+- **A storefront that scores Lighthouse 100s** — Inertia v3 SSR, React 19,
+  Tailwind 4, AVIF images, view-transition page morphs, and SEO done right
+  (per-page meta, Product/Offer/Breadcrumb/AggregateRating JSON-LD, sitemap,
+  canonicals).
+- **Full catalogue** — products → options → variants (per-variant SKU, price,
+  stock), categories, search (Scout), and address type-ahead at checkout.
+- **Pay by bank, no card forms** — GoCardless Instant Bank Pay, zero PCI
+  scope. Swap providers by implementing one interface.
+- **Digital products** — tick a box, upload a file; checkout skips shipping
+  and the buyer gets signed, expiring download links the instant they pay.
+- **Accounts** — order history, address book, 2FA + passkeys (Fortify),
+  support tickets, and guest orders that attach to the account later.
+
+### 🤖 For AI agents — the part nobody else ships
+
+- **MCP server** (`/mcp/shop`) — agents search, build a basket, and check out
+  conversationally. A second, OAuth-gated admin MCP lets *you* run the whole
+  shop by chat.
+- **Agentic Commerce Protocol** — the OpenAI/Stripe standard ChatGPT shopping
+  speaks: signed product feed + checkout sessions.
+- **x402** — agents settle orders autonomously in USDC on Base. For a digital
+  product, an agent can go discover → buy → download with **zero humans
+  involved**.
+- **Discoverable by design** — `llms.txt`, per-product markdown, `AGENTS.md`,
+  and a robots.txt that welcomes crawlers.
+
+### 📈 For you, the merchant
+
+- **Admin for everything** — products/variants, orders (guarded status
+  machine, tracking, refunds, packing slips), discounts (incl.
+  once-per-customer), shipping, VAT, review moderation, settings — behind RBAC.
+- **Automation on autopilot** — abandoned-checkout recovery, back-in-stock
+  waitlists, verified-buyer review requests, a weekly metrics digest, and
+  **AI-drafted support replies grounded in the customer's real order history**.
+- **A dashboard with the five numbers that matter** — revenue, orders, AOV,
+  abandonment, repeat rate.
+
+### 🛠️ Built right
+
+- **200+ tests**, Larastan level 7, Pint, ESLint, Prettier — all gated in CI
+  on PHP 8.4 & 8.5.
+- **Self-documenting** — `CAPABILITIES.md` maps every feature, and a test
+  fails CI if you add one without documenting it.
+- **One-command deploy** — Dockerfile + supervisord (php-fpm, nginx, SSR,
+  queue, scheduler), ships to Coolify; dependabot + security audits included.
+- **Swappable everything** — payments, address lookup, and AI all use the same
+  driver pattern with a `none`/`fake` default, so it runs with no API keys.
 
 ## Quickstart
 

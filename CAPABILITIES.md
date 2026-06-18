@@ -91,6 +91,7 @@ triggers only; `verify()` is the sole authority.
 | Dashboard: revenue, orders, AOV, abandonment, repeat rate | `app/Http/Controllers/Admin/DashboardController.php` | always on |
 | Products/variants/options/media CRUD + digital file upload | `app/Http/Controllers/Admin/ProductController.php` | always on |
 | Orders: status transitions, ship+tracking, refunds, packing slip | `app/Http/Controllers/Admin/OrderController.php` | always on |
+| Print-on-demand fulfilment (Printful: push on pay, tracking webhook) | `app/Printful/PrintfulClient.php`, `app/Actions/Orders/CreatePrintfulOrder.php` | `PRINTFUL_API_TOKEN=...` |
 | Discounts, shipping, reviews, users, settings, support | `app/Http/Controllers/Admin/` | always on |
 | Review moderation (verified-buyer; hide/delete) | `app/Http/Controllers/Admin/ReviewController.php` | always on |
 

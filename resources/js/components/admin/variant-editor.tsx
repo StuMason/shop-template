@@ -30,6 +30,7 @@ export type AdminVariant = {
     compare_at_price: number | null;
     stock: number;
     low_stock_threshold: number;
+    printful_variant_id: number | null;
     is_default: boolean;
     option_value_ids: number[];
     display_name: string;
@@ -68,6 +69,7 @@ function VariantDialog({
             price: string;
             compare_at_price: string;
             stock: number;
+            printful_variant_id: string;
             is_default: boolean;
             option_value_ids: number[];
         }>({
@@ -75,6 +77,10 @@ function VariantDialog({
             price: toPounds(variant?.price ?? 0),
             compare_at_price: toPounds(variant?.compare_at_price ?? null),
             stock: variant?.stock ?? 0,
+            printful_variant_id:
+                variant?.printful_variant_id != null
+                    ? String(variant.printful_variant_id)
+                    : '',
             is_default: variant?.is_default ?? false,
             option_value_ids: variant?.option_value_ids ?? [],
         });
@@ -83,6 +89,10 @@ function VariantDialog({
         ...current,
         price: toPence(current.price) ?? 0,
         compare_at_price: toPence(current.compare_at_price),
+        printful_variant_id:
+            current.printful_variant_id.trim() === ''
+                ? null
+                : Number.parseInt(current.printful_variant_id, 10),
     }));
 
     function submit(event: React.FormEvent) {
@@ -117,6 +127,26 @@ function VariantDialog({
                         required
                     />
                     <InputError message={errors.sku} />
+                </div>
+
+                <div className="grid gap-2">
+                    <Label htmlFor="variant-printful">
+                        Printful variant ID{' '}
+                        <span className="text-muted-foreground">
+                            (optional — enables print-on-demand fulfilment)
+                        </span>
+                    </Label>
+                    <Input
+                        id="variant-printful"
+                        type="number"
+                        inputMode="numeric"
+                        value={data.printful_variant_id}
+                        onChange={(event) =>
+                            setData('printful_variant_id', event.target.value)
+                        }
+                        placeholder="e.g. 4836291720"
+                    />
+                    <InputError message={errors.printful_variant_id} />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">

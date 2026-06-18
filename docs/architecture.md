@@ -148,6 +148,18 @@ same manager pattern: none|anthropic|fake) trigger on customer ticket
 messages and are cleared by any staff reply — drafts are suggestions,
 never sent automatically.
 
+## Fulfilment (Printful)
+
+Optional print-on-demand. Set `PRINTFUL_API_TOKEN` and put a Printful
+sync-variant id on a `ProductVariant` (admin variant editor) and paid orders
+push their POD items to Printful on the `OrderPaid` event (`CreatePrintfulOrder`,
+queued). `external_id` is our order number, so Printful's `package_shipped`
+webhook (gated by a URL secret, since Printful doesn't sign) maps back and
+marks the order shipped via the same `ShipOrder` action the admin uses — the
+customer gets the dispatch email. Mixed baskets work: only variants with a
+printful id are sent; everything else stays manual. `PRINTFUL_AUTO_CONFIRM`
+false leaves orders as drafts to review; true submits them for printing.
+
 ## Frontend / SSR
 
 - Layout is assigned by page-name prefix in **both** `resources/js/app.tsx`

@@ -17,6 +17,7 @@ use App\Http\Controllers\Storefront\ReviewController;
 use App\Http\Controllers\Storefront\StockNotificationController;
 use App\Http\Controllers\Webhooks\GoCardlessWebhookController;
 use App\Http\Controllers\Webhooks\PaymentWebhookController;
+use App\Http\Controllers\Webhooks\PrintfulWebhookController;
 use App\Http\Middleware\AuthenticateAcp;
 use App\Http\Middleware\DisableInertiaSsr;
 use Illuminate\Support\Facades\Route;
@@ -81,6 +82,10 @@ Route::post('webhooks/payments', PaymentWebhookController::class)
 Route::post('webhooks/gocardless', GoCardlessWebhookController::class)
     ->middleware('throttle:webhooks')
     ->name('webhooks.gocardless');
+
+Route::post('webhooks/printful', PrintfulWebhookController::class)
+    ->middleware('throttle:webhooks')
+    ->name('webhooks.printful');
 
 Route::middleware(['auth', 'verified', DisableInertiaSsr::class])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');

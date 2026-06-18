@@ -19,6 +19,7 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property int $product_id
  * @property string $sku
+ * @property int|null $printful_variant_id
  * @property int $price
  * @property int|null $compare_at_price
  * @property int $stock
@@ -28,7 +29,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['sku', 'price', 'compare_at_price', 'stock', 'low_stock_threshold', 'is_default', 'position'])]
+#[Fillable(['sku', 'printful_variant_id', 'price', 'compare_at_price', 'stock', 'low_stock_threshold', 'is_default', 'position'])]
 class ProductVariant extends Model
 {
     /**

@@ -31,6 +31,7 @@ use InvalidArgumentException;
  * @property string|null $shipping_method_name
  * @property string|null $carrier
  * @property string|null $tracking_number
+ * @property int|null $printful_order_id
  * @property array<string, string|null> $shipping_address
  * @property array<string, string|null> $billing_address
  * @property string|null $customer_note
@@ -49,7 +50,7 @@ use InvalidArgumentException;
     'number', 'user_id', 'cart_id', 'email', 'status', 'currency', 'subtotal',
     'discount_total', 'discount_code',
     'shipping_total', 'vat_total', 'total', 'shipping_method_name', 'carrier',
-    'tracking_number', 'shipping_address', 'billing_address', 'customer_note',
+    'tracking_number', 'printful_order_id', 'shipping_address', 'billing_address', 'customer_note',
     'placed_at', 'paid_at', 'shipped_at', 'delivered_at', 'cancelled_at',
     'recovery_stage', 'recovery_emailed_at', 'review_requested_at',
 ])]

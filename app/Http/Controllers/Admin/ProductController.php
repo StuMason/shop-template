@@ -111,6 +111,7 @@ class ProductController extends Controller
                 'variants' => $product->variants->map(fn (ProductVariant $variant): array => [
                     'id' => $variant->id,
                     'sku' => $variant->sku,
+                    'printful_variant_id' => $variant->printful_variant_id,
                     'price' => $variant->price,
                     'compare_at_price' => $variant->compare_at_price,
                     'stock' => $variant->stock,

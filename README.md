@@ -240,6 +240,15 @@ ticket message gets a suggested staff reply drafted from the customer's
 real order history (status, tracking, items) — one click to adopt, edit,
 send. Drafts never auto-send; a human always approves.
 
+## Print-on-demand fulfilment (optional)
+
+Set `PRINTFUL_API_TOKEN` (+ `PRINTFUL_STORE_ID`) and put your Printful
+sync-variant id on each variant in the admin. Paid orders then push their
+print-on-demand items to Printful automatically, and Printful's shipment
+webhook (`/webhooks/printful?token=PRINTFUL_WEBHOOK_SECRET`) marks the order
+shipped with tracking. Leave `PRINTFUL_AUTO_CONFIRM=false` to review orders as
+drafts first. No token = manual fulfilment.
+
 ## Address type-ahead (optional)
 
 Set `ADDRESS_LOOKUP=google` and a server-side `GOOGLE_PLACES_API_KEY`

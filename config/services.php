@@ -63,6 +63,15 @@ return [
         'model' => env('ANTHROPIC_MODEL', 'claude-haiku-4-5-20251001'),
     ],
 
+    'printful' => [
+        'token' => env('PRINTFUL_API_TOKEN'),
+        'store_id' => env('PRINTFUL_STORE_ID'),
+        // Drafts (false) let you review in the Printful dashboard before it
+        // charges + prints; true submits paid orders for fulfilment.
+        'auto_confirm' => env('PRINTFUL_AUTO_CONFIRM', false),
+        'webhook_secret' => env('PRINTFUL_WEBHOOK_SECRET'),
+    ],
+
     'x402' => [
         'enabled' => env('X402_ENABLED', false),
         'facilitator_url' => env('X402_FACILITATOR_URL', 'https://x402.org/facilitator'),

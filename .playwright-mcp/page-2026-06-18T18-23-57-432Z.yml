@@ -1,0 +1,94 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - link "Skip to content" [ref=e4] [cursor=pointer]:
+      - /url: "#main"
+    - banner [ref=e5]:
+      - generic [ref=e6]:
+        - link "NotRobophobic [agents welcome]" [ref=e7] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e8]: NotRobophobic
+          - generic [ref=e9]: "[agents welcome]"
+        - navigation "Main navigation" [ref=e10]:
+          - link "Shop" [ref=e11] [cursor=pointer]:
+            - /url: /products
+          - link "Sign in" [ref=e12] [cursor=pointer]:
+            - /url: /login
+            - img [ref=e13]
+          - button "Basket, 0 items" [ref=e16]:
+            - img
+    - main [ref=e17]:
+      - generic [ref=e19]:
+        - heading "Don't be robophobic — let your agents buy shit." [level=1] [ref=e20]
+        - link "Shop all products" [ref=e21] [cursor=pointer]:
+          - /url: /products
+      - region "Browse by category" [ref=e22]:
+        - heading "Browse by category" [level=2] [ref=e23]
+        - list [ref=e24]:
+          - listitem [ref=e25]:
+            - link "Services" [ref=e26] [cursor=pointer]:
+              - /url: /categories/services
+          - listitem [ref=e27]:
+            - link "Merch" [ref=e28] [cursor=pointer]:
+              - /url: /categories/merch
+          - listitem [ref=e29]:
+            - link "Digital" [ref=e30] [cursor=pointer]:
+              - /url: /categories/digital
+      - region "Latest products" [ref=e31]:
+        - heading "Latest products" [level=2] [ref=e32]
+        - generic [ref=e33]:
+          - article [ref=e34]:
+            - img "Managed Shop" [ref=e37]
+            - generic [ref=e38]:
+              - heading "Managed Shop" [level=3] [ref=e39]:
+                - link "Managed Shop" [ref=e40] [cursor=pointer]:
+                  - /url: /products/managed-shop
+              - paragraph [ref=e41]:
+                - generic [ref=e42]: £1,499.00
+          - article [ref=e43]:
+            - img "The Robophobic Mug" [ref=e46]
+            - generic [ref=e47]:
+              - heading "The Robophobic Mug" [level=3] [ref=e48]:
+                - link "The Robophobic Mug" [ref=e49] [cursor=pointer]:
+                  - /url: /products/the-robophobic-mug
+              - paragraph [ref=e50]:
+                - generic [ref=e51]: £14.99
+          - article [ref=e52]:
+            - img "Let Your Agents Buy Shit — Tee" [ref=e55]
+            - generic [ref=e56]:
+              - heading "Let Your Agents Buy Shit — Tee" [level=3] [ref=e57]:
+                - link "Let Your Agents Buy Shit — Tee" [ref=e58] [cursor=pointer]:
+                  - /url: /products/let-your-agents-buy-shit-tee
+              - paragraph [ref=e59]:
+                - generic [ref=e60]: £24.99
+          - article [ref=e61]:
+            - img "Robophobic Wallpaper Pack" [ref=e64]
+            - generic [ref=e65]:
+              - heading "Robophobic Wallpaper Pack" [level=3] [ref=e66]:
+                - link "Robophobic Wallpaper Pack" [ref=e67] [cursor=pointer]:
+                  - /url: /products/robophobic-wallpaper-pack
+              - paragraph [ref=e68]:
+                - generic [ref=e69]: £4.99
+    - contentinfo [ref=e70]:
+      - generic [ref=e71]:
+        - generic [ref=e72]:
+          - paragraph [ref=e73]: NotRobophobic
+          - paragraph [ref=e74]: Don't be robophobic — let your agents buy shit.
+          - paragraph [ref=e75]:
+            - link "hello@notrobophobic.com" [ref=e76] [cursor=pointer]:
+              - /url: mailto:hello@notrobophobic.com
+        - navigation "Information" [ref=e77]:
+          - list [ref=e78]:
+            - listitem [ref=e79]:
+              - link "About" [ref=e80] [cursor=pointer]:
+                - /url: /pages/about
+            - listitem [ref=e81]:
+              - link "Privacy" [ref=e82] [cursor=pointer]:
+                - /url: /pages/privacy
+            - listitem [ref=e83]:
+              - link "Returns" [ref=e84] [cursor=pointer]:
+                - /url: /pages/returns
+            - listitem [ref=e85]:
+              - link "Terms" [ref=e86] [cursor=pointer]:
+                - /url: /pages/terms
+    - status [ref=e87]
+  - region "Notifications alt+T"

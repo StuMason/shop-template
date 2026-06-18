@@ -30,6 +30,7 @@ class ProductVariantRequest extends FormRequest
                 'max:64',
                 Rule::unique('product_variants', 'sku')->ignore($this->route('variant')),
             ],
+            'printful_variant_id' => ['nullable', 'integer'],
             'price' => ['required', 'integer', 'min:0'],
             'compare_at_price' => ['nullable', 'integer', 'min:0', 'gt:price'],
             'stock' => ['required', 'integer', 'min:0'],

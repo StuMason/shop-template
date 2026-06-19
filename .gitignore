@@ -27,3 +27,7 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+
+# Local agent/browser artefacts
+.playwright-mcp/
+nrb-*.png

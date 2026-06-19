@@ -78,6 +78,14 @@ return [
         'pay_to' => env('X402_PAY_TO'),
         'network' => env('X402_NETWORK', 'base'),
         'fx_rate' => env('X402_FX_RATE', 1.0),
+
+        // PayAI facilitator credentials (optional). Set both to authenticate
+        // verify/settle with PayAI's free Base-mainnet facilitator; leave unset
+        // to use a keyless facilitator (e.g. x402.org).
+        'payai' => [
+            'key_id' => env('PAY_AI_KEY'),
+            'key_secret' => env('PAY_AI_SECRET'),
+        ],
     ],
 
 ];

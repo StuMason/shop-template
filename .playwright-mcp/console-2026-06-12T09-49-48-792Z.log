@@ -1,3 +1,0 @@
-[     188ms] [LOG] 🔍 Browser logger active (MCP server detected). Posting to: http://shop-template.test/_boost/browser-logs @ http://shop-template.test/checkout:175
-[   41659ms] [ERROR] Failed to load resource: the server responded with a status of 409 (Conflict) @ http://shop-template.test/checkout/pay/ORD-260612-EYPQ:0
-[   41831ms] [LOG] 🔍 Browser logger active (MCP server detected). Posting to: http://shop-template.test/_boost/browser-logs @ http://shop-template.test/checkout/complete/ORD-260612-EYPQ?signature=2a54a42b560e5a94e57052c5633364216984b41e146de6eb91dd24322056a918:175

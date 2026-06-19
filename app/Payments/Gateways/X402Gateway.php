@@ -5,9 +5,11 @@ namespace App\Payments\Gateways;
 use App\Enums\PaymentStatus;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Payments\Contracts\FacilitatorAuthenticator;
 use App\Payments\Contracts\PaymentGateway;
 use App\Payments\PaymentVerification;
 use App\Payments\PendingPayment;
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\URL;
 
@@ -33,6 +35,7 @@ class X402Gateway implements PaymentGateway
         private readonly string $payTo,
         private readonly string $network,
         private readonly float $fxRate,
+        private readonly ?FacilitatorAuthenticator $authenticator = null,
     ) {}
 
     public function createPayment(Payment $payment, Order $order, string $returnUrl, string $webhookUrl): PendingPayment
@@ -55,12 +58,14 @@ class X402Gateway implements PaymentGateway
 
         $requirements = $this->requirementsFor($payment);
 
-        $verify = Http::timeout(10)->connectTimeout(3)
-            ->post("{$this->facilitatorUrl}/verify", [
-                'x402Version' => 1,
-                'paymentPayload' => $payload,
-                'paymentRequirements' => $requirements,
-            ]);
+        $body = [
+            'x402Version' => 1,
+            'paymentPayload' => $payload,
+            'paymentRequirements' => $requirements,
+        ];
+
+        $verify = $this->facilitator(timeout: 10)
+            ->post("{$this->facilitatorUrl}/verify", $body);
 
         if ($verify->failed() || $verify->json('isValid') !== true) {
             return new PaymentVerification(
@@ -69,12 +74,8 @@ class X402Gateway implements PaymentGateway
             );
         }
 
-        $settle = Http::timeout(30)->connectTimeout(3)
-            ->post("{$this->facilitatorUrl}/settle", [
-                'x402Version' => 1,
-                'paymentPayload' => $payload,
-                'paymentRequirements' => $requirements,
-            ]);
+        $settle = $this->facilitator(timeout: 30)
+            ->post("{$this->facilitatorUrl}/settle", $body);
 
         if ($settle->failed() || $settle->json('success') !== true) {
             return new PaymentVerification(
@@ -88,6 +89,22 @@ class X402Gateway implements PaymentGateway
             gatewayTransactionId: $settle->json('transaction'),
             raw: ['settle' => $settle->json()],
         );
+    }
+
+    /**
+     * A facilitator HTTP client, carrying a fresh bearer token when the
+     * facilitator requires authentication (e.g. PayAI). Keyless facilitators
+     * get no Authorization header.
+     */
+    private function facilitator(int $timeout): PendingRequest
+    {
+        $request = Http::timeout($timeout)->connectTimeout(3);
+
+        if ($this->authenticator !== null) {
+            $request = $request->withToken($this->authenticator->bearerToken());
+        }
+
+        return $request;
     }
 
     /**

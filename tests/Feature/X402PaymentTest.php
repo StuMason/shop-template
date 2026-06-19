@@ -81,6 +81,30 @@ it('settles via the facilitator and marks the order paid', function () {
     Notification::assertSentOnDemand(OrderPaidNotification::class);
 });
 
+it('authenticates facilitator calls with a PayAI bearer token when configured', function () {
+    $keypair = sodium_crypto_sign_keypair();
+    $seed = substr(sodium_crypto_sign_secretkey($keypair), 0, 32);
+
+    config([
+        'services.x402.payai.key_id' => 'key-123',
+        'services.x402.payai.key_secret' => 'payai_sk_'.base64_encode(
+            hex2bin('302e020100300506032b657004220420').$seed,
+        ),
+    ]);
+
+    Http::fake([
+        'facilitator.test/verify' => Http::response(['isValid' => true]),
+        'facilitator.test/settle' => Http::response(['success' => true, 'transaction' => '0xabc123']),
+    ]);
+
+    $this->getJson(x402Url(Order::factory()->create(['total' => 2000])), x402Header())->assertOk();
+
+    Http::assertSent(fn ($request) => in_array($request->url(), [
+        'https://facilitator.test/verify',
+        'https://facilitator.test/settle',
+    ], true) && str_starts_with($request->header('Authorization')[0] ?? '', 'Bearer ey'));
+});
+
 it('returns 402 again when the facilitator rejects the payment', function () {
     Http::fake([
         'facilitator.test/verify' => Http::response(['isValid' => false, 'invalidReason' => 'insufficient_funds']),

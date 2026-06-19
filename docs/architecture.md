@@ -137,6 +137,12 @@ is a snapshot — don't derive it from the product at read time.
   lookback before `MarkOrderPaid`. Invariant 5 holds: the facilitator
   response is the only thing trusted, never the header itself.
   `X402_FX_RATE` converts shop currency to USD (USDC is 6 dp atomic).
+  The facilitator is swappable via `X402_FACILITATOR_URL`: a keyless one
+  (x402.org) needs no auth, while PayAI's free Base-mainnet facilitator is
+  authenticated with a short-lived per-request EdDSA JWT (`PAY_AI_KEY` /
+  `PAY_AI_SECRET`) minted by `App\Payments\X402\PayAiAuthenticator` behind the
+  `FacilitatorAuthenticator` contract — set both and the gateway signs every
+  verify/settle call.
 
 ## Automation spine
 

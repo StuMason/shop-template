@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,12 +14,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(RolesSeeder::class);
 
-        $admin = User::query()->firstOrCreate(
-            ['email' => 'admin@example.com'],
-            ['name' => 'Admin User', 'password' => 'password'],
-        );
-
-        $admin->assignRole('admin');
+        // The admin user is owned by ADMIN_EMAIL / ADMIN_PASSWORD; the same
+        // command runs on every boot, so seeding just shares that one path.
+        Artisan::call('shop:ensure-admin');
 
         $this->call(ShippingSeeder::class);
         $this->call(DemoCatalogueSeeder::class);

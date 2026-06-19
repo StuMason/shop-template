@@ -134,6 +134,7 @@ triggers only; `verify()` is the sole authority.
 | --- | --- | --- |
 | Multi-stage Docker, supervisord (fpm/nginx/ssr/queue/scheduler) | `Dockerfile`, `docker/supervisord.conf` | always on |
 | One-command run (auto APP_KEY, seed-once) | `compose.yaml`, `docker/entrypoint.sh` | `docker compose up` |
+| Admin login from env (provisioned every boot, rotatable) | `app/Console/Commands/EnsureAdminUser.php` (`shop:ensure-admin`) | `ADMIN_EMAIL` / `ADMIN_PASSWORD` |
 | Railway one-click deploy | `railway.json` | always on |
 | Media disk (public volume → S3/R2) | `config/filesystems.php` | `MEDIA_DISK=public` |
 | Error monitoring | `bootstrap/app.php` | `SENTRY_LARAVEL_DSN=...` |

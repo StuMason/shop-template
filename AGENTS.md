@@ -33,9 +33,11 @@ them:
 
 | Capability | Envs |
 | --- | --- |
+| Admin login (else `admin@example.com` / `password`) | `ADMIN_EMAIL`, `ADMIN_PASSWORD` |
 | Real pay-by-bank | `PAYMENT_GATEWAY=gocardless`, `GOCARDLESS_ACCESS_TOKEN`, `GOCARDLESS_ENVIRONMENT`, `GOCARDLESS_WEBHOOK_SECRET` |
-| Agent USDC payments (x402) | `X402_ENABLED=true`, `X402_PAY_TO`, `X402_NETWORK`, `X402_FACILITATOR_URL`, `X402_FX_RATE` |
+| Agent USDC payments (x402) | `X402_ENABLED=true`, `X402_PAY_TO`, `X402_NETWORK`, `X402_FACILITATOR_URL`, `X402_FX_RATE` (PayAI facilitator: `PAY_AI_KEY`, `PAY_AI_SECRET`) |
 | Agentic Commerce Protocol | `ACP_API_KEY` (+ optional `ACP_SIGNATURE_SECRET`) |
+| Print-on-demand fulfilment | `PRINTFUL_API_TOKEN`, `PRINTFUL_STORE_ID`, `PRINTFUL_WEBHOOK_SECRET`, `PRINTFUL_AUTO_CONFIRM` |
 | Address type-ahead | `ADDRESS_LOOKUP=google`, `GOOGLE_PLACES_API_KEY` |
 | Error monitoring | `SENTRY_LARAVEL_DSN` |
 
@@ -54,6 +56,7 @@ three paths: a data dir for SQLite (set `DB_DATABASE=/data/database.sqlite`
 and mount `/data` — NEVER mount `database/` itself, the volume would shadow
 new migration files shipped in the image), `storage/app/public`, and
 `storage/app/private`.
-The entrypoint migrates, seeds (`AUTO_SEED=true`, once), generates Passport
-keys, and optimizes. See `docs/architecture.md` before changing commerce
-code — it lists the invariants.
+The entrypoint migrates, provisions the admin from `ADMIN_EMAIL` /
+`ADMIN_PASSWORD` (every boot — set them and redeploy to rotate), seeds
+(`AUTO_SEED=true`, once), generates Passport keys, and optimizes. See
+`docs/architecture.md` before changing commerce code — it lists the invariants.

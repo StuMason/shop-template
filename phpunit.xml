@@ -35,6 +35,8 @@
         <env name="X402_ENABLED" value="false"/>
         <env name="PAY_AI_KEY" value=""/>
         <env name="PAY_AI_SECRET" value=""/>
+        <env name="ADMIN_EMAIL" value="admin@example.com"/>
+        <env name="ADMIN_PASSWORD" value=""/>
         <env name="ACP_API_KEY" value=""/>
         <env name="PRINTFUL_API_TOKEN" value=""/>
         <env name="SUPPORT_DRAFTER" value="none"/>

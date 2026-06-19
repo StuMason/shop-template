@@ -94,7 +94,9 @@ composer dev       # server + queue + logs + vite (Herd users: site is already l
 ```
 
 Either way, log in as `admin@example.com` / `password` — the demo catalogue,
-a UK shipping zone, and the admin role are all seeded.
+a UK shipping zone, and the admin role are all seeded. For production, set
+`ADMIN_EMAIL` and `ADMIN_PASSWORD`: the admin is (re)provisioned from them on
+every boot, so you own the credentials and the placeholder default is disabled.
 
 Payments default to the **fake gateway** locally (every payment succeeds).
 For real pay-by-bank, create a free [GoCardless sandbox

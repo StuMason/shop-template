@@ -78,6 +78,10 @@ if [ "$AUTO_MIGRATE" = "true" ]; then
     fi
     echo "       Migrations completed successfully."
 
+    # Provision/refresh the admin from ADMIN_EMAIL / ADMIN_PASSWORD on every
+    # boot, so credentials are owned by config rather than a one-off seed.
+    php artisan shop:ensure-admin || echo "WARNING: admin provisioning failed (continuing)"
+
     if [ "${AUTO_SEED:-false}" = "true" ]; then
         # Seed once, ever — a marker in the data volume means restarts (and
         # `docker compose up` after the first) never duplicate the catalogue.

@@ -23,6 +23,23 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Admin account
+    |--------------------------------------------------------------------------
+    |
+    | The first admin user, provisioned on every boot by `shop:ensure-admin`.
+    | Set ADMIN_PASSWORD to own the credentials from config (rotate by changing
+    | it and redeploying); leave it unset and a fresh install falls back to the
+    | admin@example.com / password placeholder for local dev only.
+    |
+    */
+
+    'admin' => [
+        'email' => env('ADMIN_EMAIL', 'admin@example.com'),
+        'password' => env('ADMIN_PASSWORD'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Commerce
     |--------------------------------------------------------------------------
     */

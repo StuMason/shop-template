@@ -18,8 +18,9 @@ digital goods, print-on-demand fulfilment, AI-drafted support — on SQLite with
 zero external services. Clone it, brand it in two files, ship a real shop this
 afternoon.
 
-Nobody else ships this: one codebase where the human checkout and the agent
-checkout are the *same actions*, and stablecoin works for both.
+Most "agent-ready" stores bolt a product feed onto a normal shop. Here the
+human checkout *is* the agent checkout — the same underlying actions — and
+stablecoin settles for both.
 
 **[Live demo →](https://shop-template.stumason.dev)** · built by
 [Stu Mason](https://stumason.dev) ([@StuMason](https://github.com/StuMason))

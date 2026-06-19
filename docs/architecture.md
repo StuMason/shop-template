@@ -142,7 +142,17 @@ is a snapshot — don't derive it from the product at read time.
   authenticated with a short-lived per-request EdDSA JWT (`PAY_AI_KEY` /
   `PAY_AI_SECRET`) minted by `App\Payments\X402\PayAiAuthenticator` behind the
   `FacilitatorAuthenticator` contract — set both and the gateway signs every
-  verify/settle call.
+  verify/settle call. The EIP-712 asset domain (`extra.name`) is per-network
+  and must match the on-chain USDC contract — base mainnet is "USD Coin",
+  testnet is "USDC"; the wrong name makes signatures recover to the wrong
+  address and settlement silently fails.
+- **Humans can pay x402 too.** When `WALLETCONNECT_PROJECT_ID` is set, the
+  pay page offers "Pay with USDC": a lazy-loaded wagmi/RainbowKit component
+  (`resources/js/components/crypto/usdc-checkout.tsx`) connects the buyer's
+  wallet and runs the same 402 → sign → retry dance with `x402-fetch` against
+  the signed `agent.pay.x402` URL — the server settles it exactly as it does
+  for an agent. The wallet code is code-split and the checkout route is
+  SSR-disabled, so none of it touches the storefront bundle.
 
 ## Automation spine
 

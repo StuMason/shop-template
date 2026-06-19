@@ -86,6 +86,11 @@ return [
             'key_id' => env('PAY_AI_KEY'),
             'key_secret' => env('PAY_AI_SECRET'),
         ],
+
+        // WalletConnect/Reown project id (free from cloud.reown.com). Required
+        // to offer humans a "Pay with USDC" wallet option at checkout; without
+        // it, x402 stays agent-only.
+        'wallet_connect_project_id' => env('WALLETCONNECT_PROJECT_ID'),
     ],
 
 ];

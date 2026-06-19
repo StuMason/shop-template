@@ -23,11 +23,25 @@ use Illuminate\Support\Facades\URL;
 class X402Gateway implements PaymentGateway
 {
     /**
-     * USDC contract addresses per network (6 decimal places).
+     * USDC per network: the contract address (6 decimal places) plus the
+     * EIP-712 domain name and version the token uses for
+     * transferWithAuthorization. The domain name MUST match the on-chain
+     * contract or the signature recovers to the wrong address and settlement
+     * fails — base mainnet USDC is "USD Coin", testnet USDC is "USDC".
+     *
+     * @var array<string, array{address: string, name: string, version: string}>
      */
     private const ASSETS = [
-        'base' => '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
-        'base-sepolia' => '0x036CbD53842c5426634e7929541eC2318f3dCF7e',
+        'base' => [
+            'address' => '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
+            'name' => 'USD Coin',
+            'version' => '2',
+        ],
+        'base-sepolia' => [
+            'address' => '0x036CbD53842c5426634e7929541eC2318f3dCF7e',
+            'name' => 'USDC',
+            'version' => '2',
+        ],
     ];
 
     public function __construct(
@@ -115,6 +129,8 @@ class X402Gateway implements PaymentGateway
      */
     public function requirementsFor(Payment $payment): array
     {
+        $asset = self::ASSETS[$this->network] ?? self::ASSETS['base'];
+
         return [
             'scheme' => 'exact',
             'network' => $this->network,
@@ -124,8 +140,8 @@ class X402Gateway implements PaymentGateway
             'mimeType' => 'application/json',
             'payTo' => $this->payTo,
             'maxTimeoutSeconds' => 300,
-            'asset' => self::ASSETS[$this->network] ?? self::ASSETS['base'],
-            'extra' => ['name' => 'USDC', 'version' => '2'],
+            'asset' => $asset['address'],
+            'extra' => ['name' => $asset['name'], 'version' => $asset['version']],
             // Discovery metadata: the CDP facilitator's Bazaar index catalogs
             // endpoints from settled traffic; these fields describe the shop
             // to agents browsing the index.
@@ -137,6 +153,22 @@ class X402Gateway implements PaymentGateway
                     config('app.url'),
                 ),
             ],
+        ];
+    }
+
+    /**
+     * A human-facing USDC quote for an order total: the atomic amount the
+     * wallet must authorise, plus a formatted USD label for the pay button.
+     *
+     * @return array{atomic: string, usd: string}
+     */
+    public function quote(int $minorUnits): array
+    {
+        $atomic = $this->atomicUsdcAmount($minorUnits);
+
+        return [
+            'atomic' => (string) $atomic,
+            'usd' => '$'.number_format($atomic / 1_000_000, 2),
         ];
     }
 

@@ -54,6 +54,18 @@ it('advertises USDC payment requirements with a 402', function () {
         ->assertJsonPath('accepts.0.maxAmountRequired', '25000000');
 });
 
+it('advertises the correct USDC asset and EIP-712 domain per network', function () {
+    config(['services.x402.network' => 'base']);
+
+    $this->getJson(x402Url(Order::factory()->create(['total' => 1000])))
+        ->assertStatus(402)
+        ->assertJsonPath('accepts.0.network', 'base')
+        ->assertJsonPath('accepts.0.asset', '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913')
+        // Base mainnet USDC signs as "USD Coin"; the wrong name breaks settlement.
+        ->assertJsonPath('accepts.0.extra.name', 'USD Coin')
+        ->assertJsonPath('accepts.0.extra.version', '2');
+});
+
 it('settles via the facilitator and marks the order paid', function () {
     Notification::fake();
 

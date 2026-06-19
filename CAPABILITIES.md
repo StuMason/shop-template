@@ -54,6 +54,8 @@ triggers only; `verify()` is the sole authority.
 | Manager / driver resolution | `app/Payments/PaymentManager.php` | `PAYMENT_GATEWAY=fake` |
 | Pay-by-bank (GoCardless Instant Bank Pay + signed webhook) | `app/Payments/Gateways/GoCardlessGateway.php` | `PAYMENT_GATEWAY=gocardless` |
 | Agent USDC settlement (x402, HTTP-402 dance via facilitator) | `app/Payments/Gateways/X402Gateway.php` | `X402_ENABLED=true` |
+| PayAI authenticated facilitator (free Base mainnet, EdDSA JWT) | `app/Payments/X402/PayAiAuthenticator.php` | `PAY_AI_KEY` + `PAY_AI_SECRET` |
+| Human "Pay with USDC" checkout (browser wallet → x402) | `resources/js/components/crypto/usdc-checkout.tsx` | `X402_ENABLED` + `WALLETCONNECT_PROJECT_ID` |
 | Local/test gateway (scriptable outcomes) | `app/Payments/Gateways/FakeGateway.php` | `PAYMENT_GATEWAY=fake` |
 | Self-healing confirmation (re-verify + poll while pending) | `app/Http/Controllers/Storefront/PaymentController.php` | always on |
 | Manual refund recording | `app/Actions/Orders/RecordRefund.php` | always on |

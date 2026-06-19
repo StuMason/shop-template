@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Payment;
+use App\Payments\Gateways\X402Gateway;
 use App\Payments\PaymentManager;
 use App\Support\ShopSettings;
 use Illuminate\Http\RedirectResponse;
@@ -24,7 +25,7 @@ class PaymentController extends Controller
      * Order summary + "Pay with your bank" button. Signed URL so guests
      * (and agent-assisted checkouts) can reach it without an account.
      */
-    public function show(Order $order): Response|RedirectResponse
+    public function show(Order $order, PaymentManager $payments): Response|RedirectResponse
     {
         if ($order->status !== OrderStatus::Pending) {
             return redirect()->to(URL::signedRoute('checkout.complete', ['order' => $order]));
@@ -33,7 +34,38 @@ class PaymentController extends Controller
         return Inertia::render('checkout/pay', [
             'order' => $this->orderPayload($order),
             'payUrl' => route('checkout.pay.start', $order),
+            'crypto' => $this->cryptoOption($order, $payments),
         ]);
+    }
+
+    /**
+     * The "Pay with USDC" option for the pay page: the signed x402 resource a
+     * connected wallet pays against, plus what the button needs to show. Null
+     * unless x402 is enabled and a WalletConnect project id is configured.
+     *
+     * @return array<string, string>|null
+     */
+    private function cryptoOption(Order $order, PaymentManager $payments): ?array
+    {
+        $projectId = (string) config('services.x402.wallet_connect_project_id');
+
+        if (! $payments->x402Enabled() || $projectId === '') {
+            return null;
+        }
+
+        /** @var X402Gateway $gateway */
+        $gateway = $payments->driver('x402');
+        $quote = $gateway->quote($order->total);
+
+        return [
+            'payUrl' => URL::signedRoute('agent.pay.x402', ['order' => $order]),
+            'confirmUrl' => URL::signedRoute('checkout.complete', ['order' => $order]),
+            'projectId' => $projectId,
+            'network' => (string) config('services.x402.network'),
+            'maxAtomic' => $quote['atomic'],
+            'usdLabel' => $quote['usd'],
+            'appName' => app(ShopSettings::class)->name(),
+        ];
     }
 
     /**

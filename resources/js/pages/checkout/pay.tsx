@@ -1,9 +1,15 @@
 import { router } from '@inertiajs/react';
-import { Landmark } from 'lucide-react';
-import { useState } from 'react';
+import { Coins, Landmark } from 'lucide-react';
+import { lazy, Suspense, useState } from 'react';
+import type { CryptoCheckout } from '@/components/crypto/usdc-checkout';
 import { Seo } from '@/components/seo';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
+import { cn } from '@/lib/utils';
+
+// Code-split: the wallet stack (wagmi/RainbowKit) loads only when a human
+// actually chooses to pay with crypto, never in the main or SSR bundle.
+const UsdcCheckout = lazy(() => import('@/components/crypto/usdc-checkout'));
 
 type OrderSummary = {
     number: string;
@@ -28,11 +34,14 @@ type OrderSummary = {
 export default function CheckoutPay({
     order,
     payUrl,
+    crypto = null,
 }: {
     order: OrderSummary;
     payUrl: string;
+    crypto?: CryptoCheckout | null;
 }) {
     const [redirecting, setRedirecting] = useState(false);
+    const [method, setMethod] = useState<'bank' | 'usdc'>('bank');
 
     function pay() {
         setRedirecting(true);
@@ -121,28 +130,94 @@ export default function CheckoutPay({
                     </div>
                 )}
 
-                <Button
-                    size="lg"
-                    className="w-full"
-                    disabled={redirecting}
-                    onClick={pay}
-                >
-                    {redirecting ? (
-                        <>
-                            <Spinner className="size-4" aria-hidden="true" />
-                            Redirecting to your bank…
-                        </>
-                    ) : (
-                        <>
-                            <Landmark className="size-4" aria-hidden="true" />
-                            Pay {order.total} with your bank
-                        </>
-                    )}
-                </Button>
-                <p className="mt-3 text-center text-xs text-muted-foreground">
-                    You'll approve this payment securely in your own banking app
-                    — no card details needed.
-                </p>
+                {crypto && (
+                    <div
+                        className="mb-5 grid grid-cols-2 gap-3"
+                        role="tablist"
+                        aria-label="Payment method"
+                    >
+                        {(
+                            [
+                                {
+                                    id: 'bank',
+                                    label: 'Pay by bank',
+                                    icon: Landmark,
+                                },
+                                {
+                                    id: 'usdc',
+                                    label: 'Pay with USDC',
+                                    icon: Coins,
+                                },
+                            ] as const
+                        ).map((option) => (
+                            <button
+                                key={option.id}
+                                type="button"
+                                role="tab"
+                                aria-selected={method === option.id}
+                                onClick={() => setMethod(option.id)}
+                                className={cn(
+                                    'flex items-center justify-center gap-2 rounded-lg border p-3 text-sm font-medium transition-colors',
+                                    method === option.id
+                                        ? 'border-primary bg-primary/5 text-foreground'
+                                        : 'text-muted-foreground hover:bg-muted/50',
+                                )}
+                            >
+                                <option.icon
+                                    className="size-4"
+                                    aria-hidden="true"
+                                />
+                                {option.label}
+                            </button>
+                        ))}
+                    </div>
+                )}
+
+                {crypto && method === 'usdc' ? (
+                    <Suspense
+                        fallback={
+                            <div className="flex justify-center py-6">
+                                <Spinner
+                                    className="size-5"
+                                    aria-hidden="true"
+                                />
+                            </div>
+                        }
+                    >
+                        <UsdcCheckout crypto={crypto} />
+                    </Suspense>
+                ) : (
+                    <>
+                        <Button
+                            size="lg"
+                            className="w-full"
+                            disabled={redirecting}
+                            onClick={pay}
+                        >
+                            {redirecting ? (
+                                <>
+                                    <Spinner
+                                        className="size-4"
+                                        aria-hidden="true"
+                                    />
+                                    Redirecting to your bank…
+                                </>
+                            ) : (
+                                <>
+                                    <Landmark
+                                        className="size-4"
+                                        aria-hidden="true"
+                                    />
+                                    Pay {order.total} with your bank
+                                </>
+                            )}
+                        </Button>
+                        <p className="mt-3 text-center text-xs text-muted-foreground">
+                            You'll approve this payment securely in your own
+                            banking app — no card details needed.
+                        </p>
+                    </>
+                )}
             </div>
         </>
     );

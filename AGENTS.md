@@ -36,7 +36,7 @@ them:
 | Admin login (else `admin@example.com` / `password`) | `ADMIN_EMAIL`, `ADMIN_PASSWORD` |
 | Real pay-by-bank | `PAYMENT_GATEWAY=gocardless`, `GOCARDLESS_ACCESS_TOKEN`, `GOCARDLESS_ENVIRONMENT`, `GOCARDLESS_WEBHOOK_SECRET` |
 | Agent USDC payments (x402) | `X402_ENABLED=true`, `X402_PAY_TO`, `X402_NETWORK`, `X402_FACILITATOR_URL`, `X402_FX_RATE` (PayAI facilitator: `PAY_AI_KEY`, `PAY_AI_SECRET`) |
-| Human "Pay with USDC" checkout (browser wallet) | `X402_ENABLED=true` + `WALLETCONNECT_PROJECT_ID` (free from cloud.reown.com) |
+| Human "Pay with USDC" checkout (browser wallet) | `X402_ENABLED=true` + `REOWN_PROJECT_ID` (free from cloud.reown.com) |
 | Agentic Commerce Protocol | `ACP_API_KEY` (+ optional `ACP_SIGNATURE_SECRET`) |
 | Print-on-demand fulfilment | `PRINTFUL_API_TOKEN`, `PRINTFUL_STORE_ID`, `PRINTFUL_WEBHOOK_SECRET`, `PRINTFUL_AUTO_CONFIRM` |
 | Address type-ahead | `ADDRESS_LOOKUP=google`, `GOOGLE_PLACES_API_KEY` |

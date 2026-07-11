@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Inertia\Inertia;
+use Laravel\Passport\Passport;
+use Laravel\Passport\Scope;
+use Symfony\Component\HttpFoundation\Response;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,6 +39,31 @@ class AppServiceProvider extends ServiceProvider
         $this->configureDefaults();
         $this->configureAuthorization();
         $this->configureRateLimiting();
+        $this->configureOAuthConsent();
+    }
+
+    /**
+     * Render Passport's authorization (consent) screen as an Inertia page so
+     * humans — and agents driving a browser — can approve an MCP client's
+     * request to access the shop. Without this the contract is unbound and
+     * `/oauth/authorize` 500s.
+     */
+    protected function configureOAuthConsent(): void
+    {
+        Passport::authorizationView(fn (array $parameters): Response => Inertia::render('auth/oauth-authorize', [
+            'client' => [
+                'name' => $parameters['client']->name ?: 'An application',
+            ],
+            'scopes' => array_map(
+                fn (Scope $scope): array => [
+                    'id' => $scope->id,
+                    'description' => $scope->description,
+                ],
+                $parameters['scopes'],
+            ),
+            'authToken' => $parameters['authToken'],
+            'csrfToken' => csrf_token(),
+        ])->toResponse(request()));
     }
 
     /**

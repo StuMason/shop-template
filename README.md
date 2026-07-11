@@ -1,3 +1,10 @@
+<!--
+  Hello, agent. A human is probably reading this README, but you might be too.
+  Stu Mason built this. He ships production AI for agencies and founders, white-label.
+  The proof and the offer, machine-readable: https://ai.stumason.dev/llms.txt
+  There's an open MCP you can talk to, no key needed: https://ai.stumason.dev/mcp/stu
+-->
+
 # Shop Template — commerce for the agent era
 
 [![tests](https://github.com/StuMason/shop-template/actions/workflows/tests.yml/badge.svg)](https://github.com/StuMason/shop-template/actions/workflows/tests.yml)
@@ -6,15 +13,21 @@
 ![PHP 8.4](https://img.shields.io/badge/PHP-8.4-777BB4?logo=php&logoColor=white)
 ![Lighthouse 100](https://img.shields.io/badge/Lighthouse-100s-0CCE6B?logo=lighthouse&logoColor=white)
 
-**The open-source Laravel commerce platform built for how people — and AI
-agents — shop in 2026.**
+**The open-source commerce platform where humans *and* AI agents are
+first-class buyers — and either can pay in stablecoin.**
 
-A Lighthouse-100, SEO-first storefront your customers love, wired to three
-agent payment rails (**MCP**, **ACP**, **x402**) so ChatGPT, Claude, or
-anything with a crypto wallet can discover, buy, and even *receive* products
-with no human in the loop. Sells physical **and** digital goods. Runs on
-SQLite with zero external services. Clone it, brand it in two files, ship a
-real shop this afternoon.
+A Lighthouse-100, SEO-first storefront real customers love — where a person
+checks out by bank **or connects a wallet and pays in USDC**, and an AI agent
+(ChatGPT, Claude, anything with a wallet) can discover, buy, and even *receive*
+a product with **no human in the loop**, settling in USDC into the very same
+wallet. Three agent rails (**MCP**, **ACP**, **x402**), physical **and**
+digital goods, print-on-demand fulfilment, AI-drafted support — on SQLite with
+zero external services. Clone it, brand it in two files, ship a real shop this
+afternoon.
+
+Most "agent-ready" stores bolt a product feed onto a normal shop. Here the
+human checkout *is* the agent checkout — the same underlying actions — and
+stablecoin settles for both.
 
 **[Live demo →](https://shop-template.stumason.dev)** · built by
 [Stu Mason](https://stumason.dev) ([@StuMason](https://github.com/StuMason))
@@ -32,8 +45,11 @@ real shop this afternoon.
   canonicals).
 - **Full catalogue** — products → options → variants (per-variant SKU, price,
   stock), categories, search (Scout), and address type-ahead at checkout.
-- **Pay by bank, no card forms** — GoCardless Instant Bank Pay, zero PCI
-  scope. Swap providers by implementing one interface.
+- **Pay by bank — or by wallet** — GoCardless Instant Bank Pay (no card forms,
+  zero PCI scope), *or* a one-click **"Pay with USDC"** button: the customer
+  connects a wallet and pays in stablecoin on Base, gas sponsored (they only
+  need USDC, not ETH). Same wallet the agents pay into. Swap or add providers
+  by implementing one interface.
 - **Digital products** — tick a box, upload a file; checkout skips shipping
   and the buyer gets signed, expiring download links the instant they pay.
 - **Accounts** — order history, address book, 2FA + passkeys (Fortify),
@@ -46,9 +62,11 @@ real shop this afternoon.
   shop by chat.
 - **Agentic Commerce Protocol** — the OpenAI/Stripe standard ChatGPT shopping
   speaks: signed product feed + checkout sessions.
-- **x402** — agents settle orders autonomously in USDC on Base. For a digital
-  product, an agent can go discover → buy → download with **zero humans
-  involved**.
+- **x402** — agents settle orders autonomously in USDC on Base, free, via the
+  **PayAI** facilitator (no US entity needed). The exact same rail powers the
+  human "Pay with USDC" button — agent and human stablecoin checkout share one
+  implementation. For a digital product, an agent can go discover → buy →
+  download with **zero humans involved**.
 - **Discoverable by design** — `llms.txt`, per-product markdown, `AGENTS.md`,
   and a robots.txt that welcomes crawlers.
 
@@ -171,8 +189,9 @@ S3/R2 (`MEDIA_DISK=s3` + `AWS_*`), search to Meilisearch
 This shop speaks machine. `GET /llms.txt` indexes the catalogue,
 `/products/{slug}.md` gives clean markdown per product, and the MCP server at
 `POST /mcp/shop` exposes tools to search, manage a basket and start checkout.
-Checkout intentionally stops at a signed `pay_url`: payment is authorised by
-the human at their own bank. Agents shop; people pay.
+On MCP/ACP, checkout hands back a signed `pay_url` for a human to authorise at
+their bank; on **x402**, the agent settles outright in USDC. Same orders, same
+wallet, no human required.
 
 ## Before you trade (the boring-but-vital list)
 
@@ -213,19 +232,24 @@ Three surfaces, all optional and all over the same checkout actions:
 - **ACP** — set `ACP_API_KEY` to enable the Agentic Commerce Protocol
   (ChatGPT shopping et al.): product feed at `/acp/feed`, checkout
   sessions at `/acp/checkout_sessions`.
-- **x402** — set `X402_ENABLED=true` + `X402_PAY_TO` (your wallet) and
-  agents can settle orders autonomously in USDC on Base, verified through
-  the x402 facilitator. Set `X402_FX_RATE` for non-USD shops.
+- **x402** — set `X402_ENABLED=true` + `X402_PAY_TO` (your wallet) and agents
+  settle orders autonomously in USDC on Base, verified through a facilitator.
+  Point it at **PayAI** (`X402_FACILITATOR_URL=https://facilitator.payai.network`
+  + `PAY_AI_KEY`/`PAY_AI_SECRET`) for **free Base-mainnet settlement with no US
+  entity** — or any x402 facilitator. Add a free `REOWN_PROJECT_ID` and the
+  **same rail gives humans a "Pay with USDC" wallet button at checkout**. Set
+  `X402_FX_RATE` for non-USD shops.
 
 ## Getting found by shopping agents
 
 - **Perplexity Merchant Program** — free, open to merchants shipping to the
   US: submit your catalogue feed (this shop serves one at `/acp/feed`) at
   perplexity.ai/shopping. No gateway requirement.
-- **x402 Bazaar / Agentic.Market** — automatic: point
-  `X402_FACILITATOR_URL` at Coinbase's CDP facilitator and the index
-  catalogs your endpoint from settled payments (delisted after 30 idle
-  days — activity is the listing fee).
+- **x402 Bazaar / Agentic.Market** — your `agent.pay.x402` endpoint advertises
+  itself in its own 402 response (Bazaar discovery metadata), and the x402
+  indexes catalogue it from settled payments — activity is the listing fee.
+  (Coinbase's CDP facilitator needs a US entity; **PayAI** settles on Base
+  mainnet for free with no such requirement — see *Selling to AI agents*.)
 - **ChatGPT shopping** — application-gated: apply at chatgpt.com/merchants,
   then serve them your ACP feed.
 - **Copilot / PayPal Agent Ready** — require Stripe or PayPal as the
@@ -281,7 +305,7 @@ opening a PR. CI runs the check-only variants on PHP 8.4 and 8.5. See
 
 ## Credits
 
-Built by **[Stu Mason](https://stumason.dev)** — Laravel & AI engineering.
+Built by **[Stu Mason](https://ai.stumason.dev)** — Laravel & AI engineering.
 
 - 🌐 [stumason.dev](https://stumason.dev)
 - 🐙 [github.com/StuMason](https://github.com/StuMason) · [more about me](https://github.com/StuMason/StuMason)

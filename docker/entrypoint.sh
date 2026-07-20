@@ -78,6 +78,14 @@ if [ "$AUTO_MIGRATE" = "true" ]; then
     fi
     echo "       Migrations completed successfully."
 
+    # Structural roles (admin/staff/customer) are required by shop:ensure-admin
+    # and by customer registration. They are foundational, not demo data, so
+    # ensure them on every boot (RolesSeeder is idempotent) independent of
+    # AUTO_SEED — which only gates the demo catalogue below. Without this a
+    # deploy with AUTO_SEED=false boots with no roles and ensure-admin throws
+    # RoleDoesNotExist on assignRole('admin').
+    php artisan db:seed --class=RolesSeeder --force || echo "WARNING: roles seeding failed (continuing)"
+
     # Provision/refresh the admin from ADMIN_EMAIL / ADMIN_PASSWORD on every
     # boot, so credentials are owned by config rather than a one-off seed.
     php artisan shop:ensure-admin || echo "WARNING: admin provisioning failed (continuing)"

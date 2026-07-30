@@ -67,7 +67,7 @@
     "typescript": "^6.0.3",
     "viem": "^2.55.2",
     "vite": "^8.1.5",
-    "wagmi": "^2.19.5",
+    "wagmi": "^3.7.4",
     "x402-fetch": "^1.2.0"
   },
   "optionalDependencies": {

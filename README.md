@@ -305,7 +305,7 @@ opening a PR. CI runs the check-only variants on PHP 8.4 and 8.5. See
 
 ## Credits
 
-Built by **[Stu Mason](https://stumason.dev)** — Laravel & AI engineering.
+Built by **[Stu Mason](https://ai.stumason.dev)** — Laravel & AI engineering.
 
 - 🌐 [stumason.dev](https://stumason.dev)
 - 🐙 [github.com/StuMason](https://github.com/StuMason) · [more about me](https://github.com/StuMason/StuMason)

@@ -71,8 +71,8 @@
     "x402-fetch": "^1.2.0"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "4.63.4",
-    "@rollup/rollup-win32-x64-msvc": "4.63.4",
+    "@rollup/rollup-linux-x64-gnu": "4.64.7",
+    "@rollup/rollup-win32-x64-msvc": "4.64.7",
     "@tailwindcss/oxide-linux-x64-gnu": "^4.0.1",
     "@tailwindcss/oxide-win32-x64-msvc": "^4.0.1",
     "lightningcss-linux-x64-gnu": "^1.33.0",

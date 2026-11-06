@@ -24,7 +24,7 @@
     ],
     "require": {
         "php": "^8.4",
-        "gocardless/gocardless-pro": "^7.2",
+        "gocardless/gocardless-pro": "^8.19",
         "inertiajs/inertia-laravel": "^3.0",
         "laravel/chisel": "^0.1.0",
         "laravel/fortify": "^1.37.2",

@@ -111,6 +111,7 @@ it('lets staff through the admin endpoint', function () {
     $staff->assignRole('staff');
     Passport::actingAs($staff, ['mcp:use'], 'api');
 
-    // Auth + role pass; an empty body is a JSON-RPC problem, not an authz one.
-    $this->postJson('/mcp/admin', [])->assertSuccessful();
+    // Auth + role pass, so a well-formed JSON-RPC ping gets a normal reply.
+    $this->postJson('/mcp/admin', ['jsonrpc' => '2.0', 'id' => 1, 'method' => 'ping'])
+        ->assertSuccessful();
 });
